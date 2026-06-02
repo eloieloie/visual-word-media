@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "Bash(python -c \"import sys,json,base64; d=json.load\\(sys.stdin\\); print\\(base64.b64decode\\(d['content']\\).decode\\(\\)\\)\")",
+      "Bash(Get-ChildItem -Recurse .claude)",
+      "Bash(Select-Object FullName)",
+      "Bash(pandoc \"C:\\\\Users\\\\hi\\\\Downloads\\\\Website.docx\" -o \"C:\\\\Users\\\\hi\\\\Downloads\\\\Website.md\")",
+      "Read(//c/Users/hi/Downloads/**)",
+      "Bash(npm install *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
