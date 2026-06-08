@@ -20,7 +20,16 @@
         <RouterLink to="/contact">Contact</RouterLink>
       </nav>
 
-      <RouterLink to="/volunteer" class="btn btn-primary nav-cta">Join the Mission</RouterLink>
+      <div class="nav-auth">
+        <template v-if="isLoggedIn">
+          <span class="nav-user">{{ user.name }}</span>
+          <button class="btn btn-outline nav-logout" @click="handleLogout">Logout</button>
+        </template>
+        <template v-else>
+          <RouterLink to="/login" class="nav-login">Login</RouterLink>
+          <RouterLink to="/volunteer" class="btn btn-primary nav-cta">Join the Mission</RouterLink>
+        </template>
+      </div>
 
       <button class="hamburger" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -36,16 +45,31 @@
       <RouterLink to="/testimonies" @click="menuOpen=false">Testimonies</RouterLink>
       <RouterLink to="/prayer" @click="menuOpen=false">Prayer</RouterLink>
       <RouterLink to="/contact" @click="menuOpen=false">Contact</RouterLink>
-      <RouterLink to="/volunteer" class="btn btn-primary" @click="menuOpen=false">Join the Mission</RouterLink>
+      <template v-if="isLoggedIn">
+        <button class="btn btn-outline mobile-logout" @click="handleLogout; menuOpen=false">Logout</button>
+      </template>
+      <template v-else>
+        <RouterLink to="/login" class="btn btn-outline" @click="menuOpen=false">Login</RouterLink>
+        <RouterLink to="/volunteer" class="btn btn-primary" @click="menuOpen=false">Join the Mission</RouterLink>
+      </template>
     </div>
   </header>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../composables/useAuth.js'
 
 const scrolled = ref(false)
 const menuOpen = ref(false)
+const router   = useRouter()
+const { user, isLoggedIn, logout } = useAuth()
+
+function handleLogout() {
+  logout()
+  router.push('/')
+}
 
 function onScroll() { scrolled.value = window.scrollY > 40 }
 onMounted(() => window.addEventListener('scroll', onScroll))
@@ -110,7 +134,14 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   letter-spacing: 0.02em;
 }
 .nav-links a:hover, .nav-links a.router-link-active { color: var(--gold); }
-.nav-cta { padding: 11px 22px; font-size: 0.94rem; margin-left: 10px; }
+.nav-auth    { display: flex; align-items: center; gap: 10px; margin-left: 10px; flex-shrink: 0; }
+.nav-cta     { padding: 11px 22px; font-size: 0.94rem; }
+.nav-login   { font-size: 0.94rem; font-weight: 600; color: rgba(255,255,255,0.88); padding: 7px 12px; border-radius: 4px; transition: color 0.2s; }
+.nav-login:hover { color: var(--gold); }
+.nav-user    { font-size: 0.88rem; color: var(--gold); font-weight: 600; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-logout  { padding: 8px 16px; font-size: 0.88rem; border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.88); }
+.nav-logout:hover { border-color: var(--gold); color: var(--gold); }
+.mobile-logout { margin-top: 8px; text-align: center; border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.88); }
 .hamburger {
   display: none;
   flex-direction: column;
@@ -144,7 +175,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 @media (max-width: 960px) {
   .nav-links { display: none; }
-  .nav-cta { display: none; }
+  .nav-auth  { display: none; }
   .hamburger { display: flex; }
 }
 </style>

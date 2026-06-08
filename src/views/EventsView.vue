@@ -9,42 +9,63 @@
 
   <section class="section">
     <div class="container">
-      <div class="event-filter">
-        <button
-          v-for="cat in categories"
-          :key="cat"
-          :class="['cat-btn', { active: activeCategory === cat }]"
-          @click="activeCategory = cat"
-        >{{ cat }}</button>
+
+      <!-- Loading state -->
+      <div v-if="loading" class="events-loading">
+        <div class="spinner"></div>
+        <p>Loading events…</p>
       </div>
 
-      <div class="events-grid">
-        <div class="event-card" v-for="e in filteredEvents" :key="e.title">
-          <div class="ec-date">
-            <span class="ec-month">{{ e.month }}</span>
-            <span class="ec-day">{{ e.day }}</span>
-          </div>
-          <div class="ec-body">
-            <span class="ec-tag">{{ e.category }}</span>
-            <h3>{{ e.title }}</h3>
-            <p>{{ e.desc }}</p>
-            <div class="ec-meta">
-              <span>📍 {{ e.location }}</span>
-              <span>⏰ {{ e.time }}</span>
+      <!-- Error state -->
+      <div v-else-if="error" class="events-error">
+        <p>⚠️ {{ error }}</p>
+        <button class="btn btn-outline" @click="fetchEvents">Retry</button>
+      </div>
+
+      <template v-else>
+        <div class="event-filter">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            :class="['cat-btn', { active: activeCategory === cat }]"
+            @click="activeCategory = cat"
+          >{{ cat }}</button>
+        </div>
+
+        <div class="events-grid" v-if="filteredEvents.length">
+          <div class="event-card" v-for="e in filteredEvents" :key="e.id">
+            <div class="ec-date">
+              <span class="ec-month">{{ e.month }}</span>
+              <span class="ec-day">{{ e.day }}</span>
+            </div>
+            <div class="ec-body">
+              <span class="ec-tag">{{ e.category }}</span>
+              <h3>{{ e.title }}</h3>
+              <p>{{ e.description }}</p>
+              <div class="ec-meta">
+                <span>📍 {{ e.location }}</span>
+                <span>⏰ {{ e.time }}</span>
+              </div>
+            </div>
+            <div class="ec-action">
+              <RouterLink to="/contact" class="btn btn-navy">Register</RouterLink>
             </div>
           </div>
-          <div class="ec-action">
-            <RouterLink to="/contact" class="btn btn-navy">Register</RouterLink>
-          </div>
         </div>
-      </div>
+
+        <p v-else class="no-events">No events found in this category.</p>
+      </template>
 
       <div class="events-cta">
         <div class="scripture-block" style="max-width:640px; margin:0 auto">
           "Not neglecting to meet together, as is the habit of some, but encouraging one another."
           <span class="scripture-ref">— Hebrews 10:25</span>
         </div>
-        <p style="text-align:center; margin-top:28px; color:var(--text-light)">For event updates and to be notified of upcoming programs, <RouterLink to="/contact" style="color:var(--gold); font-weight:600">contact us</RouterLink> or join our prayer network.</p>
+        <p style="text-align:center; margin-top:28px; color:var(--text-light)">
+          For event updates and to be notified of upcoming programs,
+          <RouterLink to="/contact" style="color:var(--gold); font-weight:600">contact us</RouterLink>
+          or join our prayer network.
+        </p>
       </div>
     </div>
   </section>
@@ -69,32 +90,42 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { api } from '../services/api.js'
 
-const categories = ['All', 'Youth Camps', 'Media Seminars', 'Creative Arts', 'Bible Studies', 'Training Workshops', 'Prayer Meetings', 'Leadership Sessions']
+const categories    = ['All', 'Youth Camps', 'Media Seminars', 'Creative Arts', 'Bible Studies', 'Training Workshops', 'Prayer Meetings', 'Leadership Sessions']
 const activeCategory = ref('All')
+const events        = ref([])
+const loading       = ref(true)
+const error         = ref('')
 
-const events = [
-  { month: 'JUL', day: '12', title: '60x360 Youth Discipleship Camp', category: 'Youth Camps', desc: 'A 3-day intensive discipleship camp for youth aged 15–25, focused on faith, identity, and Kingdom purpose.', location: 'Hyderabad', time: '9 AM – 6 PM', },
-  { month: 'JUL', day: '20', title: 'IMPACT Media Awareness Seminar', category: 'Media Seminars', desc: 'A half-day seminar addressing digital addiction, social media influence, and Biblical discernment in the digital age.', location: 'Secunderabad', time: '10 AM – 1 PM', },
-  { month: 'AUG', day: '3', title: 'Oculus Creative Arts Workshop', category: 'Creative Arts', desc: 'An all-day workshop for artists, designers, photographers, and filmmakers exploring faith and creativity together.', location: 'Hyderabad', time: '9 AM – 5 PM', },
-  { month: 'AUG', day: '15', title: 'Leadership Development Camp', category: 'Leadership Sessions', desc: 'Intensive leadership training for emerging ministry leaders in the 60x360 mission field.', location: 'Rangareddy District', time: '8 AM – 8 PM', },
-  { month: 'AUG', day: '25', title: 'Bible Study for Media Professionals', category: 'Bible Studies', desc: 'A weekly gathering for media workers, content creators, and digital professionals to study the Word together.', location: 'Online & Hyderabad', time: '7 PM – 9 PM', },
-  { month: 'SEP', day: '6', title: 'Prayer & Fasting Gathering', category: 'Prayer Meetings', desc: 'A day of unified prayer and fasting for youth revival, village outreach, and ministry expansion.', location: 'Ministry Center', time: '6 AM – 6 PM', },
-  { month: 'SEP', day: '18', title: 'New Life Counseling Training Workshop', category: 'Training Workshops', desc: 'Training volunteers and counselors in biblical approaches to emotional support and hope-centered care.', location: 'Hyderabad', time: '9 AM – 4 PM', },
-  { month: 'OCT', day: '4', title: 'Evangelism Camp — Village Outreach', category: 'Youth Camps', desc: 'A village-based Gospel camp where trained youth evangelize and disciple in underserved communities.', location: 'Nalgonda Region', time: 'Overnight Camp', },
-]
+async function fetchEvents() {
+  loading.value = true
+  error.value   = ''
+  try {
+    const data  = await api.get('/events/index.php')
+    events.value = data.events
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loading.value = false
+  }
+}
 
 const filteredEvents = computed(() =>
-  activeCategory.value === 'All' ? events : events.filter(e => e.category === activeCategory.value)
+  activeCategory.value === 'All'
+    ? events.value
+    : events.value.filter(e => e.category === activeCategory.value)
 )
 
+onMounted(fetchEvents)
+
 const eventTypes = [
-  { icon: '🏕️', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
-  { icon: '📺', label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
-  { icon: '🎨', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
-  { icon: '📖', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
-  { icon: '🔧', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
+  { icon: '🏕️', label: 'Youth Camps',              desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
+  { icon: '📺', label: 'Media Awareness Seminars',  desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
+  { icon: '🎨', label: 'Creative Arts Gatherings',  desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
+  { icon: '📖', label: 'Bible Studies',             desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
+  { icon: '🔧', label: 'Training Workshops',        desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
   { icon: '🙏', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
 ]
 </script>
@@ -112,7 +143,7 @@ const eventTypes = [
   cursor: pointer;
   transition: all 0.2s;
 }
-.cat-btn:hover { border-color: var(--gold); color: var(--navy); }
+.cat-btn:hover  { border-color: var(--gold); color: var(--navy); }
 .cat-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
 
 .events-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -139,14 +170,50 @@ const eventTypes = [
   flex-shrink: 0;
 }
 .ec-month { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-.ec-day { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
-.ec-body { flex: 1; }
-.ec-tag { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.ec-day   { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.ec-body  { flex: 1; }
+.ec-tag   { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 .ec-body h3 { color: var(--navy); margin: 6px 0 10px; font-size: 1.15rem; }
-.ec-body p { color: var(--text-light); font-size: 1rem; line-height: 1.75; margin-bottom: 12px; }
-.ec-meta { display: flex; gap: 24px; font-size: 0.9rem; color: var(--text-light); }
+.ec-body p  { color: var(--text-light); font-size: 1rem; line-height: 1.75; margin-bottom: 12px; }
+.ec-meta    { display: flex; gap: 24px; font-size: 0.9rem; color: var(--text-light); }
 
 .events-cta { margin-top: 56px; }
+
+.no-events {
+  text-align: center;
+  color: var(--text-light);
+  padding: 60px 0;
+  font-size: 1.05rem;
+}
+
+/* Loading */
+.events-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 0;
+  color: var(--text-light);
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.events-error {
+  text-align: center;
+  padding: 60px 0;
+  color: #c0392b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
 
 .etype-card {
   background: var(--white);
@@ -157,10 +224,10 @@ const eventTypes = [
 }
 .etype-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
 .etype-card h4 { color: var(--navy); margin-bottom: 10px; font-size: 1.1rem; }
-.etype-card p { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
+.etype-card p  { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
 
 @media (max-width: 640px) {
   .event-card { flex-direction: column; align-items: flex-start; }
-  .ec-date { flex-direction: row; gap: 8px; align-items: center; padding: 8px 14px; }
+  .ec-date    { flex-direction: row; gap: 8px; align-items: center; padding: 8px 14px; }
 }
 </style>
