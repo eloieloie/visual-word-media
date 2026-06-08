@@ -14,6 +14,7 @@
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ministries">Ministries</RouterLink>
         <RouterLink to="/events">Events</RouterLink>
+        <RouterLink to="/teachings">Teachings</RouterLink>
         <RouterLink to="/resources">Resources</RouterLink>
         <RouterLink to="/testimonies">Testimonies</RouterLink>
         <RouterLink to="/prayer">Prayer</RouterLink>
@@ -41,6 +42,7 @@
       <RouterLink to="/about" @click="menuOpen=false">About</RouterLink>
       <RouterLink to="/ministries" @click="menuOpen=false">Ministries</RouterLink>
       <RouterLink to="/events" @click="menuOpen=false">Events</RouterLink>
+      <RouterLink to="/teachings" @click="menuOpen=false">Teachings</RouterLink>
       <RouterLink to="/resources" @click="menuOpen=false">Resources</RouterLink>
       <RouterLink to="/testimonies" @click="menuOpen=false">Testimonies</RouterLink>
       <RouterLink to="/prayer" @click="menuOpen=false">Prayer</RouterLink>

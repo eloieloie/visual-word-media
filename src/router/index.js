@@ -9,6 +9,7 @@ const routes = [
   { path: '/volunteer',   component: () => import('../views/VolunteerView.vue') },
   { path: '/testimonies', component: () => import('../views/TestimoniesView.vue') },
   { path: '/resources',   component: () => import('../views/ResourcesView.vue') },
+  { path: '/teachings',   component: () => import('../views/TeachingsView.vue') },
   { path: '/contact',     component: () => import('../views/ContactView.vue') },
   { path: '/login',       component: () => import('../views/LoginView.vue'),    meta: { guestOnly: true } },
   { path: '/register',    component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
