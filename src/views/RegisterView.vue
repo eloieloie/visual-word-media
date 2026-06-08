@@ -96,7 +96,15 @@ const success  = ref(false)
 async function handleRegister() {
   error.value = ''
 
+  console.log('[Register] Submit start', {
+    name: name.value,
+    email: email.value,
+    passwordLength: password.value.length,
+    confirmLength: confirm.value.length,
+  })
+
   if (password.value !== confirm.value) {
+    console.warn('[Register] Password mismatch')
     error.value = 'Passwords do not match'
     return
   }
@@ -104,8 +112,10 @@ async function handleRegister() {
   loading.value = true
   try {
     await register(name.value, email.value, password.value)
+    console.log('[Register] Success', { email: email.value })
     success.value = true
   } catch (e) {
+    console.error('[Register] Failed', e)
     error.value = e.message
   } finally {
     loading.value = false
