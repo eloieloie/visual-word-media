@@ -16,28 +16,51 @@
         <p class="section-subtitle" style="margin:0 auto">Every testimony is a monument to God's faithfulness. These stories represent the heartbeat of Visual Word Media Mission.</p>
       </div>
 
-      <div class="testimony-categories">
-        <button
-          v-for="cat in categories"
-          :key="cat"
-          :class="['cat-btn', { active: activeCategory === cat }]"
-          @click="activeCategory = cat"
-        >{{ cat }}</button>
+      <!-- Loading -->
+      <div v-if="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading testimonials…</p>
       </div>
 
-      <div class="grid-3" style="margin-top:40px">
-        <div class="testimony-card" v-for="t in filteredTestimonies" :key="t.name">
-          <div class="tc-quote">❝</div>
-          <p class="tc-text">{{ t.text }}</p>
-          <div class="tc-author">
-            <div class="tc-avatar">{{ t.name[0] }}</div>
-            <div>
-              <div class="tc-name">{{ t.name }}</div>
-              <div class="tc-tag">{{ t.tag }}</div>
+      <!-- Error -->
+      <div v-else-if="error" class="error-state">
+        <p>⚠️ {{ error }}</p>
+        <button class="btn btn-outline" @click="fetchTestimonials">Retry</button>
+      </div>
+
+      <template v-else>
+        <!-- Category filter -->
+        <div class="testimony-categories">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            :class="['cat-btn', { active: activeCategory === cat }]"
+            @click="activeCategory = cat"
+          >{{ cat }}</button>
+        </div>
+
+        <!-- Grid -->
+        <div v-if="filteredTestimonials.length" class="grid-3" style="margin-top:40px">
+          <div class="testimony-card" v-for="t in filteredTestimonials" :key="t.id">
+            <div class="tc-quote">❝</div>
+            <p class="tc-text">{{ t.testimony }}</p>
+            <div class="tc-author">
+              <div class="tc-avatar">{{ t.name[0] }}</div>
+              <div>
+                <div class="tc-name">{{ t.name }}</div>
+                <div class="tc-sub">
+                  <span class="tc-tag">{{ t.category }}</span>
+                  <span class="tc-location" v-if="t.location"> · {{ t.location }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+
+        <div v-else class="empty-state">
+          <p>No testimonials in this category yet.</p>
+        </div>
+      </template>
     </div>
   </section>
 
@@ -52,26 +75,39 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { api } from '../services/api.js'
 
-const categories = ['All', 'Youth Testimonies', 'Media Recovery', 'Camp Experiences', 'Creative Artists', 'Ministry Partners']
-const activeCategory = ref('All')
+const allTestimonials = ref([])
+const loading         = ref(true)
+const error           = ref('')
+const activeCategory  = ref('All')
 
-const testimonies = [
-  { name: 'Priya R.', tag: 'Youth Testimonies', text: 'The 60x360 discipleship camp completely changed my life. I came in confused about my faith and left with a clear sense of God\'s calling. I\'m now actively serving in my village church.' },
-  { name: 'Samuel K.', tag: 'Media Recovery', text: 'I struggled with social media addiction for years. Through IMPACT\'s counseling, I learned to set boundaries and redirect my time toward God\'s purposes. My family relationships have been restored.' },
-  { name: 'Ananya D.', tag: 'Camp Experiences', text: 'The leadership camp taught me that my creativity is a gift from God meant to be used for His glory. I now lead a creative arts group in my church and mentor younger artists.' },
-  { name: 'David M.', tag: 'Creative Artists', text: 'Oculus gave me a community of believers who understand the tension between creativity and faith. I\'ve found my calling as a filmmaker who tells stories of redemption.' },
-  { name: 'Rebekah S.', tag: 'Media Recovery', text: 'After struggling with loneliness and depression amplified by social media comparison, New Life ministry gave me hope. I\'m now counseling others through similar struggles.' },
-  { name: 'Jonathan T.', tag: 'Ministry Partners', text: 'Partnering with Visual Word Media Mission has transformed our church\'s media ministry. We now have a trained team producing content that reaches our entire city.' },
-  { name: 'Meera P.', tag: 'Youth Testimonies', text: 'At 17, I found purpose through the 60x360 movement. We conducted our first village outreach last month and saw 12 people come to faith. God is doing incredible things.' },
-  { name: 'Thomas A.', tag: 'Camp Experiences', text: 'The discipleship camp wasn\'t just a weekend event — it set me on a course of intentional spiritual growth. The mentorship I received has shaped my entire walk with God.' },
-  { name: 'Grace N.', tag: 'Creative Artists', text: 'Through Network105, my written reflections are now reaching thousands. I never thought my words could impact so many lives. God has blown my expectations away.' },
-]
+const categories = computed(() => {
+  const cats = [...new Set(allTestimonials.value.map(t => t.category))]
+  return ['All', ...cats]
+})
 
-const filteredTestimonies = computed(() =>
-  activeCategory.value === 'All' ? testimonies : testimonies.filter(t => t.tag === activeCategory.value)
+const filteredTestimonials = computed(() =>
+  activeCategory.value === 'All'
+    ? allTestimonials.value
+    : allTestimonials.value.filter(t => t.category === activeCategory.value)
 )
+
+async function fetchTestimonials() {
+  loading.value = true
+  error.value   = ''
+  try {
+    const data           = await api.get('/testimonials/index.php')
+    allTestimonials.value = data.testimonials || []
+  } catch (e) {
+    error.value = e.message
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchTestimonials)
 </script>
 
 <style scoped>
@@ -87,7 +123,7 @@ const filteredTestimonies = computed(() =>
   cursor: pointer;
   transition: all 0.2s;
 }
-.cat-btn:hover { border-color: var(--gold); color: var(--navy); }
+.cat-btn:hover  { border-color: var(--gold); color: var(--navy); }
 .cat-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
 
 .testimony-card {
@@ -101,21 +137,32 @@ const filteredTestimonies = computed(() =>
   transition: all 0.25s;
 }
 .testimony-card:hover { border-color: var(--gold); box-shadow: 0 8px 32px rgba(26,45,90,0.08); }
-.tc-quote { color: var(--gold); font-size: 3rem; line-height: 1; font-family: Georgia, serif; }
-.tc-text { color: var(--text-light); font-size: 1rem; line-height: 1.85; flex: 1; font-style: italic; }
+.tc-quote  { color: var(--gold); font-size: 3rem; line-height: 1; font-family: Georgia, serif; }
+.tc-text   { color: var(--text-light); font-size: 1rem; line-height: 1.85; flex: 1; font-style: italic; }
 .tc-author { display: flex; align-items: center; gap: 14px; margin-top: 10px; padding-top: 18px; border-top: 1px solid var(--border); }
 .tc-avatar {
   width: 46px; height: 46px;
   background: var(--navy);
   color: var(--white);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
 }
-.tc-name { font-weight: 700; font-size: 1rem; color: var(--navy); }
-.tc-tag { font-size: 0.82rem; color: var(--gold); font-weight: 700; letter-spacing: 0.07em; }
+.tc-name     { font-weight: 700; font-size: 1rem; color: var(--navy); }
+.tc-sub      { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.tc-tag      { font-size: 0.8rem; color: var(--gold); font-weight: 700; letter-spacing: 0.07em; }
+.tc-location { font-size: 0.78rem; color: var(--text-light); }
+
+.loading-state, .error-state, .empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px; padding: 80px 0; color: var(--text-light);
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
