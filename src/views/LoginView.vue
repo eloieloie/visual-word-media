@@ -40,10 +40,6 @@
         </button>
       </form>
 
-      <p class="auth-switch">
-        Don't have an account?
-        <RouterLink to="/register">Create one</RouterLink>
-      </p>
     </div>
   </div>
 </template>

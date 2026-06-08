@@ -12,7 +12,6 @@ const routes = [
   { path: '/teachings',   component: () => import('../views/TeachingsView.vue'), meta: { requiresAuth: true } },
   { path: '/contact',     component: () => import('../views/ContactView.vue') },
   { path: '/login',       component: () => import('../views/LoginView.vue'),    meta: { guestOnly: true } },
-  { path: '/register',    component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
   {
     path: '/events',
     component: () => import('../views/EventsView.vue'),
