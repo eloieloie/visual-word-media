@@ -70,7 +70,19 @@
         <p style="color:var(--text-light)">Your calling could become someone's answered prayer.</p>
       </div>
 
-      <form @submit.prevent="submitForm" class="reg-form">
+      <!-- Success state -->
+      <div v-if="submitted" class="success-panel">
+        <div class="success-icon">🙏</div>
+        <h3>Registration Received!</h3>
+        <p>Thank you, <strong>{{ form.name }}</strong>! Your volunteer registration has been submitted. Our team will review your details and reach out to you soon.</p>
+        <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">We will contact you at <strong>{{ form.email }}</strong> or <strong>{{ form.mobile }}</strong>.</p>
+        <button class="btn btn-outline" style="margin-top:24px" @click="resetForm">Submit Another Registration</button>
+      </div>
+
+      <!-- Error state -->
+      <div v-if="submitError" class="error-banner">⚠️ {{ submitError }}</div>
+
+      <form v-if="!submitted" @submit.prevent="submitForm" class="reg-form">
         <!-- Personal Info -->
         <div class="form-section-header">Personal Information</div>
         <div class="form-row">
@@ -217,8 +229,8 @@
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary submit-btn">
-          {{ submitted ? '✓ Registration Submitted — God Bless You!' : 'Submit Registration' }}
+        <button type="submit" class="btn btn-primary submit-btn" :disabled="submitting">
+          {{ submitting ? 'Submitting…' : 'Submit Registration' }}
         </button>
       </form>
     </div>
@@ -227,10 +239,13 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { api } from '../services/api.js'
 
-const submitted = ref(false)
+const submitted   = ref(false)
+const submitting  = ref(false)
+const submitError = ref('')
 
-const form = reactive({
+const initialForm = () => ({
   name: '', gender: '', dob: '', mobile: '', whatsapp: '', email: '',
   city: '', state: '', country: '', believer: '', churchActive: '',
   churchName: '', pastor: '', testimony: '', selectedAreas: [],
@@ -238,9 +253,25 @@ const form = reactive({
   organization: '', motivation: '', comments: '', declared: false,
 })
 
-function submitForm() {
-  submitted.value = true
-  setTimeout(() => { submitted.value = false }, 5000)
+const form = reactive(initialForm())
+
+async function submitForm() {
+  submitting.value  = true
+  submitError.value = ''
+  try {
+    await api.post('/volunteers/index.php', { ...form })
+    submitted.value = true
+  } catch (e) {
+    submitError.value = e.message || 'Submission failed. Please try again.'
+  } finally {
+    submitting.value = false
+  }
+}
+
+function resetForm() {
+  submitted.value   = false
+  submitError.value = ''
+  Object.assign(form, initialForm())
 }
 
 const roles = [
@@ -353,6 +384,26 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   line-height: 1.7;
 }
 .submit-btn { align-self: center; padding: 17px 52px; font-size: 1.05rem; margin-top: 10px; }
+
+.success-panel {
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--white);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+}
+.success-icon { font-size: 4rem; margin-bottom: 16px; }
+.success-panel h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.8rem; margin-bottom: 14px; }
+.success-panel p { color: var(--text-light); font-size: 1.05rem; line-height: 1.75; }
+.error-banner {
+  background: #fdecea;
+  border: 1px solid #f5c6c4;
+  color: #c62828;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
 
 @media (max-width: 760px) {
   .form-row, .form-row.trio, .why-grid, .checkbox-grid { grid-template-columns: 1fr; }
