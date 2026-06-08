@@ -3,5 +3,6 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/visual-word-media/',
+  // Relative base works when deployed at domain root or in a subfolder.
+  base: './',
 })
