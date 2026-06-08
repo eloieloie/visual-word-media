@@ -1,5 +1,5 @@
 <template>
-  <header :class="['navbar', { scrolled, open: menuOpen }]">
+  <header :class="['navbar', { scrolled: scrolled || solidRoutes.includes(route.path), open: menuOpen }]">
     <div class="container nav-inner">
       <RouterLink to="/" class="logo" @click="menuOpen = false">
         <span class="logo-cross">✝</span>
@@ -60,12 +60,14 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
 
-const scrolled = ref(false)
-const menuOpen = ref(false)
-const router   = useRouter()
+const scrolled    = ref(false)
+const menuOpen    = ref(false)
+const router      = useRouter()
+const route       = useRoute()
+const solidRoutes = ['/login', '/register']
 const { user, isLoggedIn, logout } = useAuth()
 
 function handleLogout() {
