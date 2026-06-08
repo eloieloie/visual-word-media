@@ -10,20 +10,17 @@
       </RouterLink>
 
       <nav class="nav-links">
-        <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ministries">Ministries</RouterLink>
         <RouterLink to="/events">Events</RouterLink>
         <RouterLink to="/teachings">Teachings</RouterLink>
         <RouterLink to="/resources">Resources</RouterLink>
-        <RouterLink to="/testimonies">Testimonies</RouterLink>
-        <RouterLink to="/prayer">Prayer</RouterLink>
         <RouterLink to="/contact">Contact</RouterLink>
       </nav>
 
       <div class="nav-auth">
         <template v-if="isLoggedIn">
-          <span class="nav-user">{{ user.name }}</span>
+          <span class="nav-user">{{ firstName }}</span>
           <button class="btn btn-outline nav-logout" @click="handleLogout">Logout</button>
         </template>
         <template v-else>
@@ -38,7 +35,6 @@
     </div>
 
     <div class="mobile-menu" v-if="menuOpen">
-      <RouterLink to="/" @click="menuOpen=false">Home</RouterLink>
       <RouterLink to="/about" @click="menuOpen=false">About</RouterLink>
       <RouterLink to="/ministries" @click="menuOpen=false">Ministries</RouterLink>
       <RouterLink to="/events" @click="menuOpen=false">Events</RouterLink>
@@ -59,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
 
@@ -69,6 +65,8 @@ const router      = useRouter()
 const route       = useRoute()
 const solidRoutes = ['/login', '/register']
 const { user, isLoggedIn, logout } = useAuth()
+
+const firstName = computed(() => user.value?.name?.split(' ')[0] ?? '')
 
 function handleLogout() {
   logout()

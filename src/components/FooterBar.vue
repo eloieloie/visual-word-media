@@ -25,21 +25,21 @@
           <RouterLink to="/ministries">Our Ministries</RouterLink>
           <RouterLink to="/events">Events</RouterLink>
           <RouterLink to="/testimonies">Testimonies</RouterLink>
+          <RouterLink to="/prayer">Prayer</RouterLink>
         </div>
 
         <div class="footer-col">
-          <h4>Resources</h4>
+          <h4>Teachings</h4>
+          <RouterLink to="/teachings">Video Teachings</RouterLink>
+          <RouterLink to="/teachings">Audio Teachings</RouterLink>
           <RouterLink to="/resources">Articles & Media</RouterLink>
           <RouterLink to="/resources">Bible Studies</RouterLink>
-          <RouterLink to="/resources">Video Teachings</RouterLink>
-          <RouterLink to="/resources">Youth Resources</RouterLink>
         </div>
 
         <div class="footer-col">
           <h4>Connect</h4>
-          <RouterLink to="/prayer">Prayer Partnership</RouterLink>
-          <RouterLink to="/volunteer">Volunteer</RouterLink>
           <RouterLink to="/contact">Contact Us</RouterLink>
+          <RouterLink to="/volunteer">Volunteer</RouterLink>
           <RouterLink to="/volunteer" class="footer-cta">Join the Mission →</RouterLink>
         </div>
       </div>
