@@ -280,7 +280,6 @@ const roles = [
   { icon: '👨‍🏫', title: 'Youth Mentor', desc: 'Help guide, encourage, disciple, and mentor young people as they grow in their faith and leadership journey.' },
   { icon: '🎬', title: 'Media & Creative Ministry', desc: 'Use your creative skills to communicate the Gospel through excellence.', skills: ['Photography', 'Videography', 'Video Editing', 'Graphic Design', 'Animation', 'Content Writing', 'Social Media', 'Web Development', 'Audio Production', 'Music Ministry'] },
   { icon: '📖', title: 'Teaching & Discipleship', desc: 'Assist in conducting Bible studies, discipleship groups, leadership development programs, and training sessions.' },
-  { icon: '💼', title: 'Professional Services', desc: 'Contribute your professional expertise to advance the ministry.', skills: ['Administration', 'Project Management', 'Accounting', 'Legal Support', 'IT Services', 'Marketing', 'Event Management', 'Education & Training'] },
   { icon: '💰', title: 'Mission Partner', desc: 'Support ministry initiatives through financial contributions, sponsorships, equipment donations, and project partnerships.' },
   { icon: '⛪', title: 'Church & Ministry Partnership', desc: 'Partner to host camps, conferences, leadership training, evangelistic events, and community development initiatives.' },
 ]
