@@ -45,7 +45,7 @@ img { max-width: 100%; display: block; }
 .container {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 24px;
 }
 
 .section { padding: 96px 0; }
@@ -219,5 +219,5 @@ img { max-width: 100%; display: block; }
   .section { padding: 64px 0; }
   .section-sm { padding: 48px 0; }
   .scripture-block { padding: 40px 28px; font-size: 1.15rem; }
-  .container { padding: 0 20px; }
+  .container { padding: 0 16px; }
 }

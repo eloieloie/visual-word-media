@@ -14,12 +14,13 @@
       </div>
       <div class="grid-3" style="margin-top:36px">
         <div class="resource-card" v-for="r in filteredResources" :key="r.title">
-          <div class="rc-type">{{ r.typeIcon }} {{ r.type }}</div>
+          <img class="rc-photo" :src="r.image" :alt="r.title" />
+          <div class="rc-type">{{ r.type }}</div>
           <h3>{{ r.title }}</h3>
           <p>{{ r.desc }}</p>
           <div class="rc-footer">
             <span class="rc-tag">{{ r.category }}</span>
-            <RouterLink to="/contact" class="rc-link">Access →</RouterLink>
+            <RouterLink to="/contact" class="rc-link">Access</RouterLink>
           </div>
         </div>
       </div>
@@ -36,7 +37,7 @@
       </div>
       <div class="grid-4">
         <div class="rcat-card" v-for="c in resourceCategories" :key="c.label">
-          <span>{{ c.icon }}</span>
+          <img class="rcat-photo" :src="c.image" :alt="c.label" />
           <h4>{{ c.label }}</h4>
         </div>
       </div>
@@ -60,15 +61,15 @@ const categories = ['All', 'Articles', 'Bible Studies', 'Media Awareness', 'Fami
 const activeCategory = ref('All')
 
 const resources = [
-  { type: 'Article', typeIcon: '📄', title: 'Navigating Social Media with Biblical Wisdom', desc: 'A practical guide for believers on engaging social media responsibly while guarding their hearts and minds.', category: 'Media Awareness' },
-  { type: 'Bible Study', typeIcon: '📖', title: 'The Psalms and Creative Expression', desc: 'An 8-week study exploring how the Psalms model authentic, God-centered creativity and artistic expression.', category: 'Bible Studies' },
-  { type: 'Video Teaching', typeIcon: '🎥', title: 'Understanding Digital Addiction', desc: 'A video series examining the psychological and spiritual dimensions of screen addiction and practical steps to freedom.', category: 'Media Awareness' },
-  { type: 'Article', typeIcon: '📄', title: 'Raising God-Centered Children in a Digital Age', desc: 'Practical wisdom for parents navigating technology, screen time, and digital discipleship in the home.', category: 'Family Guidance' },
-  { type: 'Audio Message', typeIcon: '🎧', title: 'Your Gift, God\'s Glory', desc: 'A powerful message on discovering your God-given creative gifts and surrendering them for Kingdom purposes.', category: 'Creative Arts' },
-  { type: 'Bible Study', typeIcon: '📖', title: 'Acts 13:36 — Serving Your Generation', desc: 'A 4-week study on David\'s call to serve his generation and how we can apply that calling in today\'s digital world.', category: 'Youth Discipleship' },
-  { type: 'Article', typeIcon: '📄', title: 'Pornography: A Biblical Response', desc: 'A compassionate and Biblical approach to addressing pornography addiction, offering hope and practical steps for recovery.', category: 'Family Guidance' },
-  { type: 'Video Teaching', typeIcon: '🎥', title: 'Media, Culture & the Christian Mind', desc: 'A 6-part video series developing a Biblical worldview for engaging media, arts, and popular culture.', category: 'Media Awareness' },
-  { type: 'Audio Message', typeIcon: '🎧', title: 'Prayer for the Next Generation', desc: 'A guided prayer session for parents, pastors, and leaders interceding for today\'s youth and their spiritual formation.', category: 'Youth Discipleship' },
+  { type: 'Article', image: '/images/stock/photo-1455390582262-044cdead277a.jpg', title: 'Navigating Social Media with Biblical Wisdom', desc: 'A practical guide for believers on engaging social media responsibly while guarding their hearts and minds.', category: 'Media Awareness' },
+  { type: 'Bible Study', image: '/images/stock/photo-1476231682828-37e571bc172f.jpg', title: 'The Psalms and Creative Expression', desc: 'An 8-week study exploring how the Psalms model authentic, God-centered creativity and artistic expression.', category: 'Bible Studies' },
+  { type: 'Video Teaching', image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', title: 'Understanding Digital Addiction', desc: 'A video series examining the psychological and spiritual dimensions of screen addiction and practical steps to freedom.', category: 'Media Awareness' },
+  { type: 'Article', image: '/images/stock/photo-1491841573634-28140fc7ced7.jpg', title: 'Raising God-Centered Children in a Digital Age', desc: 'Practical wisdom for parents navigating technology, screen time, and digital discipleship in the home.', category: 'Family Guidance' },
+  { type: 'Audio Message', image: '/images/stock/photo-1478737270239-2f02b77fc618.jpg', title: 'Your Gift, God\'s Glory', desc: 'A powerful message on discovering your God-given creative gifts and surrendering them for Kingdom purposes.', category: 'Creative Arts' },
+  { type: 'Bible Study', image: '/images/stock/photo-1504052434569-70ad5836ab65.jpg', title: 'Acts 13:36 — Serving Your Generation', desc: 'A 4-week study on David\'s call to serve his generation and how we can apply that calling in today\'s digital world.', category: 'Youth Discipleship' },
+  { type: 'Article', image: '/images/stock/photo-1483058712412-4245e9b90334.jpg', title: 'Pornography: A Biblical Response', desc: 'A compassionate and Biblical approach to addressing pornography addiction, offering hope and practical steps for recovery.', category: 'Family Guidance' },
+  { type: 'Video Teaching', image: '/images/stock/photo-1492724441997-5dc865305da7.jpg', title: 'Media, Culture & the Christian Mind', desc: 'A 6-part video series developing a Biblical worldview for engaging media, arts, and popular culture.', category: 'Media Awareness' },
+  { type: 'Audio Message', image: '/images/stock/photo-1590602847861-f357a9332bbc.jpg', title: 'Prayer for the Next Generation', desc: 'A guided prayer session for parents, pastors, and leaders interceding for today\'s youth and their spiritual formation.', category: 'Youth Discipleship' },
 ]
 
 const filteredResources = computed(() =>
@@ -76,14 +77,14 @@ const filteredResources = computed(() =>
 )
 
 const resourceCategories = [
-  { icon: '📄', label: 'Articles' },
-  { icon: '📖', label: 'Bible Studies' },
-  { icon: '📺', label: 'Media Awareness' },
-  { icon: '🏠', label: 'Family Guidance' },
-  { icon: '🌱', label: 'Youth Discipleship' },
-  { icon: '🎨', label: 'Creative Arts' },
-  { icon: '🎥', label: 'Video Teachings' },
-  { icon: '🎧', label: 'Audio Messages' },
+  { image: '/images/stock/photo-1455390582262-044cdead277a.jpg', label: 'Articles' },
+  { image: '/images/stock/photo-1476231682828-37e571bc172f.jpg', label: 'Bible Studies' },
+  { image: '/images/stock/photo-1516321165247-4aa89a48be28.jpg', label: 'Media Awareness' },
+  { image: '/images/stock/photo-1511895426328-dc8714191300.jpg', label: 'Family Guidance' },
+  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', label: 'Youth Discipleship' },
+  { image: '/images/stock/photo-1460661419201-fd4cecdf8a8b.jpg', label: 'Creative Arts' },
+  { image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', label: 'Video Teachings' },
+  { image: '/images/stock/photo-1590602847861-f357a9332bbc.jpg', label: 'Audio Messages' },
 ]
 </script>
 
@@ -114,6 +115,7 @@ const resourceCategories = [
   transition: all 0.25s;
 }
 .resource-card:hover { border-color: var(--gold); box-shadow: 0 8px 28px rgba(26,45,90,0.08); transform: translateY(-2px); }
+.rc-photo { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
 .rc-type { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
 .resource-card h3 { color: var(--navy); font-size: 1.1rem; line-height: 1.45; }
 .resource-card p { color: var(--text-light); font-size: 1rem; line-height: 1.8; flex: 1; }
@@ -135,6 +137,6 @@ const resourceCategories = [
   transition: all 0.2s;
 }
 .rcat-card:hover { border-color: var(--gold); background: var(--gold-pale); }
-.rcat-card span { font-size: 2rem; }
+.rcat-photo { width: 100%; height: 90px; object-fit: cover; border-radius: 6px; }
 .rcat-card h4 { color: var(--navy); font-size: 0.9rem; }
 </style>

@@ -2,7 +2,7 @@
   <header :class="['navbar', { scrolled: scrolled || solidRoutes.includes(route.path), open: menuOpen }]">
     <div class="container nav-inner">
       <RouterLink to="/" class="logo" @click="menuOpen = false">
-        <span class="logo-cross">✝</span>
+        <img class="logo-mark" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
         <div class="logo-text">
           <span class="logo-title">Visual Word Media</span>
           <span class="logo-sub">Mission</span>
@@ -99,18 +99,18 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
 }
-.logo-cross {
-  font-size: 1.8rem;
-  color: var(--gold);
-  line-height: 1;
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
+  font-size: 1.03rem;
   font-weight: 700;
   color: var(--white);
 }
@@ -122,23 +122,23 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 }
 .nav-links {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   align-items: center;
   margin-left: auto;
 }
 .nav-links a {
-  font-size: 0.94rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: rgba(255,255,255,0.88);
-  padding: 7px 12px;
+  padding: 7px 10px;
   border-radius: 4px;
   transition: color 0.2s;
   letter-spacing: 0.02em;
 }
 .nav-links a:hover, .nav-links a.router-link-active { color: var(--gold); }
 .nav-auth    { display: flex; align-items: center; gap: 10px; margin-left: 10px; flex-shrink: 0; }
-.nav-cta     { padding: 11px 22px; font-size: 0.94rem; }
-.nav-login   { font-size: 0.94rem; font-weight: 600; color: rgba(255,255,255,0.88); padding: 7px 12px; border-radius: 4px; transition: color 0.2s; }
+.nav-cta     { padding: 10px 18px; font-size: 0.85rem; }
+.nav-login   { font-size: 0.88rem; font-weight: 600; color: rgba(255,255,255,0.88); padding: 7px 10px; border-radius: 4px; transition: color 0.2s; }
 .nav-login:hover { color: var(--gold); }
 .nav-user    { font-size: 0.88rem; color: var(--gold); font-weight: 600; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nav-logout  { padding: 8px 16px; font-size: 0.88rem; border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.88); }

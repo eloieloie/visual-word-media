@@ -43,8 +43,8 @@
               <h3>{{ e.title }}</h3>
               <p>{{ e.description }}</p>
               <div class="ec-meta">
-                <span>📍 {{ e.location }}</span>
-                <span>⏰ {{ e.time }}</span>
+                <span><strong>Location:</strong> {{ e.location }}</span>
+                <span><strong>Time:</strong> {{ e.time }}</span>
               </div>
             </div>
             <div class="ec-action">
@@ -80,7 +80,7 @@
       </div>
       <div class="grid-3">
         <div class="etype-card" v-for="et in eventTypes" :key="et.label">
-          <span class="etype-icon">{{ et.icon }}</span>
+          <img class="etype-photo" :src="et.image" :alt="et.label" />
           <h4>{{ et.label }}</h4>
           <p>{{ et.desc }}</p>
         </div>
@@ -121,12 +121,12 @@ const filteredEvents = computed(() =>
 onMounted(fetchEvents)
 
 const eventTypes = [
-  { icon: '🏕️', label: 'Youth Camps',              desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
-  { icon: '📺', label: 'Media Awareness Seminars',  desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
-  { icon: '🎨', label: 'Creative Arts Gatherings',  desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
-  { icon: '📖', label: 'Bible Studies',             desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
-  { icon: '🔧', label: 'Training Workshops',        desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
-  { icon: '🙏', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
+  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
+  { image: '/images/stock/photo-1516321165247-4aa89a48be28.jpg', label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
+  { image: '/images/stock/photo-1460661419201-fd4cecdf8a8b.jpg', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
+  { image: '/images/stock/photo-1476231682828-37e571bc172f.jpg', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
+  { image: '/images/stock/photo-1454165804606-c3d57bc86b40.jpg', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
+  { image: '/images/stock/photo-1542810634-71277d95dcbb.jpg', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
 ]
 </script>
 
@@ -222,7 +222,13 @@ const eventTypes = [
   padding: 28px 22px;
   text-align: center;
 }
-.etype-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+.etype-photo {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
 .etype-card h4 { color: var(--navy); margin-bottom: 10px; font-size: 1.1rem; }
 .etype-card p  { color: var(--text-light); font-size: 1rem; line-height: 1.8; }
 

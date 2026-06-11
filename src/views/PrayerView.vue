@@ -20,7 +20,7 @@
         <h3 style="color:var(--navy); margin-bottom:20px; font-size:1.1rem">We Are Praying For:</h3>
         <div class="prayer-items">
           <div class="prayer-item" v-for="item in prayerItems" :key="item">
-            <span class="prayer-cross">✝</span>
+            <span class="prayer-marker"></span>
             <span>{{ item }}</span>
           </div>
         </div>
@@ -55,7 +55,7 @@
             <textarea v-model="form.commitment" rows="3" placeholder="How do you commit to pray for this ministry?"></textarea>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%">
-            {{ submitted ? '✓ Commitment Received!' : 'Submit Prayer Commitment' }}
+            {{ submitted ? 'Commitment Received!' : 'Submit Prayer Commitment' }}
           </button>
         </form>
       </div>
@@ -108,7 +108,14 @@ const prayerItems = [
   font-size: 1.02rem;
   line-height: 1.6;
 }
-.prayer-cross { color: var(--gold); font-size: 1.1rem; flex-shrink: 0; }
+.prayer-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
 
 .prayer-form-box {
   background: var(--white);

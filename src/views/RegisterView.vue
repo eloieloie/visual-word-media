@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
-        <span class="auth-cross">✝</span>
+        <img class="auth-logo" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
       </div>
 
@@ -63,7 +63,7 @@
       </form>
 
       <div v-else class="auth-success">
-        <span class="success-icon">✓</span>
+        <img class="success-photo" src="/images/stock/photo-1469571486292-b53601020cb6.jpg" alt="Success" />
         <h3>Account created!</h3>
         <p>You can now sign in with your credentials.</p>
         <RouterLink to="/login" class="btn btn-primary auth-btn" style="display:block; text-align:center; margin-top:16px">
@@ -149,7 +149,7 @@ async function handleRegister() {
   gap: 10px;
   margin-bottom: 32px;
 }
-.auth-cross { font-size: 1.6rem; color: var(--gold); }
+.auth-logo { width: 32px; height: 32px; }
 .auth-site  { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); }
 
 .auth-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }
@@ -194,16 +194,11 @@ async function handleRegister() {
   text-align: center;
   padding: 24px 0 8px;
 }
-.success-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px; height: 56px;
+.success-photo {
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: #e8f5e9;
-  color: #2e7d32;
-  font-size: 1.6rem;
-  font-weight: 700;
+  object-fit: cover;
   margin-bottom: 16px;
 }
 .auth-success h3 { color: var(--navy); margin-bottom: 8px; }

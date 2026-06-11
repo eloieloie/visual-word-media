@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
-        <span class="auth-cross">✝</span>
+        <img class="auth-logo" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
       </div>
 
@@ -99,7 +99,7 @@ async function handleLogin() {
   gap: 10px;
   margin-bottom: 32px;
 }
-.auth-cross { font-size: 1.6rem; color: var(--gold); }
+.auth-logo { width: 32px; height: 32px; }
 .auth-site  { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); }
 
 .auth-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }

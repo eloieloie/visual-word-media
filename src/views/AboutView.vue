@@ -19,12 +19,12 @@
       </div>
       <div class="vwm-cards">
         <div class="vwm-card">
-          <div class="vwm-icon">🎯</div>
+          <img class="vwm-photo" src="/images/stock/photo-1529074963764-98f45c47344b.jpg" alt="Prayer and vision planning" />
           <h3>Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="vwm-card gold">
-          <div class="vwm-icon">📡</div>
+          <img class="vwm-photo" src="/images/stock/photo-1488190211105-8b0e65b80b4e.jpg" alt="Mission media outreach" />
           <h3>Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -73,7 +73,7 @@
       </div>
       <div class="conviction-grid">
         <div class="conviction-card" v-for="c in convictions" :key="c">
-          <span class="conv-cross">✝</span>
+          <img class="conv-photo" src="/images/stock/photo-1471189641895-16c58a695bcb.jpg" alt="Prayer and worship" />
           <p>{{ c }}</p>
         </div>
       </div>
@@ -91,7 +91,7 @@
       </div>
       <div class="grid-3">
         <div class="card" v-for="area in impactAreas" :key="area.title">
-          <div class="card-icon">{{ area.icon }}</div>
+          <img class="impact-photo" :src="area.image" :alt="area.title" />
           <h3 style="color:var(--navy); margin-bottom:10px">{{ area.title }}</h3>
           <p style="color:var(--text-light); font-size:0.92rem; line-height:1.7">{{ area.desc }}</p>
         </div>
@@ -108,7 +108,7 @@
       <p style="text-align:center; color:var(--text-light); margin-bottom:40px">Visual Word Media Mission exists to:</p>
       <div class="mission-list">
         <div class="mission-item" v-for="m in missions" :key="m">
-          <span class="mission-bullet">→</span>
+          <span class="mission-bullet"></span>
           <span>{{ m }}</span>
         </div>
       </div>
@@ -138,12 +138,12 @@ const convictions = [
 ]
 
 const impactAreas = [
-  { icon: '👥', title: 'Youth Empowerment Programs', desc: 'Helping young people discover their God-given identity, purpose, talents, and calling while equipping them to navigate modern challenges with biblical wisdom.' },
-  { icon: '🎬', title: 'Media and Creative Ministry', desc: 'Training and encouraging filmmakers, photographers, designers, musicians, writers, and media professionals to use their skills for Kingdom impact.' },
-  { icon: '📚', title: 'Awareness & Educational Programs', desc: 'Conducting seminars, workshops, conferences, and outreach events that address spiritual, social, personal, and professional development.' },
-  { icon: '🏕️', title: 'Discipleship & Leadership Camps', desc: 'Building strong foundations of faith through mentoring, biblical teaching, leadership development, and spiritual formation.' },
-  { icon: '🏠', title: 'Family & Counseling Initiatives', desc: 'Providing encouragement, guidance, and support to strengthen marriages, families, and individuals facing life\'s challenges.' },
-  { icon: '🌐', title: 'Content Production & Digital Outreach', desc: 'Creating meaningful media content that communicates biblical truth, inspires transformation, and reaches audiences across diverse platforms.' },
+  { image: '/images/stock/photo-1511632765486-a01980e01a18.jpg', title: 'Youth Empowerment Programs', desc: 'Helping young people discover their God-given identity, purpose, talents, and calling while equipping them to navigate modern challenges with biblical wisdom.' },
+  { image: '/images/stock/photo-1492724441997-5dc865305da7.jpg', title: 'Media and Creative Ministry', desc: 'Training and encouraging filmmakers, photographers, designers, musicians, writers, and media professionals to use their skills for Kingdom impact.' },
+  { image: '/images/stock/photo-1523240795612-9a054b0db644.jpg', title: 'Awareness & Educational Programs', desc: 'Conducting seminars, workshops, conferences, and outreach events that address spiritual, social, personal, and professional development.' },
+  { image: '/images/stock/photo-1503676260728-1c00da094a0b.jpg', title: 'Discipleship & Leadership Camps', desc: 'Building strong foundations of faith through mentoring, biblical teaching, leadership development, and spiritual formation.' },
+  { image: '/images/stock/photo-1511895426328-dc8714191300.jpg', title: 'Family & Counseling Initiatives', desc: 'Providing encouragement, guidance, and support to strengthen marriages, families, and individuals facing life\'s challenges.' },
+  { image: '/images/stock/photo-1517048676732-d65bc937f952.jpg', title: 'Content Production & Digital Outreach', desc: 'Creating meaningful media content that communicates biblical truth, inspires transformation, and reaches audiences across diverse platforms.' },
 ]
 
 const missions = [
@@ -172,7 +172,21 @@ const missions = [
 .vwm-card:not(.gold) h3 { color: var(--gold); }
 .vwm-card.gold h3 { color: var(--navy); }
 .vwm-card p { font-size: 1rem; line-height: 1.85; opacity: 0.92; }
-.vwm-icon { font-size: 2rem; margin-bottom: 14px; }
+.vwm-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.impact-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
 
 .story-block { display: flex; flex-direction: column; gap: 20px; color: var(--text-light); line-height: 1.9; font-size: 1.05rem; }
 .story-block strong { color: var(--text); }
@@ -205,7 +219,13 @@ const missions = [
   align-items: flex-start;
   gap: 18px;
 }
-.conv-cross { color: var(--gold); font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.conv-photo {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
 .conviction-card p { font-size: 1.1rem; line-height: 1.7; font-style: italic; }
 .conviction-footer { text-align: center; color: rgba(255,255,255,0.78); font-size: 1rem; line-height: 1.85; max-width: 700px; margin: 0 auto; }
 
@@ -221,7 +241,14 @@ const missions = [
   font-size: 1rem;
   line-height: 1.6;
 }
-.mission-bullet { color: var(--gold); font-weight: 700; font-size: 1.2rem; flex-shrink: 0; }
+.mission-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
 .outro-tagline { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); }
 
 @media (max-width: 760px) {

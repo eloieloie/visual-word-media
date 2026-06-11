@@ -30,7 +30,7 @@
       </div>
       <div class="grid-3">
         <div class="serve-card" v-for="role in roles" :key="role.title">
-          <div class="serve-icon">{{ role.icon }}</div>
+          <img class="serve-photo" :src="role.image" :alt="role.title" />
           <h3>{{ role.title }}</h3>
           <p>{{ role.desc }}</p>
           <ul v-if="role.skills" class="skill-tags">
@@ -52,7 +52,7 @@
       </div>
       <div class="why-grid">
         <div class="why-item" v-for="w in whyJoin" :key="w">
-          <span class="why-check">✓</span>
+          <span class="why-check"></span>
           <span>{{ w }}</span>
         </div>
       </div>
@@ -72,7 +72,7 @@
 
       <!-- Success state -->
       <div v-if="submitted" class="success-panel">
-        <div class="success-icon">🙏</div>
+        <img class="success-photo" src="/images/stock/photo-1542810634-71277d95dcbb.jpg" alt="Prayer hands" />
         <h3>Registration Received!</h3>
         <p>Thank you, <strong>{{ form.name }}</strong>! Your volunteer registration has been submitted. Our team will review your details and reach out to you soon.</p>
         <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">We will contact you at <strong>{{ form.email }}</strong> or <strong>{{ form.mobile }}</strong>.</p>
@@ -275,13 +275,13 @@ function resetForm() {
 }
 
 const roles = [
-  { icon: '🙏', title: 'Prayer Partner', desc: 'Become a prayer warrior for the ministry, outreach programs, youth camps, village missions, media projects, and leadership initiatives.' },
-  { icon: '🌾', title: 'Evangelism & Outreach', desc: 'Participate in village outreach programs, Gospel campaigns, youth gatherings, Bible distribution, and community engagement.' },
-  { icon: '👨‍🏫', title: 'Youth Mentor', desc: 'Help guide, encourage, disciple, and mentor young people as they grow in their faith and leadership journey.' },
-  { icon: '🎬', title: 'Media & Creative Ministry', desc: 'Use your creative skills to communicate the Gospel through excellence.', skills: ['Photography', 'Videography', 'Video Editing', 'Graphic Design', 'Animation', 'Content Writing', 'Social Media', 'Web Development', 'Audio Production', 'Music Ministry'] },
-  { icon: '📖', title: 'Teaching & Discipleship', desc: 'Assist in conducting Bible studies, discipleship groups, leadership development programs, and training sessions.' },
-  { icon: '💰', title: 'Mission Partner', desc: 'Support ministry initiatives through financial contributions, sponsorships, equipment donations, and project partnerships.' },
-  { icon: '⛪', title: 'Church & Ministry Partnership', desc: 'Partner to host camps, conferences, leadership training, evangelistic events, and community development initiatives.' },
+  { image: '/images/stock/photo-1529070538774-1843cb3265df.jpg', title: 'Prayer Partner', desc: 'Become a prayer warrior for the ministry, outreach programs, youth camps, village missions, media projects, and leadership initiatives.' },
+  { image: '/images/stock/photo-1593113598332-cd59a93f7d1e.jpg', title: 'Evangelism & Outreach', desc: 'Participate in village outreach programs, Gospel campaigns, youth gatherings, Bible distribution, and community engagement.' },
+  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', title: 'Youth Mentor', desc: 'Help guide, encourage, disciple, and mentor young people as they grow in their faith and leadership journey.' },
+  { image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', title: 'Media & Creative Ministry', desc: 'Use your creative skills to communicate the Gospel through excellence.', skills: ['Photography', 'Videography', 'Video Editing', 'Graphic Design', 'Animation', 'Content Writing', 'Social Media', 'Web Development', 'Audio Production', 'Music Ministry'] },
+  { image: '/images/stock/photo-1504052434569-70ad5836ab65.jpg', title: 'Teaching & Discipleship', desc: 'Assist in conducting Bible studies, discipleship groups, leadership development programs, and training sessions.' },
+  { image: '/images/stock/photo-1454165804606-c3d57bc86b40.jpg', title: 'Mission Partner', desc: 'Support ministry initiatives through financial contributions, sponsorships, equipment donations, and project partnerships.' },
+  { image: '/images/stock/photo-1513805959324-96eb66f66cbe.jpg', title: 'Church & Ministry Partnership', desc: 'Partner to host camps, conferences, leadership training, evangelistic events, and community development initiatives.' },
 ]
 
 const whyJoin = [
@@ -314,7 +314,13 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   transition: all 0.25s;
 }
 .serve-card:hover { border-color: var(--gold); box-shadow: 0 8px 32px rgba(26,45,90,0.1); transform: translateY(-3px); }
-.serve-icon { font-size: 2.6rem; margin-bottom: 16px; }
+.serve-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
 .serve-card h3 { color: var(--navy); font-size: 1.2rem; margin-bottom: 12px; }
 .serve-card p { color: var(--text-light); font-size: 1rem; line-height: 1.85; }
 .skill-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
@@ -333,7 +339,14 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   font-size: 1rem;
   line-height: 1.6;
 }
-.why-check { color: var(--gold); font-weight: 700; flex-shrink: 0; }
+.why-check {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
 
 /* FORM */
 .reg-form { display: flex; flex-direction: column; gap: 20px; }
@@ -391,7 +404,13 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   border: 2px solid var(--gold);
   border-radius: 12px;
 }
-.success-icon { font-size: 4rem; margin-bottom: 16px; }
+.success-photo {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+}
 .success-panel h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.8rem; margin-bottom: 14px; }
 .success-panel p { color: var(--text-light); font-size: 1.05rem; line-height: 1.75; }
 .error-banner {

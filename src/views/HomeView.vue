@@ -15,6 +15,7 @@
         <RouterLink to="/prayer" class="btn btn-outline">Prayer Partnership</RouterLink>
         <RouterLink to="/contact" class="btn btn-outline">Contact Us</RouterLink>
       </div>
+      <p class="hero-scripture-title">Scriptural Foundation of the Ministry</p>
       <div class="hero-scriptures">
         <span>Psalm 19:1</span>
         <span>·</span>
@@ -51,19 +52,17 @@
         <div class="about-stats">
           <div class="stat"><span class="stat-num">1997</span><span class="stat-label">Founded</span></div>
           <div class="stat"><span class="stat-num">6+</span><span class="stat-label">Ministry Wings</span></div>
-          <div class="stat"><span class="stat-num">3000+</span><span class="stat-label">Villages Targeted</span></div>
-          <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Lives Impacted</span></div>
         </div>
         <RouterLink to="/about" class="btn btn-navy" style="margin-top:28px">Our Full Story</RouterLink>
       </div>
       <div class="about-visual">
         <div class="visual-card primary">
-          <div class="vc-icon">✝</div>
+          <img class="vc-photo" src="/images/stock/photo-1504052434569-70ad5836ab65.jpg" alt="Open Bible and cross" />
           <h3>Our Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="visual-card secondary">
-          <div class="vc-icon">📡</div>
+          <img class="vc-photo" src="/images/stock/photo-1487611459768-bd414656ea10.jpg" alt="Media mission workspace" />
           <h3>Our Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -92,11 +91,11 @@
       </div>
       <div class="grid-3">
         <RouterLink to="/ministries" class="ministry-card" v-for="m in ministries" :key="m.name">
-          <div class="mc-icon">{{ m.icon }}</div>
+          <img class="mc-photo" :src="m.image" :alt="m.name + ' ministry'" />
           <h3>{{ m.name }}</h3>
           <p class="mc-tag">{{ m.tag }}</p>
           <p>{{ m.desc }}</p>
-          <span class="mc-link">Learn more →</span>
+          <span class="mc-link">Learn more</span>
         </RouterLink>
       </div>
     </div>
@@ -122,7 +121,7 @@
       <div class="burden-grid">
         <div>
           <p class="section-label">Our Calling</p>
-          <h2 class="section-title">Core Burden</h2>
+          <h2 class="section-title">Burden</h2>
           <div class="divider"></div>
           <p style="color:var(--text-light); margin-bottom:32px">
             God has placed a deep burden upon this ministry to serve, disciple, create, and impact today's generation.
@@ -131,7 +130,7 @@
         </div>
         <div class="burden-list">
           <div class="burden-item" v-for="b in burdens" :key="b">
-            <span class="burden-check">✓</span>
+            <span class="burden-check"></span>
             <span>{{ b }}</span>
           </div>
         </div>
@@ -157,12 +156,12 @@
 
 <script setup>
 const ministries = [
-  { icon: '📺', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
-  { icon: '🌍', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach thousands of villages within 60km of Hyderabad through evangelism, discipleship, and leadership.' },
-  { icon: '🎬', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
-  { icon: '🎨', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
-  { icon: '📱', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
-  { icon: '💛', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
+  { image: '/images/stock/photo-1516321165247-4aa89a48be28.jpg', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
+  { image: '/images/stock/photo-1523803326055-9729b9e02e6e.jpg', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
+  { image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
+  { image: '/images/stock/photo-1513364776144-60967b0f800f.jpg', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
+  { image: '/images/stock/photo-1518770660439-4636190af475.jpg', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
+  { image: '/images/stock/photo-1469571486292-b53601020cb6.jpg', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
 ]
 
 const burdens = [
@@ -187,7 +186,9 @@ const burdens = [
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0a1528 0%, #1a2d5a 50%, #243470 100%);
+  background:
+    linear-gradient(112deg, rgba(8, 18, 39, 0.9) 0%, rgba(26, 45, 90, 0.78) 48%, rgba(36, 52, 112, 0.78) 100%),
+    url('/images/stock/photo-1438232992991-995b7058bbb3.jpg') center/cover no-repeat;
 }
 .hero-bg::after {
   content: '';
@@ -197,7 +198,7 @@ const burdens = [
 }
 .hero-content {
   position: relative;
-  padding: 120px 24px 80px;
+  padding: 120px 8px 80px;
   max-width: 860px;
 }
 .hero-label {
@@ -221,7 +222,18 @@ const burdens = [
   line-height: 1.9;
   margin-bottom: 44px;
 }
-.hero-btns { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 44px; }
+.hero-btns { display: flex; flex-wrap: nowrap; gap: 12px; margin-bottom: 24px; }
+.hero-btns .btn { padding: 12px 18px; font-size: 0.9rem; }
+.hero-scripture-title {
+  margin-bottom: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  max-width: 460px;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
 .hero-scriptures {
   display: flex;
   gap: 14px;
@@ -246,11 +258,12 @@ const burdens = [
 .about-text p { color: var(--text-light); line-height: 1.9; font-size: 1.05rem; }
 .about-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 36px;
   padding-top: 36px;
   border-top: 1px solid var(--border);
+  max-width: 340px;
 }
 .stat { text-align: center; }
 .stat-num { display: block; font-family: 'Playfair Display', serif; font-size: 1.85rem; color: var(--navy); font-weight: 700; }
@@ -266,7 +279,13 @@ const burdens = [
 .visual-card.primary h3 { color: var(--gold); }
 .visual-card.secondary h3 { color: var(--navy); }
 .visual-card p { font-size: 1rem; line-height: 1.85; opacity: 0.88; }
-.vc-icon { font-size: 2.2rem; margin-bottom: 16px; }
+.vc-photo {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
 
 /* MINISTRY CARDS */
 .ministry-card {
@@ -279,7 +298,13 @@ const burdens = [
   cursor: pointer;
 }
 .ministry-card:hover { border-color: var(--gold); box-shadow: 0 8px 32px rgba(26,45,90,0.1); transform: translateY(-4px); }
-.mc-icon { font-size: 2.6rem; margin-bottom: 18px; }
+.mc-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
 .ministry-card h3 { font-size: 1.25rem; color: var(--navy); margin-bottom: 6px; }
 .mc-tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
 .ministry-card p { font-size: 1rem; color: var(--text-light); line-height: 1.85; }
@@ -307,17 +332,14 @@ const burdens = [
 }
 .burden-check {
   background: var(--gold);
-  color: var(--navy-dark);
-  width: 28px;
-  height: 28px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.82rem;
-  font-weight: 700;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 8px;
 }
 
 /* CTA */
@@ -334,5 +356,6 @@ const burdens = [
   .about-grid, .burden-grid { grid-template-columns: 1fr; }
   .about-stats { grid-template-columns: repeat(2,1fr); }
   .cta-section { flex-direction: column; text-align: center; }
+  .hero-btns { flex-wrap: wrap; }
 }
 </style>

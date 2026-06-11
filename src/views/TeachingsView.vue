@@ -13,10 +13,10 @@
       <!-- Tab switcher -->
       <div class="tab-row">
         <button :class="['tab-btn', { active: tab === 'video' }]" @click="tab = 'video'">
-          ▶ Video Teachings
+          Video Teachings
         </button>
         <button :class="['tab-btn', { active: tab === 'audio' }]" @click="tab = 'audio'">
-          🎧 Audio Teachings
+          Audio Teachings
         </button>
       </div>
 
@@ -43,7 +43,7 @@
             <div class="video-thumb">
               <img :src="v.thumbnail" :alt="v.title" loading="lazy" />
               <div class="play-overlay">
-                <span class="play-icon">▶</span>
+                <span class="play-icon"></span>
               </div>
             </div>
             <div class="video-info">
@@ -70,7 +70,7 @@
         </div>
         <div v-else class="audio-list">
           <div class="audio-card" v-for="a in audios" :key="a.id">
-            <div class="audio-icon">🎙️</div>
+            <img class="audio-photo" src="/images/stock/photo-1590602847861-f357a9332bbc.jpg" alt="Audio teaching" />
             <div class="audio-body">
               <div class="audio-meta-top">
                 <span class="audio-speaker" v-if="a.speaker">{{ a.speaker }}</span>
@@ -191,7 +191,25 @@ onMounted(() => {
 .video-card:hover .video-thumb img { transform: scale(1.04); }
 .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.28); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
 .video-card:hover .play-overlay { opacity: 1; }
-.play-icon { width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--navy); padding-left: 4px; }
+.play-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  display: inline-block;
+  position: relative;
+}
+.play-icon::after {
+  content: '';
+  position: absolute;
+  left: 21px;
+  top: 16px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 14px solid var(--navy);
+}
 .video-info { padding: 16px 18px 20px; }
 .video-info h3 { font-size: 1rem; color: var(--navy); margin-bottom: 5px; line-height: 1.4; }
 .video-date { font-size: 0.78rem; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
@@ -201,7 +219,14 @@ onMounted(() => {
 .audio-list { display: flex; flex-direction: column; gap: 18px; }
 .audio-card { display: flex; gap: 22px; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 24px; transition: border-color 0.2s; }
 .audio-card:hover { border-color: var(--gold); }
-.audio-icon { font-size: 2.2rem; flex-shrink: 0; margin-top: 4px; }
+.audio-photo {
+  width: 66px;
+  height: 66px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
 .audio-body { flex: 1; min-width: 0; }
 .audio-meta-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
 .audio-speaker { font-size: 0.82rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; }

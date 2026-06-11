@@ -4,7 +4,7 @@
       <div class="container footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
-            <span class="logo-cross">✝</span>
+            <img class="logo-mark" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
             <div>
               <div class="logo-title">Visual Word Media</div>
               <div class="logo-sub">Mission</div>
@@ -40,7 +40,7 @@
           <h4>Connect</h4>
           <RouterLink to="/contact">Contact Us</RouterLink>
           <RouterLink to="/volunteer">Volunteer</RouterLink>
-          <RouterLink to="/volunteer" class="footer-cta">Join the Mission →</RouterLink>
+          <RouterLink to="/volunteer" class="footer-cta">Join the Mission</RouterLink>
         </div>
       </div>
     </div>
@@ -72,7 +72,11 @@ const year = new Date().getFullYear()
   gap: 12px;
   margin-bottom: 20px;
 }
-.logo-cross { font-size: 2rem; color: var(--gold); }
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
 .logo-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.05rem;

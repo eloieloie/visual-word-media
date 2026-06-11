@@ -17,28 +17,28 @@
 
         <div class="contact-info-list">
           <div class="contact-info-item">
-            <div class="ci-icon">📍</div>
+            <img class="ci-photo" src="/images/stock/photo-1524661135-423995f22d0b.jpg" alt="Location" />
             <div>
               <h4>Ministry Office</h4>
               <p>Hyderabad, Telangana, India</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <div class="ci-icon">📞</div>
+            <img class="ci-photo" src="/images/stock/photo-1512941937669-90a1b58e7e9c.jpg" alt="Phone support" />
             <div>
               <h4>Contact Number</h4>
               <p>Available via contact form or in-person</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <div class="ci-icon">✉️</div>
+            <img class="ci-photo" src="/images/stock/photo-1586769852836-bc069f19e1b6.jpg" alt="Email contact" />
             <div>
               <h4>Email Address</h4>
               <p>Available via contact form below</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <div class="ci-icon">🕐</div>
+            <img class="ci-photo" src="/images/stock/photo-1501139083538-0139583c060f.jpg" alt="Office hours" />
             <div>
               <h4>Ministry Hours</h4>
               <p>Monday – Saturday, 9 AM – 6 PM IST</p>
@@ -48,10 +48,10 @@
 
         <div class="quick-links">
           <h4>Quick Actions</h4>
-          <RouterLink to="/prayer" class="quick-btn">🙏 Prayer Request</RouterLink>
-          <RouterLink to="/volunteer" class="quick-btn">🤝 Volunteer Inquiry</RouterLink>
-          <RouterLink to="/volunteer" class="quick-btn">🌐 Ministry Partnership</RouterLink>
-          <RouterLink to="/ministries" class="quick-btn">📺 Learn About Ministries</RouterLink>
+          <RouterLink to="/prayer" class="quick-btn">Prayer Request</RouterLink>
+          <RouterLink to="/volunteer" class="quick-btn">Volunteer Inquiry</RouterLink>
+          <RouterLink to="/volunteer" class="quick-btn">Ministry Partnership</RouterLink>
+          <RouterLink to="/ministries" class="quick-btn">Learn About Ministries</RouterLink>
         </div>
 
         <div class="scripture-block" style="margin-top:36px">
@@ -105,7 +105,7 @@
             </label>
           </div>
           <button type="submit" class="btn btn-primary submit-btn">
-            {{ submitted ? '✓ Message Sent — God Bless You!' : 'Send Message' }}
+            {{ submitted ? 'Message Sent - God Bless You!' : 'Send Message' }}
           </button>
         </form>
       </div>
@@ -146,7 +146,7 @@ function submitContact() {
 
 .contact-info-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
 .contact-info-item { display: flex; align-items: flex-start; gap: 16px; }
-.ci-icon { font-size: 1.5rem; width: 44px; height: 44px; background: var(--gold-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ci-photo { width: 52px; height: 52px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
 .contact-info-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
 .contact-info-item p { font-size: 1rem; color: var(--text-light); line-height: 1.6; }
 

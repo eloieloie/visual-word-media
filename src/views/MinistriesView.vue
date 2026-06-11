@@ -64,7 +64,6 @@
         <div class="sixty-stats">
           <div class="sixty-stat"><span>60 km</span><small>Mission radius around Hyderabad</small></div>
           <div class="sixty-stat"><span>360°</span><small>Every direction, every community</small></div>
-          <div class="sixty-stat"><span>3,000+</span><small>Villages targeted</small></div>
         </div>
       </div>
 
@@ -78,7 +77,7 @@
         </div>
         <div class="sixty-grid">
           <div class="sixty-card" v-for="camp in camps" :key="camp.title">
-            <div class="sc-icon">{{ camp.icon }}</div>
+            <img class="sc-photo" :src="camp.image" :alt="camp.title" />
             <h4>{{ camp.title }}</h4>
             <p>{{ camp.desc }}</p>
           </div>
@@ -145,7 +144,7 @@
       <p style="color:var(--text-light); max-width:640px; margin-bottom:40px">Oculus exists to nurture a generation of creative artists who will influence culture through a Biblical worldview.</p>
       <div class="grid-4">
         <div class="oculus-card" v-for="a in oculusAreas" :key="a.label">
-          <span class="oc-icon">{{ a.icon }}</span>
+          <img class="oc-photo" :src="a.image" :alt="a.label" />
           <span>{{ a.label }}</span>
         </div>
       </div>
@@ -208,6 +207,7 @@
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap">
         <RouterLink to="/volunteer" class="btn btn-primary">Join the Mission</RouterLink>
         <RouterLink to="/prayer" class="btn btn-navy">Become a Prayer Partner</RouterLink>
+        <RouterLink to="/volunteer" class="btn btn-navy">How do you want to involve</RouterLink>
         <RouterLink to="/contact" class="btn btn-outline" style="color:var(--navy);border-color:var(--navy)">Contact Us</RouterLink>
       </div>
     </div>
@@ -216,23 +216,23 @@
 
 <script setup>
 const camps = [
-  { icon: '🌾', title: 'Evangelism Camps', desc: 'Mobilizing young believers to share their faith, engage local communities, and serve as ambassadors for Christ.' },
-  { icon: '📖', title: 'Youth Discipleship Camps', desc: 'Helping youth develop a personal relationship with Jesus, build strong spiritual disciplines, and grow in character.' },
-  { icon: '🏆', title: 'Leadership Development Camps', desc: 'Identifying, mentoring, and equipping emerging leaders who can serve in churches, ministries, and mission fields.' },
-  { icon: '🏘️', title: 'Village-Focused Ministry', desc: 'Ensuring every village has access to the Gospel, disciple-making believers, and Biblical teaching resources.' },
+  { image: '/images/stock/photo-1474433188271-a3fbb9a86d4e.jpg', title: 'Evangelism Camps', desc: 'Mobilizing young believers to share their faith, engage local communities, and serve as ambassadors for Christ.' },
+  { image: '/images/stock/photo-1447069387593-a5de0862481e.jpg', title: 'Youth Discipleship Camps', desc: 'Helping youth develop a personal relationship with Jesus, build strong spiritual disciplines, and grow in character.' },
+  { image: '/images/stock/photo-1517457373958-b7bdd4587205.jpg', title: 'Leadership Development Camps', desc: 'Identifying, mentoring, and equipping emerging leaders who can serve in churches, ministries, and mission fields.' },
+  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', title: 'Village-Focused Ministry', desc: 'Ensuring every village has access to the Gospel, disciple-making believers, and Biblical teaching resources.' },
 ]
 
 const sixtyAreas = ['Gospel Camps', 'Discipleship Camps', 'Bible Studies', 'Leadership Mentoring', 'Village Youth Ministry', 'Mobile Educational Outreach', 'Intense Discipleship Programs']
 
 const oculusAreas = [
-  { icon: '🖼️', label: 'Artist Fellowships' },
-  { icon: '🎨', label: 'Creative Workshops' },
-  { icon: '🏛️', label: 'Art Exhibitions' },
-  { icon: '🏆', label: 'Competitions' },
-  { icon: '📜', label: 'Theology & Art' },
-  { icon: '📖', label: 'Bible Studies for Artists' },
-  { icon: '🤝', label: 'Creative Mentorship' },
-  { icon: '✨', label: 'Culture & Faith' },
+  { image: '/images/stock/photo-1513519245088-0e12902e5a38.jpg', label: 'Artist Fellowships' },
+  { image: '/images/stock/photo-1460661419201-fd4cecdf8a8b.jpg', label: 'Creative Workshops' },
+  { image: '/images/stock/photo-1545239351-1141bd82e8a6.jpg', label: 'Art Exhibitions' },
+  { image: '/images/stock/photo-1511578314322-379afb476865.jpg', label: 'Competitions' },
+  { image: '/images/stock/photo-1505664194779-8beaceb93744.jpg', label: 'Theology & Art' },
+  { image: '/images/stock/photo-1476231682828-37e571bc172f.jpg', label: 'Bible Studies for Artists' },
+  { image: '/images/stock/photo-1521791136064-7986c2920216.jpg', label: 'Creative Mentorship' },
+  { image: '/images/stock/photo-1544531585-9847b68c8c86.jpg', label: 'Culture & Faith' },
 ]
 
 const channels = ['Pustakam', 'Mainline Glorious', 'Pebbles', 'Forever Young', 'PRO31', 'Word of Life', 'Education', 'Health']
@@ -272,8 +272,22 @@ const newlifeAreas = [
   position: relative;
   line-height: 1.6;
 }
-.min-list li::before { content: '✓'; position: absolute; left: 14px; color: var(--gold); font-weight: 700; font-size: 1rem; }
-.min-list.focus li::before { content: '→'; }
+.min-list li::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 18px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.min-list.focus li::before {
+  width: 12px;
+  height: 2px;
+  border-radius: 2px;
+  top: 22px;
+}
 
 /* 60x360 */
 .navy-bg { background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid)); }
@@ -289,7 +303,13 @@ const newlifeAreas = [
   border-radius: 8px;
   padding: 28px 24px;
 }
-.sc-icon { font-size: 2rem; margin-bottom: 14px; }
+.sc-photo {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
 .sixty-card h4 { color: var(--gold); font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 1.15rem; }
 .sixty-card p { color: rgba(255,255,255,0.78); font-size: 1rem; line-height: 1.8; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -320,7 +340,12 @@ const newlifeAreas = [
   transition: all 0.2s;
 }
 .oculus-card:hover { border-color: var(--gold); background: var(--gold-pale); }
-.oc-icon { font-size: 2rem; }
+.oc-photo {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+}
 .oculus-focus {
   margin-top: 36px;
   background: var(--navy);
@@ -338,15 +363,20 @@ const newlifeAreas = [
 /* NETWORK105 */
 .network-channels { margin-top: 8px; }
 .network-channels h4 { margin-bottom: 20px; font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.1rem; }
-.channel-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+.channel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .channel-card {
   background: var(--navy);
   color: var(--white);
-  padding: 12px 22px;
+  min-height: 48px;
+  padding: 12px 14px;
   border-radius: 4px;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* NEW LIFE */
@@ -383,5 +413,6 @@ const newlifeAreas = [
   .ministry-body, .sixty-header, .sixty-grid { grid-template-columns: 1fr; }
   .sixty-header { flex-direction: column; }
   .sixty-stats { flex-wrap: wrap; }
+  .channel-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
