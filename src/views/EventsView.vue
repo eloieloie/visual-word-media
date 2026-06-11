@@ -121,12 +121,12 @@ const filteredEvents = computed(() =>
 onMounted(fetchEvents)
 
 const eventTypes = [
-  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
-  { image: '/images/stock/photo-1516321165247-4aa89a48be28.jpg', label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
-  { image: '/images/stock/photo-1460661419201-fd4cecdf8a8b.jpg', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
-  { image: '/images/stock/photo-1476231682828-37e571bc172f.jpg', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
-  { image: '/images/stock/photo-1454165804606-c3d57bc86b40.jpg', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
-  { image: '/images/stock/photo-1542810634-71277d95dcbb.jpg', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
+  { image: '/images/meaningful/events/youth-camps.svg', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
+  { image: '/images/meaningful/events/media-seminars.svg', label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
+  { image: '/images/meaningful/events/creative-gatherings.svg', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
+  { image: '/images/meaningful/events/bible-studies.svg', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
+  { image: '/images/meaningful/events/training-workshops.svg', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
+  { image: '/images/meaningful/events/prayer-leadership.svg', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
 ]
 </script>
 

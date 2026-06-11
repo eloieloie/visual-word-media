@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" rx="18" fill="#FFFBEF"/>
+  <rect x="28" y="28" width="584" height="304" rx="14" fill="#FFFFFF" opacity="0.92"/>
+  <rect x="54" y="62" width="532" height="236" rx="12" fill="#F7F4EF"/>
+  <circle cx="130" cy="126" r="42" fill="#B2912F" opacity="0.9"/>
+  <rect x="188" y="96" width="330" height="16" rx="8" fill="#1A2D5A" opacity="0.92"/>
+  <rect x="188" y="126" width="260" height="12" rx="6" fill="#1A2D5A" opacity="0.55"/>
+  <rect x="188" y="188" width="354" height="12" rx="6" fill="#1A2D5A" opacity="0.38"/>
+  <rect x="188" y="212" width="298" height="12" rx="6" fill="#1A2D5A" opacity="0.3"/>
+  <text x="64" y="286" fill="#1A2D5A" font-family="Arial, sans-serif" font-size="32" font-weight="700">Teaching Discipleship</text>
+  <text x="64" y="316" fill="#6A6C7A" font-family="Arial, sans-serif" font-size="20">Bible study and formation</text>
+</svg>

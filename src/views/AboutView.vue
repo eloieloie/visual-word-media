@@ -73,7 +73,7 @@
       </div>
       <div class="conviction-grid">
         <div class="conviction-card" v-for="c in convictions" :key="c">
-          <img class="conv-photo" src="/images/stock/photo-1471189641895-16c58a695bcb.jpg" alt="Prayer and worship" />
+          <span class="conv-bullet"></span>
           <p>{{ c }}</p>
         </div>
       </div>
@@ -219,11 +219,13 @@ const missions = [
   align-items: flex-start;
   gap: 18px;
 }
-.conv-photo {
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
-  border-radius: 6px;
+.conv-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 5px rgba(201,162,39,0.18);
+  margin-top: 9px;
   flex-shrink: 0;
 }
 .conviction-card p { font-size: 1.1rem; line-height: 1.7; font-style: italic; }

@@ -17,28 +17,28 @@
 
         <div class="contact-info-list">
           <div class="contact-info-item">
-            <img class="ci-photo" src="/images/stock/photo-1524661135-423995f22d0b.jpg" alt="Location" />
+            <img class="ci-photo" src="/images/contact/office.svg" alt="Ministry office" />
             <div>
               <h4>Ministry Office</h4>
               <p>Hyderabad, Telangana, India</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <img class="ci-photo" src="/images/stock/photo-1512941937669-90a1b58e7e9c.jpg" alt="Phone support" />
+            <img class="ci-photo" src="/images/contact/phone.svg" alt="Contact phone" />
             <div>
               <h4>Contact Number</h4>
               <p>Available via contact form or in-person</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <img class="ci-photo" src="/images/stock/photo-1586769852836-bc069f19e1b6.jpg" alt="Email contact" />
+            <img class="ci-photo" src="/images/contact/email.svg" alt="Email address" />
             <div>
               <h4>Email Address</h4>
               <p>Available via contact form below</p>
             </div>
           </div>
           <div class="contact-info-item">
-            <img class="ci-photo" src="/images/stock/photo-1501139083538-0139583c060f.jpg" alt="Office hours" />
+            <img class="ci-photo" src="/images/contact/hours.svg" alt="Ministry hours" />
             <div>
               <h4>Ministry Hours</h4>
               <p>Monday – Saturday, 9 AM – 6 PM IST</p>

@@ -72,7 +72,7 @@
 
       <!-- Success state -->
       <div v-if="submitted" class="success-panel">
-        <img class="success-photo" src="/images/stock/photo-1542810634-71277d95dcbb.jpg" alt="Prayer hands" />
+        <img class="success-photo" src="/images/meaningful/volunteer/registration-success.svg" alt="Registration received" />
         <h3>Registration Received!</h3>
         <p>Thank you, <strong>{{ form.name }}</strong>! Your volunteer registration has been submitted. Our team will review your details and reach out to you soon.</p>
         <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">We will contact you at <strong>{{ form.email }}</strong> or <strong>{{ form.mobile }}</strong>.</p>
@@ -275,13 +275,13 @@ function resetForm() {
 }
 
 const roles = [
-  { image: '/images/stock/photo-1529070538774-1843cb3265df.jpg', title: 'Prayer Partner', desc: 'Become a prayer warrior for the ministry, outreach programs, youth camps, village missions, media projects, and leadership initiatives.' },
-  { image: '/images/stock/photo-1593113598332-cd59a93f7d1e.jpg', title: 'Evangelism & Outreach', desc: 'Participate in village outreach programs, Gospel campaigns, youth gatherings, Bible distribution, and community engagement.' },
-  { image: '/images/stock/photo-1529390079861-591de354faf5.jpg', title: 'Youth Mentor', desc: 'Help guide, encourage, disciple, and mentor young people as they grow in their faith and leadership journey.' },
-  { image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', title: 'Media & Creative Ministry', desc: 'Use your creative skills to communicate the Gospel through excellence.', skills: ['Photography', 'Videography', 'Video Editing', 'Graphic Design', 'Animation', 'Content Writing', 'Social Media', 'Web Development', 'Audio Production', 'Music Ministry'] },
-  { image: '/images/stock/photo-1504052434569-70ad5836ab65.jpg', title: 'Teaching & Discipleship', desc: 'Assist in conducting Bible studies, discipleship groups, leadership development programs, and training sessions.' },
-  { image: '/images/stock/photo-1454165804606-c3d57bc86b40.jpg', title: 'Mission Partner', desc: 'Support ministry initiatives through financial contributions, sponsorships, equipment donations, and project partnerships.' },
-  { image: '/images/stock/photo-1513805959324-96eb66f66cbe.jpg', title: 'Church & Ministry Partnership', desc: 'Partner to host camps, conferences, leadership training, evangelistic events, and community development initiatives.' },
+  { image: '/images/meaningful/volunteer/prayer-partner.svg', title: 'Prayer Partner', desc: 'Become a prayer warrior for the ministry, outreach programs, youth camps, village missions, media projects, and leadership initiatives.' },
+  { image: '/images/meaningful/volunteer/evangelism-outreach.svg', title: 'Evangelism & Outreach', desc: 'Participate in village outreach programs, Gospel campaigns, youth gatherings, Bible distribution, and community engagement.' },
+  { image: '/images/meaningful/volunteer/youth-mentor.svg', title: 'Youth Mentor', desc: 'Help guide, encourage, disciple, and mentor young people as they grow in their faith and leadership journey.' },
+  { image: '/images/meaningful/volunteer/media-creative.svg', title: 'Media & Creative Ministry', desc: 'Use your creative skills to communicate the Gospel through excellence.', skills: ['Photography', 'Videography', 'Video Editing', 'Graphic Design', 'Animation', 'Content Writing', 'Social Media', 'Web Development', 'Audio Production', 'Music Ministry'] },
+  { image: '/images/meaningful/volunteer/teaching-discipleship.svg', title: 'Teaching & Discipleship', desc: 'Assist in conducting Bible studies, discipleship groups, leadership development programs, and training sessions.' },
+  { image: '/images/meaningful/volunteer/mission-partner.svg', title: 'Mission Partner', desc: 'Support ministry initiatives through financial contributions, sponsorships, equipment donations, and project partnerships.' },
+  { image: '/images/meaningful/volunteer/church-partnership.svg', title: 'Church & Ministry Partnership', desc: 'Partner to host camps, conferences, leadership training, evangelistic events, and community development initiatives.' },
 ]
 
 const whyJoin = [
