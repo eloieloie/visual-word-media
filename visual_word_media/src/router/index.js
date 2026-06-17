@@ -10,6 +10,7 @@ const routes = [
   { path: '/testimonies', component: () => import('../views/TestimoniesView.vue') },
   { path: '/resources',   component: () => import('../views/ResourcesView.vue') },
   { path: '/teachings',   component: () => import('../views/TeachingsView.vue'), meta: { requiresAuth: true } },
+  { path: '/partners',    component: () => import('../views/PartnersView.vue') },
   { path: '/contact',     component: () => import('../views/ContactView.vue') },
   { path: '/login',       component: () => import('../views/LoginView.vue'),    meta: { guestOnly: true } },
   {
