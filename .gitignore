@@ -1,30 +1,28 @@
-# Dependencies
-node_modules/
+# ---- Frontend ----
+visual_word_media/node_modules/
+visual_word_media/dist/
+visual_word_media/dist-ssr/
+visual_word_media/.env.local
+visual_word_media/.env.*.local
+visual_word_media/.vscode/
+visual_word_media/.idea/
+visual_word_media/.claude/
 
-# Build output
-dist/
-dist-ssr/
+# ---- Backend ----
+vwm_backend/init_db.php
+vwm_backend/uploads/
 
-# Environment files
-.env.local
-.env.*.local
-
-# Logs
+# ---- Logs ----
 *.log
 npm-debug.log*
 
-# Editor
-.vscode/
-.idea/
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Editor ----
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Claude AI files
-.claude/

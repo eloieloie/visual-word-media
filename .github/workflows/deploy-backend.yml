@@ -1,0 +1,32 @@
+name: Deploy Backend via FTP
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'vwm_backend/**'
+
+jobs:
+  ftp-deploy:
+    name: Upload vwm_backend to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          # FTP root on Hostinger is already public_html/
+          # so this uploads vwm_backend/ -> public_html/vwm_backend/
+          local-dir: ./vwm_backend/
+          server-dir: /vwm_backend/
+          exclude: |
+            **/init_db.php
+            **/.git*
+            **/.git*/**

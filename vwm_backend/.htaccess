@@ -1,0 +1,16 @@
+Options -Indexes
+
+# Block direct access to config / includes
+<FilesMatch "\.(php)$">
+  # config and includes are not public endpoints
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+</IfModule>
