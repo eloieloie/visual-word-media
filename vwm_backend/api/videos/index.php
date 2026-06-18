@@ -1,11 +1,14 @@
 <?php
 require_once __DIR__ . '/../../includes/cors.php';
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../includes/auth.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     die(json_encode(['success' => false, 'message' => 'Method not allowed']));
 }
+
+requireAuth();
 
 $db         = getDB();
 $CACHE_TTL  = 3600; // 1 hour

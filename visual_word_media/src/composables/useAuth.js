@@ -22,6 +22,14 @@ export function useAuth() {
     return await api.post('/auth/register.php', { name, email, password })
   }
 
+  async function requestPasswordReset(email) {
+    return await api.post('/auth/forgot-password.php', { email })
+  }
+
+  async function resetPassword(token, password) {
+    return await api.post('/auth/reset-password.php', { token, password })
+  }
+
   function logout() {
     token.value = null
     user.value  = null
@@ -29,5 +37,15 @@ export function useAuth() {
     localStorage.removeItem('vwm_user')
   }
 
-  return { user, token, isLoggedIn, isAdmin, login, register, logout }
+  return {
+    user,
+    token,
+    isLoggedIn,
+    isAdmin,
+    login,
+    register,
+    requestPasswordReset,
+    resetPassword,
+    logout,
+  }
 }
