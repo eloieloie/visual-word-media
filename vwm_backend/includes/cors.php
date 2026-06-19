@@ -13,6 +13,7 @@ set_exception_handler(function (Throwable $e) {
 $allowed = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'https://eloieloie.github.io',
     'https://lightsalmon-porpoise-885538.hostingersite.com',
     'https://visualword.in',
     'https://www.visualword.in',
