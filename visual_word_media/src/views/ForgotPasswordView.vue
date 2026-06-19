@@ -6,10 +6,10 @@
         <span class="auth-site">Visual Word Media</span>
       </div>
 
-      <h2 class="auth-title">Welcome Back</h2>
-      <p class="auth-sub">Sign in to access events and member content.</p>
+      <h2 class="auth-title">Forgot Password</h2>
+      <p class="auth-sub">Enter your email and we'll send a password reset link.</p>
 
-      <form @submit.prevent="handleLogin" class="auth-form">
+      <form @submit.prevent="handleRequest" class="auth-form" v-if="!success">
         <div class="field">
           <label>Email Address</label>
           <input
@@ -21,51 +21,53 @@
           />
         </div>
 
-        <div class="field">
-          <label>Password</label>
-          <input
-            v-model="password"
-            type="password"
-            placeholder="••••••••"
-            required
-            autocomplete="current-password"
-          />
-          <RouterLink to="/forgot-password" class="forgot-link">Forgot password?</RouterLink>
-        </div>
-
         <p v-if="error" class="auth-error">{{ error }}</p>
 
         <button type="submit" class="btn btn-primary auth-btn" :disabled="loading">
-          <span v-if="loading">Signing in…</span>
-          <span v-else>Sign In</span>
+          <span v-if="loading">Sending…</span>
+          <span v-else>Send Reset Link</span>
         </button>
       </form>
 
+      <div v-else class="auth-success">
+        <h3>Reset link sent</h3>
+        <p>If your email exists in our system, a reset link has been generated.</p>
+        <a
+          v-if="debugResetUrl"
+          class="debug-link"
+          :href="debugResetUrl"
+        >
+          Open reset page (dev)
+        </a>
+      </div>
+
+      <p class="auth-switch">
+        Remembered your password?
+        <RouterLink to="/login">Back to Sign in</RouterLink>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
 
-const router   = useRouter()
-const route    = useRoute()
-const { login } = useAuth()
+const { requestPasswordReset } = useAuth()
 
-const email    = ref('')
-const password = ref('')
-const error    = ref('')
-const loading  = ref(false)
+const email = ref('')
+const error = ref('')
+const loading = ref(false)
+const success = ref(false)
+const debugResetUrl = ref('')
 
-async function handleLogin() {
-  error.value   = ''
+async function handleRequest() {
+  error.value = ''
   loading.value = true
   try {
-    await login(email.value, password.value)
-    const redirect = route.query.redirect || '/'
-    router.push(redirect)
+    const data = await requestPasswordReset(email.value)
+    debugResetUrl.value = data.reset_url || ''
+    success.value = true
   } catch (e) {
     error.value = e.message
   } finally {
@@ -121,12 +123,6 @@ async function handleLogin() {
   outline: none;
 }
 .field input:focus { border-color: var(--navy); }
-.forgot-link {
-  align-self: flex-end;
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--gold);
-}
 
 .auth-error {
   color: #c0392b;
@@ -142,9 +138,20 @@ async function handleLogin() {
   width: 100%;
   padding: 14px;
   font-size: 1rem;
-  margin-top: 4px;
 }
-.auth-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.auth-success {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.auth-success h3 { color: var(--navy); margin-bottom: 10px; }
+.auth-success p  { color: var(--text-light); }
+.debug-link {
+  margin-top: 10px;
+  display: inline-block;
+  color: var(--gold);
+  font-weight: 600;
+}
 
 .auth-switch {
   text-align: center;

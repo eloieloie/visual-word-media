@@ -9,7 +9,7 @@ $db     = getDB();
 switch ($method) {
 
     case 'GET':
-        // Public — any visitor can view events
+        requireAuth();
         $stmt   = $db->query(
             'SELECT * FROM events WHERE is_active = 1
              ORDER BY FIELD(month,"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"),

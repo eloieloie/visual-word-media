@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../includes/cors.php';
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../includes/auth.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $db     = getDB();
@@ -8,6 +9,7 @@ $db     = getDB();
 $siteUrl = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
 
 if ($method === 'GET') {
+    requireAuth();
     $stmt   = $db->query(
         "SELECT id, title, speaker, description, file_path, file_name, file_size, duration, uploaded_at
          FROM audio_teachings

@@ -63,7 +63,7 @@ const scrolled    = ref(false)
 const menuOpen    = ref(false)
 const router      = useRouter()
 const route       = useRoute()
-const solidRoutes = ['/login', '/register']
+const solidRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
 const { user, isLoggedIn, logout } = useAuth()
 
 const firstName = computed(() => user.value?.name?.split(' ')[0] ?? '')

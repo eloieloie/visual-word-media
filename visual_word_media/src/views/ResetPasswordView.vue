@@ -6,66 +6,86 @@
         <span class="auth-site">Visual Word Media</span>
       </div>
 
-      <h2 class="auth-title">Welcome Back</h2>
-      <p class="auth-sub">Sign in to access events and member content.</p>
+      <h2 class="auth-title">Reset Password</h2>
+      <p class="auth-sub">Set a new password for your account.</p>
 
-      <form @submit.prevent="handleLogin" class="auth-form">
-        <div class="field">
-          <label>Email Address</label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder="you@example.com"
-            required
-            autocomplete="email"
-          />
-        </div>
+      <p v-if="missingToken" class="auth-error">
+        Reset token is missing or invalid. Please request a new reset link.
+      </p>
 
+      <form @submit.prevent="handleReset" class="auth-form" v-else-if="!success">
         <div class="field">
-          <label>Password</label>
+          <label>New Password <span class="field-hint">(min. 8 characters)</span></label>
           <input
             v-model="password"
             type="password"
             placeholder="••••••••"
             required
-            autocomplete="current-password"
+            autocomplete="new-password"
           />
-          <RouterLink to="/forgot-password" class="forgot-link">Forgot password?</RouterLink>
+        </div>
+
+        <div class="field">
+          <label>Confirm New Password</label>
+          <input
+            v-model="confirm"
+            type="password"
+            placeholder="••••••••"
+            required
+            autocomplete="new-password"
+          />
         </div>
 
         <p v-if="error" class="auth-error">{{ error }}</p>
 
         <button type="submit" class="btn btn-primary auth-btn" :disabled="loading">
-          <span v-if="loading">Signing in…</span>
-          <span v-else>Sign In</span>
+          <span v-if="loading">Resetting…</span>
+          <span v-else>Reset Password</span>
         </button>
       </form>
 
+      <div v-else class="auth-success">
+        <h3>Password reset successful</h3>
+        <p>You can now sign in with your new password.</p>
+        <RouterLink to="/login" class="btn btn-primary auth-btn">Go to Login</RouterLink>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
 
-const router   = useRouter()
-const route    = useRoute()
-const { login } = useAuth()
+const route = useRoute()
+const { resetPassword } = useAuth()
 
-const email    = ref('')
 const password = ref('')
-const error    = ref('')
-const loading  = ref(false)
+const confirm = ref('')
+const error = ref('')
+const loading = ref(false)
+const success = ref(false)
+const token = computed(() => String(route.query.token || ''))
+const missingToken = computed(() => !token.value)
 
-async function handleLogin() {
-  error.value   = ''
+async function handleReset() {
+  error.value = ''
+
+  if (password.value.length < 8) {
+    error.value = 'Password must be at least 8 characters'
+    return
+  }
+
+  if (password.value !== confirm.value) {
+    error.value = 'Passwords do not match'
+    return
+  }
+
   loading.value = true
   try {
-    await login(email.value, password.value)
-    const redirect = route.query.redirect || '/'
-    router.push(redirect)
+    await resetPassword(token.value, password.value)
+    success.value = true
   } catch (e) {
     error.value = e.message
   } finally {
@@ -110,6 +130,7 @@ async function handleLogin() {
 
 .field { display: flex; flex-direction: column; gap: 7px; }
 .field label { font-size: 0.88rem; font-weight: 600; color: var(--navy); letter-spacing: 0.03em; }
+.field-hint  { font-weight: 400; color: var(--text-light); }
 .field input {
   padding: 12px 14px;
   border: 1.5px solid var(--border);
@@ -121,12 +142,6 @@ async function handleLogin() {
   outline: none;
 }
 .field input:focus { border-color: var(--navy); }
-.forgot-link {
-  align-self: flex-end;
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--gold);
-}
 
 .auth-error {
   color: #c0392b;
@@ -142,17 +157,13 @@ async function handleLogin() {
   width: 100%;
   padding: 14px;
   font-size: 1rem;
-  margin-top: 4px;
 }
-.auth-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
-.auth-switch {
+.auth-success {
   text-align: center;
-  margin-top: 24px;
-  color: var(--text-light);
-  font-size: 0.93rem;
 }
-.auth-switch a { color: var(--gold); font-weight: 600; }
+.auth-success h3 { color: var(--navy); margin-bottom: 10px; }
+.auth-success p  { color: var(--text-light); margin-bottom: 20px; }
 
 @media (max-width: 480px) {
   .auth-card { padding: 36px 24px; }

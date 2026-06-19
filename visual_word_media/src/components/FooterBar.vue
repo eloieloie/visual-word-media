@@ -23,6 +23,7 @@
           <h4>Ministry</h4>
           <RouterLink to="/about">About Us</RouterLink>
           <RouterLink to="/ministries">Our Ministries</RouterLink>
+          <RouterLink to="/partners">Our Partners</RouterLink>
           <RouterLink to="/events">Events</RouterLink>
           <RouterLink to="/testimonies">Testimonies</RouterLink>
           <RouterLink to="/prayer">Prayer</RouterLink>

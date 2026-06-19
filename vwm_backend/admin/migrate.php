@@ -45,6 +45,23 @@ $db->exec("
 ");
 $log[] = '✅ Table <strong>audio_teachings</strong> ready';
 
+// ── password_resets ────────────────────────────────────────────
+$db->exec("
+    CREATE TABLE IF NOT EXISTS password_resets (
+        id          INT AUTO_INCREMENT PRIMARY KEY,
+        user_id     INT          NOT NULL,
+        email       VARCHAR(255) NOT NULL,
+        reset_token VARCHAR(64)  NOT NULL UNIQUE,
+        expires_at  DATETIME     NOT NULL,
+        used_at     DATETIME     NULL,
+        created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_password_resets_lookup (reset_token, used_at, expires_at),
+        INDEX idx_password_resets_user (user_id),
+        CONSTRAINT fk_password_resets_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
+$log[] = '✅ Table <strong>password_resets</strong> ready';
+
 // Seed default YouTube channel handle
 $existing = $db->query("SELECT COUNT(*) FROM settings WHERE `key` = 'youtube_handle'")->fetchColumn();
 if (!$existing) {
