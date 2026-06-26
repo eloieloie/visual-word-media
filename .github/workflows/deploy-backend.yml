@@ -1,4 +1,4 @@
-name: Deploy Backend via FTP
+name: Deploy Backend via SFTP
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
       - 'vwm_backend/**'
 
 jobs:
-  ftp-deploy:
+  sftp-deploy:
     name: Upload vwm_backend to Hostinger
     runs-on: ubuntu-latest
 
@@ -16,17 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via SFTP
+        uses: pressable/github-action-sftp-deploy@v2.2.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          # FTP root on Hostinger is already public_html/
-          # so this uploads vwm_backend/ -> public_html/vwm_backend/
-          local-dir: ./vwm_backend/
-          server-dir: /vwm_backend/
-          exclude: |
-            **/init_db.php
-            **/.git*
-            **/.git*/**
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USER }}
+          pass: ${{ secrets.FTP_PASS }}
+          local_path: ./vwm_backend/
+          remote_path: /vwm_backend/
+          args: -avz --delete --exclude='init_db.php' --exclude='.git*'
+          port: 22
