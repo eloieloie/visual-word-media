@@ -2,7 +2,7 @@
   <div class="page-hero">
     <div class="container">
       <p class="hero-label">Est. 1997</p>
-      <h1>About Visual Word Media</h1>
+      <h1>About Visual Word</h1>
       <p>A ministry born in the presence of God, committed to declaring His glory through creativity, media, and Kingdom service.</p>
     </div>
   </div>
