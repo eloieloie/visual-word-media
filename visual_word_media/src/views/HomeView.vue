@@ -156,12 +156,12 @@
 
 <script setup>
 const ministries = [
-  { image: '/images/stock/photo-1516321165247-4aa89a48be28.jpg', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
-  { image: '/images/stock/photo-1523803326055-9729b9e02e6e.jpg', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
-  { image: '/images/stock/photo-1492691527719-9d1e07e534b4.jpg', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
-  { image: '/images/stock/photo-1513364776144-60967b0f800f.jpg', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
-  { image: '/images/stock/photo-1518770660439-4636190af475.jpg', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
-  { image: '/images/stock/photo-1469571486292-b53601020cb6.jpg', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
+  { image: '/images/gemini/impact_01.png', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
+  { image: '/images/gemini/60x360.png', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
+  { image: '/images/gemini/production.png', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
+  { image: '/images/gemini/oculus.png', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
+  { image: '/images/gemini/network105.png', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
+  { image: '/images/gemini/new_life.png', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
 ]
 
 const burdens = [
