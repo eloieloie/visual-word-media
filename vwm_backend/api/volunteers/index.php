@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../../includes/cors.php';
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../config/mail.php';
+require_once __DIR__ . '/../../includes/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -32,13 +34,16 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $db   = getDB();
+
+$verificationToken = bin2hex(random_bytes(32));
+
 $stmt = $db->prepare("
     INSERT INTO volunteer_registrations
-        (name, gender, dob, mobile, whatsapp, email, city, state, country,
+        (name, gender, dob, mobile, whatsapp, email, verification_token, city, state, country,
          is_believer, church_active, church_name, pastor_name, personal_testimony,
          ministry_areas, service_type, availability,
          skills, occupation, organization, motivation, comments, declared)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 ");
 
 $dob = !empty($data['dob']) ? $data['dob'] : null;
@@ -50,6 +55,7 @@ $stmt->execute([
     $mobile,
     trim($data['whatsapp']    ?? ''),
     $email,
+    $verificationToken,
     trim($data['city']        ?? ''),
     trim($data['state']       ?? ''),
     trim($data['country']     ?? ''),
@@ -69,4 +75,53 @@ $stmt->execute([
     !empty($data['declared']) ? 1 : 0,
 ]);
 
-echo json_encode(['success' => true, 'message' => 'Registration submitted successfully']);
+// Send the email-verification link. Prefer the request origin in local dev,
+// otherwise use the configured app URL.
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i', $origin)) {
+    $base = $origin;
+} else {
+    $base = rtrim(APP_FRONTEND_URL, '/');
+}
+$verifyUrl = $base . '/#/verify-email?token=' . rawurlencode($verificationToken);
+
+$mail = sendMail(
+    $email,
+    'Verify your email — Visual Word Media',
+    buildVerificationEmail($name, $verifyUrl)
+);
+if (!$mail['success']) {
+    error_log('[volunteers] verification mail failed for ' . $email . ': ' . $mail['message']);
+}
+
+echo json_encode([
+    'success' => true,
+    'message' => 'Registration submitted. Please check your email to verify your address.',
+]);
+
+/**
+ * Build the HTML body for the volunteer email-verification message.
+ */
+function buildVerificationEmail(string $name, string $verifyUrl): string
+{
+    $safeName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $safeUrl  = htmlspecialchars($verifyUrl, ENT_QUOTES, 'UTF-8');
+    return <<<HTML
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;color:#222">
+  <h2 style="color:#1a2d5a">Welcome, {$safeName}!</h2>
+  <p>Thank you for registering to serve with Visual Word Media Mission.</p>
+  <p>Please confirm your email address by clicking the button below.</p>
+  <p style="text-align:center;margin:28px 0">
+    <a href="{$safeUrl}"
+       style="background:#1a2d5a;color:#fff;text-decoration:none;padding:12px 28px;border-radius:6px;display:inline-block">
+      Verify My Email
+    </a>
+  </p>
+  <p style="font-size:13px;color:#666">If the button doesn't work, copy and paste this link into your browser:</p>
+  <p style="font-size:13px;word-break:break-all"><a href="{$safeUrl}">{$safeUrl}</a></p>
+  <hr style="border:none;border-top:1px solid #eee;margin:24px 0">
+  <p style="font-size:13px;color:#555">After your email is verified, our team will review your registration. Once approved, your login credentials will be emailed to you.</p>
+  <p style="font-size:12px;color:#999">If you didn't register, you can safely ignore this email.</p>
+</div>
+HTML;
+}

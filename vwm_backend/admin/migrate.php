@@ -94,6 +94,9 @@ $db->exec("
         mobile             VARCHAR(30)  NOT NULL,
         whatsapp           VARCHAR(30)  DEFAULT '',
         email              VARCHAR(255) NOT NULL,
+        email_verified     TINYINT(1)   NOT NULL DEFAULT 0,
+        verification_token VARCHAR(64)  NULL,
+        verified_at        DATETIME     NULL,
         city               VARCHAR(100) DEFAULT '',
         state              VARCHAR(100) DEFAULT '',
         country            VARCHAR(100) DEFAULT '',
@@ -116,6 +119,26 @@ $db->exec("
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 ");
 $log[] = '✅ Table <strong>volunteer_registrations</strong> ready';
+
+// ── volunteer_registrations: email-verification columns ───────
+// Idempotent ADD COLUMN that works on both MySQL and MariaDB.
+$addColumn = function (string $table, string $column, string $definition) use ($db, &$log) {
+    $exists = $db->prepare(
+        'SELECT COUNT(*) FROM information_schema.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?'
+    );
+    $exists->execute([$table, $column]);
+    if ((int) $exists->fetchColumn() === 0) {
+        $db->exec("ALTER TABLE `$table` ADD COLUMN $column $definition");
+        $log[] = "✅ Added column <strong>$table.$column</strong>";
+    } else {
+        $log[] = "ℹ️ Column <strong>$table.$column</strong> already exists";
+    }
+};
+
+$addColumn('volunteer_registrations', 'email_verified',     "TINYINT(1) NOT NULL DEFAULT 0 AFTER email");
+$addColumn('volunteer_registrations', 'verification_token', "VARCHAR(64) NULL AFTER email_verified");
+$addColumn('volunteer_registrations', 'verified_at',        "DATETIME NULL AFTER verification_token");
 
 $count = $db->query('SELECT COUNT(*) FROM testimonials')->fetchColumn();
 if ($count == 0) {

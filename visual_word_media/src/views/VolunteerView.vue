@@ -74,8 +74,8 @@
       <div v-if="submitted" class="success-panel">
         <img class="success-photo" src="/images/meaningful/volunteer/registration-success.svg" alt="Registration received" />
         <h3>Registration Received!</h3>
-        <p>Thank you, <strong>{{ form.name }}</strong>! Your volunteer registration has been submitted. Our team will review your details and reach out to you soon.</p>
-        <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">We will contact you at <strong>{{ form.email }}</strong> or <strong>{{ form.mobile }}</strong>.</p>
+        <p>Thank you, <strong>{{ form.name }}</strong>! We've sent a verification link to <strong>{{ form.email }}</strong>. Please check your inbox and click the link to confirm your email address.</p>
+        <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">Once verified, our team will review your details. After approval, your login credentials will be emailed to you. (Don't forget to check your spam folder.)</p>
         <button class="btn btn-outline" style="margin-top:24px" @click="resetForm">Submit Another Registration</button>
       </div>
 

@@ -7,6 +7,7 @@ const routes = [
   { path: '/ministries',  component: () => import('../views/MinistriesView.vue') },
   { path: '/prayer',      component: () => import('../views/PrayerView.vue') },
   { path: '/volunteer',   component: () => import('../views/VolunteerView.vue') },
+  { path: '/verify-email', component: () => import('../views/VerifyEmailView.vue') },
   { path: '/testimonies', component: () => import('../views/TestimoniesView.vue') },
   { path: '/resources',   component: () => import('../views/ResourcesView.vue'), meta: { requiresAuth: true } },
   { path: '/teachings',   component: () => import('../views/TeachingsView.vue'), meta: { requiresAuth: true } },
