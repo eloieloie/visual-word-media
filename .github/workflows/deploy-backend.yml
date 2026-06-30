@@ -1,4 +1,4 @@
-name: Deploy Backend via FTP
+name: Deploy Backend via SSH
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:   # allow manual "Run workflow" from any branch
 
 jobs:
-  ftp-deploy:
+  ssh-deploy:
     name: Upload vwm_backend to Hostinger
     runs-on: ubuntu-latest
 
@@ -28,16 +28,15 @@ jobs:
             echo "putenv('MAILGUN_API_KEY=${MAILGUN_API_KEY}');"
           } > vwm_backend/config/secrets.php
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via SSH (rsync over SFTP/port 65002)
+        uses: easingthemes/ssh-deploy@v6.0.3
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          protocol: ftp
-          local-dir: ./vwm_backend/
-          server-dir: ./
-          exclude: |
-            **/init_db.php
-            **/.git*
-            **/.ftp-deploy-sync-state.json
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          SOURCE: "vwm_backend/"
+          TARGET: "/home/u417273443/domains/lightsalmon-porpoise-885538.hostingersite.com/public_html"
+          # No --delete: never wipe server-only files such as uploads/
+          ARGS: "-rltDvz"
+          EXCLUDE: "init_db.php, .git, .gitignore"
