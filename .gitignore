@@ -11,6 +11,7 @@ visual_word_media/.claude/
 # ---- Backend ----
 vwm_backend/init_db.php
 vwm_backend/uploads/
+vwm_backend/config/secrets.php
 
 # ---- Logs ----
 *.log
