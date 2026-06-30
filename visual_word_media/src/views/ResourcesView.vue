@@ -77,14 +77,14 @@ const filteredResources = computed(() =>
 )
 
 const resourceCategories = [
-  { image: '/images/realistic/resources/articles.jpg', label: 'Articles' },
-  { image: '/images/realistic/resources/bible-studies.jpg', label: 'Bible Studies' },
-  { image: '/images/realistic/resources/media-awareness.jpg', label: 'Media Awareness' },
-  { image: '/images/realistic/resources/family-guidance.jpg', label: 'Family Guidance' },
-  { image: '/images/realistic/resources/youth-discipleship.jpg', label: 'Youth Discipleship' },
-  { image: '/images/realistic/resources/creative-arts.jpg', label: 'Creative Arts' },
-  { image: '/images/realistic/resources/video-teachings.jpg', label: 'Video Teachings' },
-  { image: '/images/realistic/resources/audio-messages.jpg', label: 'Audio Messages' },
+  { image: '/images/gemini/articles.png', label: 'Articles' },
+  { image: '/images/gemini/bible-studies_2.png', label: 'Bible Studies' },
+  { image: '/images/gemini/media-awareness.png', label: 'Media Awareness' },
+  { image: '/images/gemini/family-guidance.png', label: 'Family Guidance' },
+  { image: '/images/gemini/youth-discipleship.png', label: 'Youth Discipleship' },
+  { image: '/images/gemini/creative-arts.png', label: 'Creative Arts' },
+  { image: '/images/gemini/video-teachings.png', label: 'Video Teachings' },
+  { image: '/images/gemini/audio-messages.png', label: 'Audio Messages' },
 ]
 </script>
 
