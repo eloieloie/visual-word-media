@@ -1,7 +1,54 @@
 <?php
 require_once '_auth.php';
+require_once __DIR__ . '/../config/mail.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 $db = getDB();
+
+/**
+ * Build the credentials email body (login URL + email + temporary password).
+ */
+function buildCredentialsEmail(string $name, string $email, string $password): string
+{
+    $loginUrl = rtrim(APP_FRONTEND_URL, '/') . '/#/login';
+    $safeName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $safeEmail = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+    $safePass = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
+    $safeLogin = htmlspecialchars($loginUrl, ENT_QUOTES, 'UTF-8');
+    return <<<HTML
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;color:#222">
+  <h2 style="color:#1a2d5a">Welcome aboard, {$safeName}!</h2>
+  <p>Your registration has been reviewed and approved. You can now sign in to the
+     Visual Word Media member area using the credentials below.</p>
+  <div style="background:#f7f9ff;border:1px solid #c5d0ec;border-radius:8px;padding:18px 22px;margin:20px 0">
+    <p style="margin:0 0 8px"><strong>Email:</strong> {$safeEmail}</p>
+    <p style="margin:0"><strong>Temporary password:</strong> <code style="font-size:1rem">{$safePass}</code></p>
+  </div>
+  <p style="text-align:center;margin:26px 0">
+    <a href="{$safeLogin}"
+       style="background:#1a2d5a;color:#fff;text-decoration:none;padding:12px 28px;border-radius:6px;display:inline-block">
+      Sign In
+    </a>
+  </p>
+  <p style="font-size:13px;color:#666">For your security, please change your password after your first login.</p>
+  <p style="font-size:13px;word-break:break-all">Login page: <a href="{$safeLogin}">{$safeLogin}</a></p>
+</div>
+HTML;
+}
+
+/**
+ * Generate a readable temporary password.
+ */
+function generateTempPassword(int $length = 10): string
+{
+    $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+    $max = strlen($alphabet) - 1;
+    $out = '';
+    for ($i = 0; $i < $length; $i++) {
+        $out .= $alphabet[random_int(0, $max)];
+    }
+    return $out;
+}
 
 // ── Handle POST ───────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email    = trim($_POST['user_email']   ?? '');
             $password = $_POST['user_password']     ?? '';
             $role     = in_array($_POST['role'] ?? '', ['user', 'admin']) ? $_POST['role'] : 'user';
+            $sendMailFlag = !empty($_POST['email_credentials']);
 
             if (!$name || !$email || !$password) {
                 $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Name, email, and password are required.'];
@@ -38,7 +86,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $hash = password_hash($password, PASSWORD_BCRYPT);
                     $db->prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?,?,?,?)')
                        ->execute([$name, $email, $hash, $role]);
-                    $_SESSION['flash'] = ['type' => 'success', 'msg' => 'User account created for ' . $name . ' (' . $email . ') as ' . $role . '.'];
+
+                    $msg = 'User account created for ' . $name . ' (' . $email . ') as ' . $role . '.';
+
+                    if ($sendMailFlag) {
+                        $mail = sendMail($email, 'Your Visual Word Media login credentials', buildCredentialsEmail($name, $email, $password));
+                        if ($mail['success']) {
+                            $msg .= ' Login credentials were emailed to the volunteer.';
+                            // Mark the matching registration as active now that they're onboarded.
+                            $db->prepare('UPDATE volunteer_registrations SET status = ? WHERE email = ?')->execute(['active', $email]);
+                        } else {
+                            $msg .= ' ⚠️ But the credentials email failed to send: ' . $mail['message'];
+                        }
+                    }
+                    $_SESSION['flash'] = ['type' => 'success', 'msg' => $msg];
+                }
+            }
+
+        } elseif ($action === 'send_credentials') {
+            // (Re)send login credentials to a volunteer who already has an account.
+            // Generates a fresh temporary password and emails it.
+            $email = trim($_POST['user_email'] ?? '');
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Invalid email address.'];
+            } else {
+                $u = $db->prepare('SELECT id, name FROM users WHERE email = ?');
+                $u->execute([$email]);
+                $user = $u->fetch();
+                if (!$user) {
+                    $_SESSION['flash'] = ['type' => 'error', 'msg' => 'No user account exists for ' . $email . '. Create one first.'];
+                } else {
+                    $newPassword = generateTempPassword();
+                    $hash = password_hash($newPassword, PASSWORD_BCRYPT);
+                    // Reset password and invalidate any active session token.
+                    $db->prepare('UPDATE users SET password_hash = ?, auth_token = NULL, token_expires_at = NULL WHERE id = ?')
+                       ->execute([$hash, $user['id']]);
+
+                    $mail = sendMail($email, 'Your Visual Word Media login credentials', buildCredentialsEmail($user['name'], $email, $newPassword));
+                    if ($mail['success']) {
+                        $db->prepare('UPDATE volunteer_registrations SET status = ? WHERE email = ?')->execute(['active', $email]);
+                        $_SESSION['flash'] = ['type' => 'success', 'msg' => 'A new temporary password was emailed to ' . $email . '.'];
+                    } else {
+                        $_SESSION['flash'] = ['type' => 'error', 'msg' => 'Password was reset but the email failed to send: ' . $mail['message']];
+                    }
                 }
             }
 
@@ -208,6 +299,11 @@ function jsonList($raw) {
           <td>
             <div style="font-size:0.85rem"><?= htmlspecialchars($v['mobile']) ?></div>
             <div style="font-size:0.78rem;color:#666"><?= htmlspecialchars($v['email']) ?></div>
+            <?php if (!empty($v['email_verified'])): ?>
+              <span style="display:inline-block;margin-top:3px;font-size:0.68rem;font-weight:700;color:#276027">&#10003; Verified</span>
+            <?php else: ?>
+              <span style="display:inline-block;margin-top:3px;font-size:0.68rem;font-weight:700;color:#c0392b">Unverified</span>
+            <?php endif; ?>
           </td>
           <td style="font-size:0.82rem;color:#666">
             <?= htmlspecialchars(implode(', ', array_filter([$v['city'], $v['state'], $v['country']])) ?: '-') ?>
@@ -273,11 +369,17 @@ function jsonList($raw) {
           </select>
           <button type="submit" class="btn btn-primary btn-sm">Update</button>
         </form>
-        <div style="margin-left:auto">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
           <button type="button" id="cu-toggle-btn" class="btn btn-gold btn-sm" onclick="toggleCreateUser()">
             Create User Account
           </button>
-          <span id="cu-has-account" style="display:none;font-size:0.82rem;color:#276027;font-weight:600">&#10003; Already has a user account</span>
+          <span id="cu-has-account" style="display:none;font-size:0.82rem;color:#276027;font-weight:600">&#10003; Has account</span>
+          <form method="POST" id="send-cred-form" style="display:none;margin:0"
+                onsubmit="return confirm('Generate a new temporary password and email the login credentials to this volunteer?')">
+            <input type="hidden" name="action" value="send_credentials">
+            <input type="hidden" name="user_email" id="sc-email">
+            <button type="submit" class="btn btn-primary btn-sm">Email Login Credentials</button>
+          </form>
         </div>
       </div>
 
@@ -299,8 +401,11 @@ function jsonList($raw) {
           </div>
           <div class="form-row" style="margin-bottom:16px">
             <div class="form-group">
-              <label>Password <span style="font-weight:400;color:#999">(min. 6 chars)</span></label>
-              <input type="password" name="user_password" id="cu-password" class="form-control" required minlength="6" placeholder="Set a temporary password">
+              <label>Temporary Password <span style="font-weight:400;color:#999">(min. 6 chars)</span></label>
+              <div style="display:flex;gap:8px">
+                <input type="text" name="user_password" id="cu-password" class="form-control" required minlength="6" placeholder="Set or generate a password" style="flex:1">
+                <button type="button" class="btn btn-outline btn-sm" onclick="genPassword()" style="white-space:nowrap">Generate</button>
+              </div>
             </div>
             <div class="form-group">
               <label>Role</label>
@@ -310,6 +415,10 @@ function jsonList($raw) {
               </select>
             </div>
           </div>
+          <label class="checkbox-label" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:0.88rem;color:#1a2d5a">
+            <input type="checkbox" name="email_credentials" value="1" checked>
+            Email these login credentials to the volunteer
+          </label>
           <div style="display:flex;justify-content:flex-end;gap:10px">
             <button type="button" class="btn btn-outline btn-sm" onclick="toggleCreateUser()">Cancel</button>
             <button type="submit" class="btn btn-primary btn-sm">Create Account</button>
@@ -343,15 +452,18 @@ function openDetail(v) {
   document.getElementById('cu-name').value               = v.name;
   document.getElementById('cu-email').value              = v.email;
   document.getElementById('cu-password').value           = '';
+  document.getElementById('sc-email').value              = v.email;
   document.getElementById('create-user-panel').style.display = 'none';
   cuPanelOpen = false;
 
   if (v.user_id) {
     document.getElementById('cu-toggle-btn').style.display  = 'none';
     document.getElementById('cu-has-account').style.display = 'inline';
+    document.getElementById('send-cred-form').style.display = 'inline-block';
   } else {
     document.getElementById('cu-toggle-btn').style.display  = 'inline-flex';
     document.getElementById('cu-has-account').style.display = 'none';
+    document.getElementById('send-cred-form').style.display = 'none';
   }
 
   function row(label, val) {
@@ -383,6 +495,12 @@ function openDetail(v) {
   html += row('Mobile', v.mobile);
   html += row('WhatsApp', v.whatsapp);
   html += row('Email', '<a href="mailto:' + v.email + '">' + v.email + '</a>');
+  if (v.email_verified == 1) {
+    var vAt = v.verified_at ? ' on ' + new Date(v.verified_at).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) : '';
+    html += row('Email Verified', '<span style="color:#276027;font-weight:600">&#10003; Verified' + vAt + '</span>');
+  } else {
+    html += row('Email Verified', '<span style="color:#c62828;font-weight:600">Not verified</span>');
+  }
   html += row('Location', [v.city, v.state, v.country].filter(Boolean).join(', '));
   html += '</div>';
 
@@ -421,6 +539,15 @@ function toggleCreateUser() {
   cuPanelOpen = !cuPanelOpen;
   document.getElementById('create-user-panel').style.display = cuPanelOpen ? 'block' : 'none';
   if (cuPanelOpen) document.getElementById('cu-password').focus();
+}
+
+function genPassword() {
+  var alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+  var out = '';
+  for (var i = 0; i < 10; i++) {
+    out += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+  }
+  document.getElementById('cu-password').value = out;
 }
 
 function closeDetail() {
