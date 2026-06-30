@@ -29,7 +29,7 @@ jobs:
           } > vwm_backend/config/secrets.php
 
       - name: Deploy via SSH (rsync over SFTP/port 65002)
-        uses: easingthemes/ssh-deploy@v5
+        uses: easingthemes/ssh-deploy@v6.0.3
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
