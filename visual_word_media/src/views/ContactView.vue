@@ -135,7 +135,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { api } from '@/services/api.js'
+import { api } from '../services/api.js'
 
 const submitted = ref(false)
 const loading = ref(false)
