@@ -104,8 +104,12 @@
               Subscribe to ministry updates and prayer newsletter
             </label>
           </div>
-          <button type="submit" class="btn btn-primary submit-btn">
-            {{ submitted ? 'Message Sent - God Bless You!' : 'Send Message' }}
+          <div v-if="error" class="form-error">{{ error }}</div>
+          <div v-if="submitted" class="form-success">
+            Message sent — God bless you! Check your inbox for a confirmation email. We'll be in touch soon.
+          </div>
+          <button type="submit" class="btn btn-primary submit-btn" :disabled="loading">
+            {{ loading ? 'Sending…' : 'Send Message' }}
           </button>
         </form>
       </div>
@@ -131,13 +135,32 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { api } from '@/services/api.js'
 
 const submitted = ref(false)
+const loading = ref(false)
+const error = ref('')
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '', newsletter: false })
 
-function submitContact() {
-  submitted.value = true
-  setTimeout(() => { submitted.value = false }, 5000)
+async function submitContact() {
+  error.value = ''
+  loading.value = true
+  try {
+    await api.post('/contact/', {
+      name:       form.name,
+      email:      form.email,
+      phone:      form.phone,
+      subject:    form.subject,
+      message:    form.message,
+      newsletter: form.newsletter,
+    })
+    submitted.value = true
+    Object.assign(form, { name: '', email: '', phone: '', subject: '', message: '', newsletter: false })
+  } catch (err) {
+    error.value = err.message || 'Something went wrong. Please try again.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -197,6 +220,23 @@ function submitContact() {
 .form-group textarea { resize: vertical; }
 .checkbox-label { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; cursor: pointer; color: var(--text-light); }
 .submit-btn { width: 100%; padding: 16px; font-size: 1.05rem; }
+
+.form-error {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+}
+.form-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+}
 
 @media (max-width: 760px) {
   .contact-grid, .form-row { grid-template-columns: 1fr; }
