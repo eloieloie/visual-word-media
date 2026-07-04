@@ -46,14 +46,6 @@
           </div>
         </div>
 
-        <div class="quick-links">
-          <h4>Quick Actions</h4>
-          <RouterLink to="/prayer" class="quick-btn">Prayer Request</RouterLink>
-          <RouterLink to="/volunteer" class="quick-btn">Volunteer Inquiry</RouterLink>
-          <RouterLink to="/volunteer" class="quick-btn">Ministry Partnership</RouterLink>
-          <RouterLink to="/ministries" class="quick-btn">Learn About Ministries</RouterLink>
-        </div>
-
         <div class="scripture-block" style="margin-top:36px">
           "We desire to serve today's generation in the will of God through truth, creativity, discipleship, and compassionate media engagement."
           <span class="scripture-ref">— Visual Word Media Mission</span>
@@ -172,21 +164,6 @@ async function submitContact() {
 .ci-photo { width: 52px; height: 52px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
 .contact-info-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
 .contact-info-item p { font-size: 1rem; color: var(--text-light); line-height: 1.6; }
-
-.quick-links { border: 1px solid var(--border); border-radius: 8px; padding: 28px; }
-.quick-links h4 { color: var(--navy); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 800; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gold); }
-.quick-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 16px;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: var(--navy);
-  transition: all 0.2s;
-  margin-bottom: 8px;
-}
-.quick-btn:hover { background: var(--gold-pale); color: var(--navy); }
 
 .contact-form-box {
   background: var(--white);
