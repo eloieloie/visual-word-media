@@ -36,9 +36,10 @@ echo json_encode([
     'success' => true,
     'token'   => $token,
     'user'    => [
-        'id'    => $user['id'],
-        'name'  => $user['name'],
-        'email' => $user['email'],
-        'role'  => $user['role'],
+        'id'                   => $user['id'],
+        'name'                 => $user['name'],
+        'email'                => $user['email'],
+        'role'                 => $user['role'],
+        'force_password_reset' => (bool)($user['force_password_reset'] ?? false),
     ],
 ]);

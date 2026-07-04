@@ -14,8 +14,10 @@ const routes = [
   { path: '/partners',    component: () => import('../views/PartnersView.vue') },
   { path: '/contact',     component: () => import('../views/ContactView.vue') },
   { path: '/login',       component: () => import('../views/LoginView.vue'),    meta: { guestOnly: true } },
+  { path: '/register',    component: () => import('../views/RegisterView.vue'), meta: { guestOnly: true } },
   { path: '/forgot-password', component: () => import('../views/ForgotPasswordView.vue'), meta: { guestOnly: true } },
   { path: '/reset-password',  component: () => import('../views/ResetPasswordView.vue'),  meta: { guestOnly: true } },
+  { path: '/set-password',    component: () => import('../views/SetPasswordView.vue'),    meta: { requiresAuth: true } },
   {
     path: '/events',
     component: () => import('../views/EventsView.vue'),
@@ -30,7 +32,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const token = localStorage.getItem('vwm_token')
+  const token    = localStorage.getItem('vwm_token')
+  const userData = JSON.parse(localStorage.getItem('vwm_user') || 'null')
 
   if (to.meta.requiresAuth && !token) {
     return { path: '/login', query: { redirect: to.fullPath } }
@@ -38,6 +41,11 @@ router.beforeEach((to) => {
 
   if (to.meta.guestOnly && token) {
     return { path: '/' }
+  }
+
+  // If force_password_reset is set, redirect to /set-password (except when already there)
+  if (token && userData?.force_password_reset && to.path !== '/set-password' && to.path !== '/login') {
+    return { path: '/set-password' }
   }
 })
 
