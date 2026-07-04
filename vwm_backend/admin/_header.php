@@ -144,6 +144,12 @@ unset($_SESSION['flash']);
     <a href="audio.php" class="nav-link <?= $currentPage==='audio'?'active':'' ?>">
       <span class="nav-icon">🎥</span> Media
     </a>
+    <a href="resources.php" class="nav-link <?= $currentPage==='resources'?'active':'' ?>">
+      <span class="nav-icon">📚</span> Resources
+    </a>
+    <a href="books.php" class="nav-link <?= $currentPage==='books'?'active':'' ?>">
+      <span class="nav-icon">📖</span> Books
+    </a>
     <a href="testimonials.php" class="nav-link <?= $currentPage==='testimonials'?'active':'' ?>">
       <span class="nav-icon">✨</span> Testimonials
     </a>
@@ -153,6 +159,12 @@ unset($_SESSION['flash']);
     </a>
     <a href="migrate2.php" class="nav-link <?= $currentPage==='migrate2'?'active':'' ?>">
       <span class="nav-icon">🗄️</span> DB Migrate 2
+    </a>
+    <a href="migrate3.php" class="nav-link <?= $currentPage==='migrate3'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> DB Migrate 3
+    </a>
+    <a href="migrate4.php" class="nav-link <?= $currentPage==='migrate4'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> DB Migrate 4
     </a>
   </nav>
   <div class="sb-footer">
