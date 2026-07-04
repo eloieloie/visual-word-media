@@ -2,7 +2,7 @@
   <header :class="['navbar', { scrolled: scrolled || solidRoutes.includes(route.path), open: menuOpen }]">
     <div class="container nav-inner">
       <RouterLink to="/" class="logo" @click="menuOpen = false">
-        <img class="logo-mark" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
+        <img class="logo-mark" src="/images/vwm-logo.jpg" alt="Visual Word Media logo" />
         <div class="logo-text">
           <span class="logo-title">Visual Word Media</span>
           <span class="logo-sub">Mission</span>
@@ -103,9 +103,11 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   flex-shrink: 0;
 }
 .logo-mark {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title {
