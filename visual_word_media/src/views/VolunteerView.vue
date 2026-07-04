@@ -91,17 +91,17 @@
             <input v-model="form.name" type="text" required placeholder="Your full name" />
           </div>
           <div class="form-group">
-            <label>Gender</label>
+            <label>Gender *</label>
             <div class="radio-group">
-              <label class="radio-label"><input type="radio" v-model="form.gender" value="Male" /> Male</label>
-              <label class="radio-label"><input type="radio" v-model="form.gender" value="Female" /> Female</label>
+              <label class="radio-label"><input type="radio" v-model="form.gender" value="Male" required /> Male</label>
+              <label class="radio-label"><input type="radio" v-model="form.gender" value="Female" required /> Female</label>
             </div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Date of Birth</label>
-            <input v-model="form.dob" type="date" />
+            <label>Date of Birth *</label>
+            <input v-model="form.dob" type="date" required />
           </div>
           <div class="form-group">
             <label>Mobile Number *</label>
@@ -110,8 +110,8 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>WhatsApp Number</label>
-            <input v-model="form.whatsapp" type="tel" placeholder="If different from mobile" />
+            <label>WhatsApp Number *</label>
+            <input v-model="form.whatsapp" type="tel" required placeholder="If different from mobile" />
           </div>
           <div class="form-group">
             <label>Email Address *</label>
@@ -120,16 +120,16 @@
         </div>
         <div class="form-row trio">
           <div class="form-group">
-            <label>City / Town</label>
-            <input v-model="form.city" type="text" placeholder="City" />
+            <label>City / Town *</label>
+            <input v-model="form.city" type="text" required placeholder="City" />
           </div>
           <div class="form-group">
-            <label>State</label>
-            <input v-model="form.state" type="text" placeholder="State" />
+            <label>State *</label>
+            <input v-model="form.state" type="text" required placeholder="State" />
           </div>
           <div class="form-group">
-            <label>Country</label>
-            <input v-model="form.country" type="text" placeholder="Country" />
+            <label>Country *</label>
+            <input v-model="form.country" type="text" required placeholder="Country" />
           </div>
         </div>
 
@@ -144,26 +144,26 @@
             </div>
           </div>
           <div class="form-group">
-            <label>Actively involved in local church?</label>
+            <label>Actively involved in local church? *</label>
             <div class="radio-group">
-              <label class="radio-label"><input type="radio" v-model="form.churchActive" value="Yes" /> Yes</label>
-              <label class="radio-label"><input type="radio" v-model="form.churchActive" value="No" /> No</label>
+              <label class="radio-label"><input type="radio" v-model="form.churchActive" value="Yes" required /> Yes</label>
+              <label class="radio-label"><input type="radio" v-model="form.churchActive" value="No" required /> No</label>
             </div>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Name of Church</label>
-            <input v-model="form.churchName" type="text" placeholder="Your church name" />
+            <label>Name of Church *</label>
+            <input v-model="form.churchName" type="text" required placeholder="Your church name" />
           </div>
           <div class="form-group">
-            <label>Pastor's Name</label>
-            <input v-model="form.pastor" type="text" placeholder="Pastor's name" />
+            <label>Pastor's Name *</label>
+            <input v-model="form.pastor" type="text" required placeholder="Pastor's name" />
           </div>
         </div>
         <div class="form-group">
-          <label>Briefly share your testimony</label>
-          <textarea v-model="form.testimony" rows="4" placeholder="Share how God has worked in your life..."></textarea>
+          <label>Briefly share your testimony *</label>
+          <textarea v-model="form.testimony" rows="4" required placeholder="Share how God has worked in your life..."></textarea>
         </div>
 
         <!-- Ministry Areas -->
@@ -200,22 +200,22 @@
         <!-- Additional -->
         <div class="form-section-header">Additional Information</div>
         <div class="form-group">
-          <label>Skills, qualifications, or ministry experience</label>
-          <textarea v-model="form.skills" rows="3" placeholder="Describe your skills and experience..."></textarea>
+          <label>Skills, qualifications, or ministry experience *</label>
+          <textarea v-model="form.skills" rows="3" required placeholder="Describe your skills and experience..."></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Professional Occupation</label>
-            <input v-model="form.occupation" type="text" placeholder="Your occupation" />
+            <label>Professional Occupation *</label>
+            <input v-model="form.occupation" type="text" required placeholder="Your occupation" />
           </div>
           <div class="form-group">
-            <label>Organization / Company</label>
-            <input v-model="form.organization" type="text" placeholder="Where you work" />
+            <label>Organization / Company *</label>
+            <input v-model="form.organization" type="text" required placeholder="Where you work" />
           </div>
         </div>
         <div class="form-group">
-          <label>Why do you want to be part of Visual Word Media Mission?</label>
-          <textarea v-model="form.motivation" rows="3" placeholder="Share your heart..."></textarea>
+          <label>Why do you want to be part of Visual Word Media Mission? *</label>
+          <textarea v-model="form.motivation" rows="3" required placeholder="Share your heart..."></textarea>
         </div>
         <div class="form-group">
           <label>Additional Comments</label>
@@ -230,7 +230,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary submit-btn" :disabled="submitting">
-          {{ submitting ? 'Submitting…' : 'Submit Registration' }}
+          {{ submitting ? 'Submitting…' : 'Submit' }}
         </button>
       </form>
     </div>
