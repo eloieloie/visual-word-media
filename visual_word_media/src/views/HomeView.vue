@@ -8,7 +8,7 @@
       muted
       loop
       playsinline
-      poster="/images/stock/photo-1438232992991-995b7058bbb3.jpg"
+      :poster="img('/images/stock/photo-1438232992991-995b7058bbb3.jpg')"
     >
       <!-- Client to supply: /videos/hero-banner.mp4 -->
       <!-- <source src="/videos/hero-banner.mp4" type="video/mp4" /> -->
@@ -68,12 +68,12 @@
       </div>
       <div class="about-visual">
         <div class="visual-card primary">
-          <img class="vc-photo" src="/images/stock/photo-1504052434569-70ad5836ab65.jpg" alt="Open Bible and cross" />
+          <img class="vc-photo" :src="img('/images/stock/photo-1504052434569-70ad5836ab65.jpg')" alt="Open Bible and cross" />
           <h3>Our Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="visual-card secondary">
-          <img class="vc-photo" src="/images/stock/photo-1487611459768-bd414656ea10.jpg" alt="Media mission workspace" />
+          <img class="vc-photo" :src="img('/images/stock/photo-1487611459768-bd414656ea10.jpg')" alt="Media mission workspace" />
           <h3>Our Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -216,6 +216,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { api } from '../services/api.js'
+import { img } from '../composables/useBaseUrl.js'
 
 // ── Admin-managed home page content ──────────────────────────────────────────
 const homeData = ref({ verse: null, banners: [], featured_events: [] })
@@ -229,12 +230,12 @@ onMounted(async () => {
   }
 })
 const ministries = [
-  { image: '/images/gemini/impact_01.png', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
-  { image: '/images/gemini/60x360.png', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
-  { image: '/images/gemini/production.png', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
-  { image: '/images/gemini/oculus.png', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
-  { image: '/images/gemini/network105.png', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
-  { image: '/images/gemini/new_life.png', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
+  { image: img('/images/gemini/impact_01.png'), name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
+  { image: img('/images/gemini/60x360.png'), name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
+  { image: img('/images/gemini/production.png'), name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
+  { image: img('/images/gemini/oculus.png'), name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
+  { image: img('/images/gemini/network105.png'), name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
+  { image: img('/images/gemini/new_life.png'), name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
 ]
 
 const burdens = [

@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
-        <img class="auth-logo" src="/images/vwm-logo.jpg" alt="Visual Word Media logo" />
+        <img class="auth-logo" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
       </div>
 
@@ -160,6 +160,7 @@
 </template>
 
 <script setup>
+import { img } from '../composables/useBaseUrl.js'
 import { ref, reactive } from 'vue'
 import { api } from '../services/api.js'
 
