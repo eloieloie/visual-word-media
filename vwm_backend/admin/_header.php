@@ -122,6 +122,9 @@ unset($_SESSION['flash']);
     <a href="dashboard.php" class="nav-link <?= $currentPage==='dashboard'?'active':'' ?>">
       <span class="nav-icon">📊</span> Dashboard
     </a>
+    <a href="home-content.php" class="nav-link <?= $currentPage==='home-content'?'active':'' ?>">
+      <span class="nav-icon">🏠</span> Home Content
+    </a>
     <a href="events.php" class="nav-link <?= $currentPage==='events'?'active':'' ?>">
       <span class="nav-icon">📅</span> Events
     </a>

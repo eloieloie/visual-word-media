@@ -70,12 +70,18 @@
     </div>
   </section>
 
-  <!-- SCRIPTURE -->
+  <!-- SCRIPTURE / DAILY VERSE -->
   <section class="section-sm" style="background:var(--section-bg)">
     <div class="container" style="max-width:780px">
       <div class="scripture-block">
-        "The heavens declare the glory of God; the skies proclaim the work of His hands."
-        <span class="scripture-ref">— Psalm 19:1</span>
+        <template v-if="homeData.verse?.text">
+          “{{ homeData.verse.text }}”
+          <span v-if="homeData.verse.ref" class="scripture-ref">— {{ homeData.verse.ref }}</span>
+        </template>
+        <template v-else>
+          “The heavens declare the glory of God; the skies proclaim the work of His hands.”
+          <span class="scripture-ref">— Psalm 19:1</span>
+        </template>
       </div>
     </div>
   </section>
@@ -115,6 +121,25 @@
     </div>
   </section>
 
+  <!-- FEATURED EVENTS (admin-managed) -->
+  <section v-if="homeData.featured_events && homeData.featured_events.length" class="section-sm" style="background:var(--section-bg)">
+    <div class="container">
+      <p class="section-label" style="text-align:center">Upcoming</p>
+      <h2 class="section-title" style="text-align:center;margin-bottom:36px">Featured Events</h2>
+      <div class="featured-events-grid">
+        <RouterLink
+          v-for="ev in homeData.featured_events" :key="ev.id"
+          to="/events"
+          class="featured-event-card"
+        >
+          <div class="fec-date">📅 {{ ev.event_date }}</div>
+          <h4 class="fec-title">{{ ev.title }}</h4>
+          <p v-if="ev.description" class="fec-desc">{{ ev.description?.substring(0, 100) }}{{ ev.description?.length > 100 ? '…' : '' }}</p>
+        </RouterLink>
+      </div>
+    </div>
+  </section>
+
   <!-- CORE BURDEN -->
   <section class="section">
     <div class="container">
@@ -143,7 +168,7 @@
     <div class="container cta-section">
       <div>
         <h2 class="section-title">Ready to Join the Mission?</h2>
-        <p style="color:var(--text-light); margin-top:8px">"Each of you should use whatever gift you have received to serve others." — 1 Peter 4:10</p>
+        <p style="color:var(--text-light); margin-top:8px">"Each of you should use whatever gift you have received to serve others." - 1 Peter 4:10</p>
       </div>
       <div class="cta-buttons">
         <RouterLink to="/volunteer" class="btn btn-primary">Become a Volunteer</RouterLink>
@@ -155,6 +180,20 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+import { api } from '../services/api.js'
+
+// ── Admin-managed home page content ──────────────────────────────────────────
+const homeData = ref({ verse: null, banners: [], featured_events: [] })
+
+onMounted(async () => {
+  try {
+    const data = await api.get('/home/index.php')
+    homeData.value = data
+  } catch (e) {
+    // Non-fatal — falls back to hardcoded content
+  }
+})
 const ministries = [
   { image: '/images/gemini/impact_01.png', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
   { image: '/images/gemini/60x360.png', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
@@ -342,6 +381,18 @@ const burdens = [
   margin-top: 8px;
 }
 
+/* Featured Events */
+.featured-events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.featured-event-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 22px 24px; text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.featured-event-card:hover { border-color: var(--gold); box-shadow: 0 4px 18px rgba(26,45,90,0.09); }
+.fec-date  { font-size: 0.78rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.fec-title { color: var(--navy); font-size: 1.02rem; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+.fec-desc  { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+
 /* CTA */
 .cta-section {
   display: flex;
@@ -353,7 +404,7 @@ const burdens = [
 .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
 
 @media (max-width: 860px) {
-  .about-grid, .burden-grid { grid-template-columns: 1fr; }
+  .about-grid, .burden-grid, .featured-events-grid { grid-template-columns: 1fr; }
   .about-stats { grid-template-columns: repeat(2,1fr); }
   .cta-section { flex-direction: column; text-align: center; }
   .hero-btns { flex-wrap: wrap; }
