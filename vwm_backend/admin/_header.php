@@ -131,6 +131,12 @@ unset($_SESSION['flash']);
     <a href="audio.php" class="nav-link <?= $currentPage==='audio'?'active':'' ?>">
       <span class="nav-icon">🎧</span> Audio Teachings
     </a>
+    <a href="resources.php" class="nav-link <?= $currentPage==='resources'?'active':'' ?>">
+      <span class="nav-icon">📚</span> Resources
+    </a>
+    <a href="books.php" class="nav-link <?= $currentPage==='books'?'active':'' ?>">
+      <span class="nav-icon">📖</span> Books
+    </a>
     <a href="testimonials.php" class="nav-link <?= $currentPage==='testimonials'?'active':'' ?>">
       <span class="nav-icon">✨</span> Testimonials
     </a>
