@@ -98,6 +98,7 @@ async function handleReset() {
 <style scoped>
 .auth-page {
   min-height: 100vh;
+  min-height: 100svh;
   background: var(--cream);
   display: flex;
   align-items: center;
