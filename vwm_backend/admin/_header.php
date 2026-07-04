@@ -129,7 +129,7 @@ unset($_SESSION['flash']);
       <span class="nav-icon">👥</span> Users
     </a>
     <a href="audio.php" class="nav-link <?= $currentPage==='audio'?'active':'' ?>">
-      <span class="nav-icon">🎧</span> Audio Teachings
+      <span class="nav-icon">🎥</span> Media
     </a>
     <a href="testimonials.php" class="nav-link <?= $currentPage==='testimonials'?'active':'' ?>">
       <span class="nav-icon">✨</span> Testimonials
