@@ -40,7 +40,8 @@ $users = $db->query(
     'SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC'
 )->fetchAll();
 
-$pageTitle = 'Users';
+$pageTitle   = 'Users';
+$currentPage = 'users';
 require_once '_header.php';
 ?>
 

@@ -13,7 +13,8 @@ $recentUsers  = $db->query(
     "SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC LIMIT 5"
 )->fetchAll();
 
-$pageTitle = 'Dashboard';
+$pageTitle   = 'Dashboard';
+$currentPage = 'dashboard';
 require_once '_header.php';
 ?>
 

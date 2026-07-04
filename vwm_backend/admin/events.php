@@ -53,7 +53,8 @@ $events = $db->query(
               CAST(day AS UNSIGNED)'
 )->fetchAll();
 
-$pageTitle = 'Events';
+$pageTitle   = 'Events';
+$currentPage = 'events';
 require_once '_header.php';
 ?>
 

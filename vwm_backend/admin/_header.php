@@ -56,8 +56,11 @@ unset($_SESSION['flash']);
 
     /* ── Badges ────────────────────────────────────── */
     .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.73rem; font-weight: 700; }
-    .badge-admin { background: #e8f4e8; color: #276027; }
-    .badge-user  { background: #e8edf8; color: #2d4a8a; }
+    .badge-admin      { background: #e8f4e8; color: #276027; }
+    .badge-user       { background: #e8edf8; color: #2d4a8a; }
+    .badge-registrant { background: #fff3cd; color: #856404; }
+    .badge-member     { background: #d1ecf1; color: #0c5460; }
+    .badge-volunteer  { background: #d4edda; color: #155724; }
     .badge-cat   { background: #fdf5e0; color: #7a5c10; border: 1px solid #f0dfa0; }
 
     /* ── Buttons ───────────────────────────────────── */
@@ -122,24 +125,49 @@ unset($_SESSION['flash']);
     <a href="dashboard.php" class="nav-link <?= $currentPage==='dashboard'?'active':'' ?>">
       <span class="nav-icon">📊</span> Dashboard
     </a>
+    <a href="home-content.php" class="nav-link <?= $currentPage==='home-content'?'active':'' ?>">
+      <span class="nav-icon">🏠</span> Home Content
+    </a>
     <a href="events.php" class="nav-link <?= $currentPage==='events'?'active':'' ?>">
       <span class="nav-icon">📅</span> Events
     </a>
-    <a href="users.php" class="nav-link <?= $currentPage==='users'?'active':'' ?>">
-      <span class="nav-icon">👥</span> Users
+    <div style="padding:10px 22px 4px;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3)">People</div>
+    <a href="registrants.php" class="nav-link <?= $currentPage==='registrants'?'active':'' ?>">
+      <span class="nav-icon">📝</span> Registrants
     </a>
-    <a href="audio.php" class="nav-link <?= $currentPage==='audio'?'active':'' ?>">
-      <span class="nav-icon">🎧</span> Audio Teachings
-    </a>
-    <a href="testimonials.php" class="nav-link <?= $currentPage==='testimonials'?'active':'' ?>">
-      <span class="nav-icon">✨</span> Testimonials
+    <a href="members.php" class="nav-link <?= $currentPage==='members'?'active':'' ?>">
+      <span class="nav-icon">👥</span> Members
     </a>
     <a href="volunteers.php" class="nav-link <?= $currentPage==='volunteers'?'active':'' ?>">
       <span class="nav-icon">🙏</span> Volunteers
     </a>
+    <a href="users.php" class="nav-link <?= $currentPage==='users'?'active':'' ?>">
+      <span class="nav-icon">🔐</span> All Users
+    </a>
+    <a href="audio.php" class="nav-link <?= $currentPage==='audio'?'active':'' ?>">
+      <span class="nav-icon">🎥</span> Media
+    </a>
+    <a href="resources.php" class="nav-link <?= $currentPage==='resources'?'active':'' ?>">
+      <span class="nav-icon">📚</span> Resources
+    </a>
+    <a href="books.php" class="nav-link <?= $currentPage==='books'?'active':'' ?>">
+      <span class="nav-icon">📖</span> Books
+    </a>
+    <a href="testimonials.php" class="nav-link <?= $currentPage==='testimonials'?'active':'' ?>">
+      <span class="nav-icon">✨</span> Testimonials
+    </a>
     <div style="padding:10px 22px 4px;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3)">System</div>
     <a href="migrate.php" class="nav-link <?= $currentPage==='migrate'?'active':'' ?>">
       <span class="nav-icon">🗄️</span> DB Migrate
+    </a>
+    <a href="migrate2.php" class="nav-link <?= $currentPage==='migrate2'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> DB Migrate 2
+    </a>
+    <a href="migrate3.php" class="nav-link <?= $currentPage==='migrate3'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> DB Migrate 3
+    </a>
+    <a href="migrate4.php" class="nav-link <?= $currentPage==='migrate4'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> DB Migrate 4
     </a>
   </nav>
   <div class="sb-footer">

@@ -53,7 +53,8 @@ $testimonials = $db->query(
     'SELECT * FROM testimonials ORDER BY sort_order DESC, created_at DESC'
 )->fetchAll();
 
-$pageTitle = 'Testimonials';
+$pageTitle   = 'Testimonials';
+$currentPage = 'testimonials';
 require_once '_header.php';
 ?>
 

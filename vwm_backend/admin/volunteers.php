@@ -187,7 +187,8 @@ try {
     $tableMsg   = $e->getMessage();
 }
 
-$pageTitle = 'Volunteers';
+$pageTitle   = 'Volunteers';
+$currentPage = 'volunteers';
 require_once '_header.php';
 
 function statusBadge($s) {

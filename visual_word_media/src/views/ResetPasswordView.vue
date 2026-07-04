@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
-        <img class="auth-logo" src="/images/vwm-logo-mark.svg" alt="Visual Word Media logo" />
+        <img class="auth-logo" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
       </div>
 
@@ -54,6 +54,7 @@
 </template>
 
 <script setup>
+import { img } from '../composables/useBaseUrl.js'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
@@ -97,6 +98,7 @@ async function handleReset() {
 <style scoped>
 .auth-page {
   min-height: 100vh;
+  min-height: 100svh;
   background: var(--cream);
   display: flex;
   align-items: center;
