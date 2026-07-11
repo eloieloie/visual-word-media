@@ -2,7 +2,7 @@
   <header :class="['navbar', { scrolled: scrolled || solidRoutes.includes(route.path), open: menuOpen }]">
     <div class="container nav-inner">
       <RouterLink to="/" class="logo" @click="menuOpen = false">
-        <img class="logo-mark" src="/images/logo.png" alt="Visual Word Media logo" />
+        <img class="logo-mark" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
         <div class="logo-text">
           <span class="logo-title">Visual Word Media</span>
           <span class="logo-sub">Mission</span>
@@ -13,7 +13,7 @@
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/ministries">Ministries</RouterLink>
         <RouterLink to="/events">Events</RouterLink>
-        <RouterLink to="/teachings">Teachings</RouterLink>
+        <RouterLink to="/teachings">Media</RouterLink>
         <RouterLink to="/resources">Resources</RouterLink>
         <RouterLink to="/contact">Contact</RouterLink>
       </nav>
@@ -38,7 +38,7 @@
       <RouterLink to="/about" @click="menuOpen=false">About</RouterLink>
       <RouterLink to="/ministries" @click="menuOpen=false">Ministries</RouterLink>
       <RouterLink to="/events" @click="menuOpen=false">Events</RouterLink>
-      <RouterLink to="/teachings" @click="menuOpen=false">Teachings</RouterLink>
+      <RouterLink to="/teachings" @click="menuOpen=false">Media</RouterLink>
       <RouterLink to="/resources" @click="menuOpen=false">Resources</RouterLink>
       <RouterLink to="/testimonies" @click="menuOpen=false">Testimonies</RouterLink>
       <RouterLink to="/prayer" @click="menuOpen=false">Prayer</RouterLink>
@@ -58,6 +58,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuth } from '../composables/useAuth.js'
+import { img } from '../composables/useBaseUrl.js'
 
 const scrolled    = ref(false)
 const menuOpen    = ref(false)
@@ -103,9 +104,11 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   flex-shrink: 0;
 }
 .logo-mark {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title {

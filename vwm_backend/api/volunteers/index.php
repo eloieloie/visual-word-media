@@ -17,13 +17,51 @@ if (!$data) {
     exit;
 }
 
-$name   = trim($data['name']   ?? '');
-$mobile = trim($data['mobile'] ?? '');
-$email  = trim($data['email']  ?? '');
+$name         = trim($data['name']         ?? '');
+$mobile       = trim($data['mobile']       ?? '');
+$email        = trim($data['email']        ?? '');
+$gender       = trim($data['gender']       ?? '');
+$dob          = trim($data['dob']          ?? '');
+$whatsapp     = trim($data['whatsapp']     ?? '');
+$city         = trim($data['city']         ?? '');
+$state        = trim($data['state']        ?? '');
+$country      = trim($data['country']      ?? '');
+$churchActive = trim($data['churchActive'] ?? '');
+$churchName   = trim($data['churchName']   ?? '');
+$pastor       = trim($data['pastor']       ?? '');
+$testimony    = trim($data['testimony']    ?? '');
+$skills       = trim($data['skills']       ?? '');
+$occupation   = trim($data['occupation']   ?? '');
+$organization = trim($data['organization'] ?? '');
+$motivation   = trim($data['motivation']   ?? '');
 
-if (!$name || !$mobile || !$email) {
+$required = [
+    'name'         => $name,
+    'mobile'       => $mobile,
+    'email'        => $email,
+    'gender'       => $gender,
+    'dob'          => $dob,
+    'whatsapp'     => $whatsapp,
+    'city'         => $city,
+    'state'        => $state,
+    'country'      => $country,
+    'churchActive' => $churchActive,
+    'churchName'   => $churchName,
+    'pastor'       => $pastor,
+    'testimony'    => $testimony,
+    'skills'       => $skills,
+    'occupation'   => $occupation,
+    'organization' => $organization,
+    'motivation'   => $motivation,
+];
+
+$missing = array_keys(array_filter($required, fn($v) => $v === ''));
+if ($missing) {
     http_response_code(422);
-    echo json_encode(['success' => false, 'message' => 'Name, mobile, and email are required']);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Missing required fields: ' . implode(', ', $missing),
+    ]);
     exit;
 }
 
@@ -46,32 +84,32 @@ $stmt = $db->prepare("
     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 ");
 
-$dob = !empty($data['dob']) ? $data['dob'] : null;
+$dob = $dob !== '' ? $dob : null;
 
 $stmt->execute([
     $name,
-    trim($data['gender']      ?? ''),
+    $gender,
     $dob,
     $mobile,
-    trim($data['whatsapp']    ?? ''),
+    $whatsapp,
     $email,
     $verificationToken,
-    trim($data['city']        ?? ''),
-    trim($data['state']       ?? ''),
-    trim($data['country']     ?? ''),
-    ($data['believer']     ?? '') === 'Yes' ? 1 : 0,
-    ($data['churchActive'] ?? '') === 'Yes' ? 1 : 0,
-    trim($data['churchName']  ?? ''),
-    trim($data['pastor']      ?? ''),
-    trim($data['testimony']   ?? ''),
+    $city,
+    $state,
+    $country,
+    $churchActive === 'Yes' ? 1 : 0,
+    $churchActive === 'Yes' ? 1 : 0,
+    $churchName,
+    $pastor,
+    $testimony,
     json_encode($data['selectedAreas'] ?? []),
     json_encode($data['serviceType']   ?? []),
     json_encode($data['availability']  ?? []),
-    trim($data['skills']       ?? ''),
-    trim($data['occupation']   ?? ''),
-    trim($data['organization'] ?? ''),
-    trim($data['motivation']   ?? ''),
-    trim($data['comments']     ?? ''),
+    $skills,
+    $occupation,
+    $organization,
+    $motivation,
+    trim($data['comments'] ?? ''),
     !empty($data['declared']) ? 1 : 0,
 ]);
 

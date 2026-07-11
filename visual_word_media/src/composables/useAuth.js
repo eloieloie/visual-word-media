@@ -37,15 +37,26 @@ export function useAuth() {
     localStorage.removeItem('vwm_user')
   }
 
+  const needsPasswordReset = computed(() => !!user.value?.force_password_reset)
+
+  function clearForceReset() {
+    if (user.value) {
+      user.value = { ...user.value, force_password_reset: false }
+      localStorage.setItem('vwm_user', JSON.stringify(user.value))
+    }
+  }
+
   return {
     user,
     token,
     isLoggedIn,
     isAdmin,
+    needsPasswordReset,
     login,
     register,
     requestPasswordReset,
     resetPassword,
+    clearForceReset,
     logout,
   }
 }

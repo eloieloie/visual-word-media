@@ -26,7 +26,6 @@
       <div class="hero-btns">
         <RouterLink to="/ministries" class="btn btn-primary">Explore Our Ministries</RouterLink>
         <RouterLink to="/volunteer" class="btn btn-outline">Join the Mission</RouterLink>
-        <RouterLink to="/prayer" class="btn btn-outline">Prayer Partnership</RouterLink>
         <RouterLink to="/contact" class="btn btn-outline">Contact Us</RouterLink>
       </div>
       <p class="hero-scripture-title">Scriptural Foundation of the Ministry</p>
@@ -80,12 +79,12 @@
       </div>
       <div class="about-visual">
         <div class="visual-card primary">
-          <img class="vc-photo" src="/images/homepage/our-vision.jpg" alt="Our vision for media ministry" />
+          <img class="vc-photo" :src="img('/images/homepage/our-vision.jpg')" alt="Our vision for media ministry" />
           <h3>Our Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="visual-card secondary">
-          <img class="vc-photo" src="/images/homepage/our-mission.jpg" alt="Our mission in action" />
+          <img class="vc-photo" :src="img('/images/homepage/our-mission.jpg')" alt="Our mission in action" />
           <h3>Our Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -93,12 +92,18 @@
     </div>
   </section>
 
-  <!-- SCRIPTURE -->
+  <!-- SCRIPTURE / DAILY VERSE -->
   <section class="section-sm" style="background:var(--section-bg)">
     <div class="container" style="max-width:780px">
       <div class="scripture-block">
-        "The heavens declare the glory of God; the skies proclaim the work of His hands."
-        <span class="scripture-ref">— Psalm 19:1</span>
+        <template v-if="homeData.verse?.text">
+          “{{ homeData.verse.text }}”
+          <span v-if="homeData.verse.ref" class="scripture-ref">— {{ homeData.verse.ref }}</span>
+        </template>
+        <template v-else>
+          “The heavens declare the glory of God; the skies proclaim the work of His hands.”
+          <span class="scripture-ref">— Psalm 19:1</span>
+        </template>
       </div>
     </div>
   </section>
@@ -138,6 +143,25 @@
     </div>
   </section>
 
+  <!-- FEATURED EVENTS (admin-managed) -->
+  <section v-if="homeData.featured_events && homeData.featured_events.length" class="section-sm" style="background:var(--section-bg)">
+    <div class="container">
+      <p class="section-label" style="text-align:center">Upcoming</p>
+      <h2 class="section-title" style="text-align:center;margin-bottom:36px">Featured Events</h2>
+      <div class="featured-events-grid">
+        <RouterLink
+          v-for="ev in homeData.featured_events" :key="ev.id"
+          to="/events"
+          class="featured-event-card"
+        >
+          <div class="fec-date">📅 {{ ev.event_date }}</div>
+          <h4 class="fec-title">{{ ev.title }}</h4>
+          <p v-if="ev.description" class="fec-desc">{{ ev.description?.substring(0, 100) }}{{ ev.description?.length > 100 ? '…' : '' }}</p>
+        </RouterLink>
+      </div>
+    </div>
+  </section>
+
   <!-- CORE BURDEN -->
   <section class="section">
     <div class="container">
@@ -161,16 +185,39 @@
     </div>
   </section>
 
+  <!-- PARTNERS -->
+  <section class="section-sm partners-section">
+    <div class="container">
+      <p class="section-label" style="text-align:center">Our Partners</p>
+      <h2 class="section-title" style="text-align:center;margin-bottom:36px">Walking Together in Ministry</h2>
+      <!-- Partner logos/names to be provided by the client.
+           Each entry: { name, logo, url } -->
+      <div class="partners-row" v-if="partners.length">
+        <a
+          v-for="p in partners" :key="p.name"
+          :href="p.url || '#'"
+          :target="p.url ? '_blank' : undefined"
+          rel="noopener noreferrer"
+          class="partner-card"
+        >
+          <img v-if="p.logo" :src="p.logo" :alt="p.name" class="partner-logo" />
+          <span v-else class="partner-name-only">{{ p.name }}</span>
+          <span v-if="p.logo" class="partner-label">{{ p.name }}</span>
+        </a>
+      </div>
+      <p v-else class="partners-placeholder">Partner organisations will be listed here. Content to be provided by the client.</p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="section-sm" style="background:var(--gold-pale); border-top:3px solid var(--gold)">
     <div class="container cta-section">
       <div>
         <h2 class="section-title">Ready to Join the Mission?</h2>
-        <p style="color:var(--text-light); margin-top:8px">"Each of you should use whatever gift you have received to serve others." — 1 Peter 4:10</p>
+        <p style="color:var(--text-light); margin-top:8px">"Each of you should use whatever gift you have received to serve others." - 1 Peter 4:10</p>
       </div>
       <div class="cta-buttons">
         <RouterLink to="/volunteer" class="btn btn-primary">Become a Volunteer</RouterLink>
-        <RouterLink to="/prayer" class="btn btn-navy">Become a Prayer Partner</RouterLink>
         <RouterLink to="/contact" class="btn btn-outline" style="color:var(--navy);border-color:var(--navy)">Contact Our Team</RouterLink>
       </div>
     </div>
@@ -179,11 +226,15 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { api } from '../services/api.js'
+import { img } from '../composables/useBaseUrl.js'
+
+const homeData = ref({ verse: null, banners: [], featured_events: [] })
 
 const heroVideos = [
-  { src: '/videos/hero-1.mp4', poster: '/images/homepage/slide-1.jpg' },
-  { src: '/videos/hero-2.mp4', poster: '/images/homepage/slide-2.jpg' },
-  { src: '/videos/hero-3.mp4', poster: '/images/homepage/slide-3.jpg' },
+  { src: '/videos/hero-1.mp4', poster: img('/images/homepage/slide-1.jpg') },
+  { src: '/videos/hero-2.mp4', poster: img('/images/homepage/slide-2.jpg') },
+  { src: '/videos/hero-3.mp4', poster: img('/images/homepage/slide-3.jpg') },
 ]
 const currentSlide = ref(0)
 const videoRefs = ref([])
@@ -207,7 +258,13 @@ function resetTimer() {
   slideTimer = setInterval(nextSlide, 8000)
 }
 
-onMounted(() => {
+onMounted(async () => {
+  try {
+    const data = await api.get('/home/index.php')
+    homeData.value = data
+  } catch (e) {
+    // Non-fatal — falls back to hardcoded content
+  }
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (!prefersReduced && videoRefs.value[0]) {
     videoRefs.value[0].play().catch(() => {})
@@ -218,12 +275,12 @@ onMounted(() => {
 onUnmounted(() => clearInterval(slideTimer))
 
 const ministries = [
-  { image: '/images/homepage/ministry-impact.jpg', name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
-  { image: '/images/homepage/ministry-60x360.jpg', name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
-  { image: '/images/homepage/ministry-production.jpg', name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
-  { image: '/images/homepage/ministry-oculus.jpg', name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
-  { image: '/images/gemini/network105.png', name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
-  { image: '/images/homepage/ministry-new-life.jpg', name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
+  { image: img('/images/homepage/ministry-impact.jpg'), name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
+  { image: img('/images/homepage/ministry-60x360.jpg'), name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
+  { image: img('/images/homepage/ministry-production.jpg'), name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
+  { image: img('/images/homepage/ministry-oculus.jpg'), name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
+  { image: img('/images/gemini/network105.png'), name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
+  { image: img('/images/homepage/ministry-new-life.jpg'), name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
 ]
 
 const burdens = [
@@ -234,12 +291,19 @@ const burdens = [
   'To use visual communication for evangelism and spiritual growth',
   'To raise Christ-centered youth leaders and artists',
 ]
+
+// Partners — logos and names to be provided by the client
+// Each entry: { name: string, logo?: string, url?: string }
+const partners = [
+  // { name: 'Partner Church', logo: '/images/partners/partner-church.png', url: 'https://example.com' },
+]
 </script>
 
 <style scoped>
 /* HERO */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   position: relative;
@@ -446,6 +510,48 @@ const burdens = [
   margin-top: 8px;
 }
 
+/* Partners */
+.partners-section { background: var(--section-bg); }
+.partners-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text);
+  min-width: 140px;
+  max-width: 180px;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.partner-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(26,45,90,0.08); }
+.partner-logo { max-height: 56px; max-width: 120px; object-fit: contain; }
+.partner-label { font-size: 0.82rem; font-weight: 600; color: var(--navy); }
+.partner-name-only { font-size: 1rem; font-weight: 700; color: var(--navy); }
+.partners-placeholder { text-align: center; color: var(--text-light); font-style: italic; padding: 20px 0; }
+
+/* Featured Events */
+.featured-events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.featured-event-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+  padding: 22px 24px; text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.featured-event-card:hover { border-color: var(--gold); box-shadow: 0 4px 18px rgba(26,45,90,0.09); }
+.fec-date  { font-size: 0.78rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.fec-title { color: var(--navy); font-size: 1.02rem; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+.fec-desc  { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
+
 /* CTA */
 .cta-section {
   display: flex;
@@ -457,7 +563,7 @@ const burdens = [
 .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
 
 @media (max-width: 860px) {
-  .about-grid, .burden-grid { grid-template-columns: 1fr; }
+  .about-grid, .burden-grid, .featured-events-grid { grid-template-columns: 1fr; }
   .about-stats { grid-template-columns: repeat(2,1fr); }
   .cta-section { flex-direction: column; text-align: center; }
   .hero-btns { flex-wrap: wrap; }

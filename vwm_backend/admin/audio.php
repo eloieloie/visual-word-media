@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id && $title) {
             $stmt = $db->prepare('UPDATE audio_teachings SET title=?, speaker=?, description=?, sort_order=? WHERE id=?');
             $stmt->execute([$title, $speaker, $desc, $order, $id]);
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Teaching updated.'];
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Media item updated.'];
         }
 
     } elseif ($action === 'delete') {
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 unlink($UPLOAD_DIR . $audio['file_name']);
             }
             $db->prepare('DELETE FROM audio_teachings WHERE id = ?')->execute([$id]);
-            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Audio teaching deleted.'];
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Media item deleted.'];
         }
     }
 
@@ -88,20 +88,20 @@ $audios = $db->query(
     'SELECT * FROM audio_teachings ORDER BY sort_order DESC, uploaded_at DESC'
 )->fetchAll();
 
-$pageTitle = 'Audio Teachings';
+$pageTitle = 'Media';
 require_once '_header.php';
 ?>
 
 <!-- Upload form -->
 <div class="card" style="margin-bottom:28px">
-  <div class="card-head"><h3>Upload New Teaching</h3></div>
+  <div class="card-head"><h3>Upload New Media</h3></div>
   <div style="padding:22px 24px">
     <form method="POST" enctype="multipart/form-data">
       <input type="hidden" name="action" value="upload">
       <div class="form-row">
         <div class="form-group">
           <label>Title *</label>
-          <input type="text" name="title" class="form-control" required placeholder="Teaching title">
+          <input type="text" name="title" class="form-control" required placeholder="Title">
         </div>
         <div class="form-group">
           <label>Speaker / Pastor</label>
@@ -116,7 +116,7 @@ require_once '_header.php';
         <label>Audio File * <span style="color:#999;font-weight:400">(MP3, M4A, WAV — max <?= $MAX_MB ?> MB)</span></label>
         <input type="file" name="audio_file" class="form-control" accept="audio/*" required>
       </div>
-      <button type="submit" class="btn btn-gold">Upload Teaching</button>
+      <button type="submit" class="btn btn-gold">Upload</button>
     </form>
   </div>
 </div>
@@ -124,7 +124,7 @@ require_once '_header.php';
 <!-- Existing audios -->
 <div class="card">
   <div class="card-head">
-    <h3>All Audio Teachings (<?= count($audios) ?>)</h3>
+    <h3>All Media (<?= count($audios) ?>)</h3>
   </div>
   <table>
     <thead>
@@ -148,7 +148,7 @@ require_once '_header.php';
           <td>
             <div class="actions">
               <button class="btn-edit-sm" onclick="openEdit(<?= json_encode($a) ?>)">Edit</button>
-              <form method="POST" style="display:inline" onsubmit="return confirm('Delete this audio teaching?')">
+              <form method="POST" style="display:inline" onsubmit="return confirm('Delete this media item?')">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= $a['id'] ?>">
                 <button type="submit" class="btn-danger-sm">Delete</button>
@@ -158,7 +158,7 @@ require_once '_header.php';
         </tr>
         <?php endforeach; ?>
       <?php else: ?>
-        <tr class="empty-row"><td colspan="7">No audio teachings uploaded yet.</td></tr>
+        <tr class="empty-row"><td colspan="7">No media uploaded yet.</td></tr>
       <?php endif; ?>
     </tbody>
   </table>
@@ -168,7 +168,7 @@ require_once '_header.php';
 <div id="edit-modal" class="modal-bg">
   <div class="modal">
     <div class="modal-head">
-      <h3>Edit Teaching</h3>
+      <h3>Edit Media</h3>
       <button class="modal-close" onclick="closeEdit()">×</button>
     </div>
     <div class="modal-body">

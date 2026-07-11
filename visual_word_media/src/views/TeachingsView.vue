@@ -2,26 +2,15 @@
   <div class="page-hero">
     <div class="container">
       <p class="hero-label">Learn &amp; Grow</p>
-      <h1>Teachings</h1>
-      <p>Video messages from our YouTube channel and audio teachings you can listen to anytime.</p>
+      <h1>Media</h1>
+      <p>Video messages from our youtube channels.</p>
     </div>
   </div>
 
   <section class="section">
     <div class="container">
 
-      <!-- Tab switcher -->
-      <div class="tab-row">
-        <button :class="['tab-btn', { active: tab === 'video' }]" @click="tab = 'video'">
-          Video Teachings
-        </button>
-        <button :class="['tab-btn', { active: tab === 'audio' }]" @click="tab = 'audio'">
-          Audio Teachings
-        </button>
-      </div>
-
-      <!-- ─── VIDEO TAB ────────────────────────────────────── -->
-      <div v-if="tab === 'video'">
+      <div>
         <div v-if="videoLoading" class="loading-state">
           <div class="spinner"></div>
           <p>Loading videos…</p>
@@ -54,42 +43,6 @@
           </div>
         </div>
       </div>
-
-      <!-- ─── AUDIO TAB ────────────────────────────────────── -->
-      <div v-if="tab === 'audio'">
-        <div v-if="audioLoading" class="loading-state">
-          <div class="spinner"></div>
-          <p>Loading audio teachings…</p>
-        </div>
-        <div v-else-if="audioError" class="error-state">
-          <p>⚠️ {{ audioError }}</p>
-          <button class="btn btn-outline" @click="loadAudio">Retry</button>
-        </div>
-        <div v-else-if="!audios.length" class="empty-state">
-          <p>No audio teachings available yet. Check back soon.</p>
-        </div>
-        <div v-else class="audio-list">
-          <div class="audio-card" v-for="a in audios" :key="a.id">
-            <img class="audio-photo" src="/images/stock/photo-1590602847861-f357a9332bbc.jpg" alt="Audio teaching" />
-            <div class="audio-body">
-              <div class="audio-meta-top">
-                <span class="audio-speaker" v-if="a.speaker">{{ a.speaker }}</span>
-                <span class="audio-date">{{ a.date }}</span>
-                <span class="audio-size" v-if="a.size_mb">{{ a.size_mb }}</span>
-              </div>
-              <h3 class="audio-title">{{ a.title }}</h3>
-              <p class="audio-desc" v-if="a.description">{{ a.description }}</p>
-              <audio
-                :src="a.url"
-                controls
-                preload="none"
-                class="audio-player"
-              ></audio>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -116,13 +69,9 @@
 import { ref, onMounted } from 'vue'
 import { api } from '../services/api.js'
 
-const tab          = ref('video')
 const videos       = ref([])
-const audios       = ref([])
 const videoLoading = ref(true)
-const audioLoading = ref(true)
 const videoError   = ref('')
-const audioError   = ref('')
 const activeVideo  = ref(null)
 
 function truncate(str, len) {
@@ -146,42 +95,12 @@ async function loadVideos() {
   }
 }
 
-async function loadAudio() {
-  audioLoading.value = true
-  audioError.value   = ''
-  try {
-    const data   = await api.get('/audio/index.php')
-    audios.value = data.audios || []
-  } catch (e) {
-    audioError.value = e.message
-  } finally {
-    audioLoading.value = false
-  }
-}
-
 onMounted(() => {
   loadVideos()
-  loadAudio()
 })
 </script>
 
 <style scoped>
-/* ─── Tabs ──────────────────────────────────────────────── */
-.tab-row { display: flex; gap: 4px; background: var(--section-bg); border-radius: 10px; padding: 5px; width: fit-content; margin-bottom: 40px; }
-.tab-btn {
-  padding: 10px 28px;
-  border-radius: 7px;
-  border: none;
-  background: transparent;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--text-light);
-  transition: all 0.2s;
-}
-.tab-btn.active { background: var(--navy); color: var(--white); }
-.tab-btn:not(.active):hover { color: var(--navy); }
-
 /* ─── Video Grid ─────────────────────────────────────────── */
 .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .video-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.22s; }
@@ -215,27 +134,6 @@ onMounted(() => {
 .video-date { font-size: 0.78rem; color: var(--gold); font-weight: 600; margin-bottom: 6px; }
 .video-desc { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
 
-/* ─── Audio List ─────────────────────────────────────────── */
-.audio-list { display: flex; flex-direction: column; gap: 18px; }
-.audio-card { display: flex; gap: 22px; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 24px; transition: border-color 0.2s; }
-.audio-card:hover { border-color: var(--gold); }
-.audio-photo {
-  width: 66px;
-  height: 66px;
-  border-radius: 8px;
-  object-fit: cover;
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-.audio-body { flex: 1; min-width: 0; }
-.audio-meta-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
-.audio-speaker { font-size: 0.82rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; }
-.audio-date, .audio-size { font-size: 0.78rem; color: var(--text-light); }
-.audio-title { font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
-.audio-desc { font-size: 0.92rem; color: var(--text-light); line-height: 1.7; margin-bottom: 14px; }
-.audio-player { width: 100%; height: 42px; accent-color: var(--navy); }
-
-/* ─── Modal ──────────────────────────────────────────────── */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.78); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .modal-inner { background: #000; border-radius: 10px; width: 100%; max-width: 860px; position: relative; }
 .modal-close { position: absolute; top: -18px; right: -18px; width: 38px; height: 38px; border-radius: 50%; background: var(--white); border: none; font-size: 1.4rem; cursor: pointer; line-height: 1; z-index: 10; }
@@ -251,7 +149,5 @@ onMounted(() => {
 @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 580px) {
   .video-grid { grid-template-columns: 1fr; }
-  .audio-card { flex-direction: column; gap: 12px; }
-  .tab-btn { padding: 9px 18px; font-size: 0.88rem; }
 }
 </style>

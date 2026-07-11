@@ -4,7 +4,7 @@
       <div class="container footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img class="logo-mark" src="/images/logo.png" alt="Visual Word Media logo" />
+            <img class="logo-mark" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
             <div>
               <div class="logo-title">Visual Word Media</div>
               <div class="logo-sub">Mission</div>
@@ -56,6 +56,7 @@
 </template>
 
 <script setup>
+import { img } from '../composables/useBaseUrl.js'
 const year = new Date().getFullYear()
 </script>
 
@@ -74,9 +75,11 @@ const year = new Date().getFullYear()
   margin-bottom: 20px;
 }
 .logo-mark {
-  width: 36px;
-  height: 36px;
+  width: 52px;
+  height: 52px;
   flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
 }
 .logo-title {
   font-family: 'Playfair Display', serif;
