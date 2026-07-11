@@ -28,9 +28,10 @@ try {
 // Featured events
 try {
     $events = $db->query(
-        "SELECT id, title, event_date, description
-         FROM events WHERE is_featured = 1 AND is_published = 1
-         ORDER BY event_date ASC LIMIT 6"
+        "SELECT id, title, CONCAT(month, ' ', day) AS event_date, description
+         FROM events WHERE is_featured = 1 AND is_active = 1
+         ORDER BY FIELD(month,'JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'),
+                  CAST(day AS UNSIGNED) LIMIT 6"
     )->fetchAll();
 } catch (PDOException $e) {
     $events = [];

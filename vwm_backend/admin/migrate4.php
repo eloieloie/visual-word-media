@@ -28,7 +28,7 @@ $cols = $db->query("SHOW COLUMNS FROM events LIKE 'is_featured'")->fetchAll();
 if ($cols) {
     $log[] = 'SKIP events.is_featured already exists';
 } else {
-    $db->exec("ALTER TABLE events ADD COLUMN is_featured TINYINT(1) NOT NULL DEFAULT 0 AFTER is_published");
+    $db->exec("ALTER TABLE events ADD COLUMN is_featured TINYINT(1) NOT NULL DEFAULT 0 AFTER is_active");
     $log[] = 'ADD  events.is_featured';
 }
 
