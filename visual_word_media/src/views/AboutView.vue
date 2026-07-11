@@ -19,12 +19,12 @@
       </div>
       <div class="vwm-cards">
         <div class="vwm-card">
-          <img class="vwm-photo" :src="img('/images/stock/photo-1529074963764-98f45c47344b.jpg')" alt="Prayer and vision planning" />
+          <img class="vwm-photo" :src="img('/images/homepage/our-vision.jpg')" alt="Prayer and vision planning" />
           <h3>Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="vwm-card gold">
-          <img class="vwm-photo" :src="img('/images/stock/photo-1488190211105-8b0e65b80b4e.jpg')" alt="Mission media outreach" />
+          <img class="vwm-photo" :src="img('/images/homepage/our-mission.jpg')" alt="Mission media outreach" />
           <h3>Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -139,12 +139,12 @@ const convictions = [
 ]
 
 const impactAreas = [
-  { image: img('/images/stock/photo-1511632765486-a01980e01a18.jpg'), title: 'Youth Empowerment Programs', desc: 'Helping young people discover their God-given identity, purpose, talents, and calling while equipping them to navigate modern challenges with biblical wisdom.' },
-  { image: img('/images/stock/photo-1492724441997-5dc865305da7.jpg'), title: 'Media and Creative Ministry', desc: 'Training and encouraging filmmakers, photographers, designers, musicians, writers, and media professionals to use their skills for Kingdom impact.' },
-  { image: img('/images/stock/photo-1523240795612-9a054b0db644.jpg'), title: 'Awareness & Educational Programs', desc: 'Conducting seminars, workshops, conferences, and outreach events that address spiritual, social, personal, and professional development.' },
-  { image: img('/images/stock/photo-1503676260728-1c00da094a0b.jpg'), title: 'Discipleship & Leadership Camps', desc: 'Building strong foundations of faith through mentoring, biblical teaching, leadership development, and spiritual formation.' },
-  { image: img('/images/stock/photo-1511895426328-dc8714191300.jpg'), title: 'Family & Counseling Initiatives', desc: 'Providing encouragement, guidance, and support to strengthen marriages, families, and individuals facing life\'s challenges.' },
-  { image: img('/images/stock/photo-1517048676732-d65bc937f952.jpg'), title: 'Content Production & Digital Outreach', desc: 'Creating meaningful media content that communicates biblical truth, inspires transformation, and reaches audiences across diverse platforms.' },
+  { image: img('/images/about/youth-empowerment.jpg'), title: 'Youth Empowerment Programs', desc: 'Helping young people discover their God-given identity, purpose, talents, and calling while equipping them to navigate modern challenges with biblical wisdom.' },
+  { image: img('/images/about/media-ministry.jpg'), title: 'Media and Creative Ministry', desc: 'Training and encouraging filmmakers, photographers, designers, musicians, writers, and media professionals to use their skills for Kingdom impact.' },
+  { image: img('/images/about/awareness-programs.jpg'), title: 'Awareness & Educational Programs', desc: 'Conducting seminars, workshops, conferences, and outreach events that address spiritual, social, personal, and professional development.' },
+  { image: img('/images/about/leadership-camps.jpg'), title: 'Discipleship & Leadership Camps', desc: 'Building strong foundations of faith through mentoring, biblical teaching, leadership development, and spiritual formation.' },
+  { image: img('/images/about/family-counseling.jpg'), title: 'Family & Counseling Initiatives', desc: 'Providing encouragement, guidance, and support to strengthen marriages, families, and individuals facing life\'s challenges.' },
+  { image: img('/images/about/digital-outreach.jpg'), title: 'Content Production & Digital Outreach', desc: 'Creating meaningful media content that communicates biblical truth, inspires transformation, and reaches audiences across diverse platforms.' },
 ]
 
 const missions = [

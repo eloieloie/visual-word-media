@@ -4,7 +4,7 @@
       <div class="container footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">
-            <img class="logo-mark" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
+            <img class="logo-mark" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
             <div>
               <div class="logo-title">Visual Word Media</div>
               <div class="logo-sub">Mission</div>

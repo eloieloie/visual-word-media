@@ -2,7 +2,7 @@
   <header :class="['navbar', { scrolled: scrolled || solidRoutes.includes(route.path), open: menuOpen }]">
     <div class="container nav-inner">
       <RouterLink to="/" class="logo" @click="menuOpen = false">
-        <img class="logo-mark" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
+        <img class="logo-mark" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
         <div class="logo-text">
           <span class="logo-title">Visual Word Media</span>
           <span class="logo-sub">Mission</span>

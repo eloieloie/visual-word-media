@@ -2,7 +2,7 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-brand">
-        <img class="auth-logo" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
+        <img class="auth-logo" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
       </div>
 

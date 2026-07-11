@@ -122,12 +122,12 @@ const filteredEvents = computed(() =>
 onMounted(fetchEvents)
 
 const eventTypes = [
-  { image: img('/images/gemini/youth-camps.png'), label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
+  { image: img('/images/events/youth-camps.jpg'), label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
   { image: img('/images/gemini/media-seminars.png'), label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
-  { image: img('/images/gemini/creative-gatherings.png'), label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
-  { image: img('/images/gemini/bible-studies.png'), label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
-  { image: img('/images/gemini/training-workshops.png'), label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
-  { image: img('/images/gemini/prayer-leadership.png'), label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
+  { image: img('/images/events/creative-gatherings.jpg'), label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
+  { image: img('/images/events/bible-studies.jpg'), label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
+  { image: img('/images/events/training-workshops.jpg'), label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
+  { image: img('/images/events/prayer-leadership.jpg'), label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
 ]
 </script>
 

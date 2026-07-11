@@ -1,19 +1,21 @@
 <template>
   <!-- HERO -->
   <section class="hero">
-    <!-- Video banner; falls back to poster image until client provides video -->
-    <video
-      class="hero-video"
-      autoplay
-      muted
-      loop
-      playsinline
-      :poster="img('/images/stock/photo-1438232992991-995b7058bbb3.jpg')"
-    >
-      <!-- Client to supply: /videos/hero-banner.mp4 -->
-      <!-- <source src="/videos/hero-banner.mp4" type="video/mp4" /> -->
-    </video>
-    <div class="hero-overlay"></div>
+    <div class="hero-bg">
+      <video
+        v-for="(v, i) in heroVideos"
+        :key="i"
+        ref="videoRefs"
+        :src="v.src"
+        :poster="v.poster"
+        :class="['hero-video', { 'is-active': currentSlide === i }]"
+        muted
+        playsinline
+        loop
+        preload="metadata"
+      />
+      <div class="hero-overlay"></div>
+    </div>
     <div class="container hero-content">
       <p class="hero-label">Visual Word Media Mission · Est. 1997</p>
       <h1>Serving Today's Generation<br><em>in the Will of God</em></h1>
@@ -34,6 +36,15 @@
         <span>·</span>
         <span>Acts 13:36</span>
       </div>
+    </div>
+    <div class="hero-dots" role="group" aria-label="Video slides">
+      <button
+        v-for="(_, i) in heroVideos"
+        :key="i"
+        :class="['hero-dot', { 'is-active': currentSlide === i }]"
+        @click="goToSlide(i)"
+        :aria-label="`Play slide ${i + 1}`"
+      />
     </div>
     <div class="hero-scroll">
       <span>↓</span>
@@ -68,12 +79,12 @@
       </div>
       <div class="about-visual">
         <div class="visual-card primary">
-          <img class="vc-photo" :src="img('/images/stock/photo-1504052434569-70ad5836ab65.jpg')" alt="Open Bible and cross" />
+          <img class="vc-photo" :src="img('/images/homepage/our-vision.jpg')" alt="Our vision for media ministry" />
           <h3>Our Vision</h3>
           <p>Equipping individuals to face the contemporary challenge of media, thereby living a fruitful life in the image of God.</p>
         </div>
         <div class="visual-card secondary">
-          <img class="vc-photo" :src="img('/images/stock/photo-1487611459768-bd414656ea10.jpg')" alt="Media mission workspace" />
+          <img class="vc-photo" :src="img('/images/homepage/our-mission.jpg')" alt="Our mission in action" />
           <h3>Our Mission</h3>
           <p>Reaching out to media users and media makers with the message of Truth and Reality, nurturing them in their relationship with their Maker.</p>
         </div>
@@ -214,12 +225,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { api } from '../services/api.js'
 import { img } from '../composables/useBaseUrl.js'
 
-// ── Admin-managed home page content ──────────────────────────────────────────
 const homeData = ref({ verse: null, banners: [], featured_events: [] })
+
+const heroVideos = [
+  { src: '/videos/hero-1.mp4', poster: img('/images/homepage/slide-1.jpg') },
+  { src: '/videos/hero-2.mp4', poster: img('/images/homepage/slide-2.jpg') },
+  { src: '/videos/hero-3.mp4', poster: img('/images/homepage/slide-3.jpg') },
+]
+const currentSlide = ref(0)
+const videoRefs = ref([])
+let slideTimer = null
+
+function goToSlide(index) {
+  const prev = videoRefs.value[currentSlide.value]
+  if (prev) prev.pause()
+  currentSlide.value = index
+  const next = videoRefs.value[index]
+  if (next) { next.currentTime = 0; next.play().catch(() => {}) }
+  resetTimer()
+}
+
+function nextSlide() {
+  goToSlide((currentSlide.value + 1) % heroVideos.length)
+}
+
+function resetTimer() {
+  clearInterval(slideTimer)
+  slideTimer = setInterval(nextSlide, 8000)
+}
 
 onMounted(async () => {
   try {
@@ -228,14 +265,22 @@ onMounted(async () => {
   } catch (e) {
     // Non-fatal — falls back to hardcoded content
   }
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!prefersReduced && videoRefs.value[0]) {
+    videoRefs.value[0].play().catch(() => {})
+    resetTimer()
+  }
 })
+
+onUnmounted(() => clearInterval(slideTimer))
+
 const ministries = [
-  { image: img('/images/gemini/impact_01.png'), name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
-  { image: img('/images/gemini/60x360.png'), name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
-  { image: img('/images/gemini/production.png'), name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
-  { image: img('/images/gemini/oculus.png'), name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
+  { image: img('/images/homepage/ministry-impact.jpg'), name: 'IMPACT', tag: 'Media Awareness', desc: 'Helping individuals understand, discern, and respond Biblically to the influence of media in modern society.' },
+  { image: img('/images/homepage/ministry-60x360.jpg'), name: '60x360', tag: 'Youth Discipleship', desc: 'A movement to reach villages around Hyderabad through evangelism, discipleship, and leadership.' },
+  { image: img('/images/homepage/ministry-production.jpg'), name: 'PRODUCTION', tag: 'Media for the Kingdom', desc: 'Creating Biblical and educational visual resources to serve churches, ministries, children, and communities.' },
+  { image: img('/images/homepage/ministry-oculus.jpg'), name: 'OCULUS', tag: 'Creative Arts', desc: 'Nurturing a generation of creative artists who will influence culture through a Biblical worldview.' },
   { image: img('/images/gemini/network105.png'), name: 'NETWORK105', tag: 'Digital Outreach', desc: 'A network of digital content initiatives engaging different audiences through Christ-centered media.' },
-  { image: img('/images/gemini/new_life.png'), name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
+  { image: img('/images/homepage/ministry-new-life.jpg'), name: 'NEW LIFE', tag: 'Hope & Counseling', desc: 'Bringing hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.' },
 ]
 
 const burdens = [
@@ -264,21 +309,60 @@ const partners = [
   position: relative;
   overflow: hidden;
 }
-/* Video banner */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
 .hero-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  /* When no video file exists the poster image shows as fallback */
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
 }
-/* Dark gradient overlay over the video */
+.hero-video.is-active { opacity: 1; }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(112deg, rgba(8, 18, 39, 0.88) 0%, rgba(26, 45, 90, 0.74) 48%, rgba(36, 52, 112, 0.74) 100%);
+  background: linear-gradient(112deg, rgba(8, 18, 39, 0.9) 0%, rgba(26, 45, 90, 0.78) 48%, rgba(36, 52, 112, 0.78) 100%);
+  pointer-events: none;
+}
+.hero-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M0 0h80v80H0z'/%3E%3Cpath d='M40 20v40M20 40h40' stroke='%23c9a227' stroke-opacity='0.06' stroke-width='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-dots {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 1;
+}
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s;
+}
+.hero-dot.is-active {
+  background: var(--gold);
+  transform: scale(1.25);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { transition: none; }
 }
 .hero-content {
   position: relative;
