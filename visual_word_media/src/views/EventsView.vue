@@ -121,12 +121,12 @@ const filteredEvents = computed(() =>
 onMounted(fetchEvents)
 
 const eventTypes = [
-  { image: '/images/gemini/youth-camps.png', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
+  { image: '/images/events/youth-camps.jpg', label: 'Youth Camps', desc: 'Multi-day residential camps for evangelism, discipleship, and leadership development among youth.' },
   { image: '/images/gemini/media-seminars.png', label: 'Media Awareness Seminars', desc: 'Half-day or full-day programs addressing media influence, digital addiction, and Biblical responses.' },
-  { image: '/images/gemini/creative-gatherings.png', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
-  { image: '/images/gemini/bible-studies.png', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
-  { image: '/images/gemini/training-workshops.png', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
-  { image: '/images/gemini/prayer-leadership.png', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
+  { image: '/images/events/creative-gatherings.jpg', label: 'Creative Arts Gatherings', desc: 'Workshops, exhibitions, and fellowships for artists to explore faith and creativity together.' },
+  { image: '/images/events/bible-studies.jpg', label: 'Bible Studies', desc: 'Regular and thematic Bible studies for different groups including media professionals and youth.' },
+  { image: '/images/events/training-workshops.jpg', label: 'Training Workshops', desc: 'Practical skill-based training for volunteers, counselors, and ministry team members.' },
+  { image: '/images/events/prayer-leadership.jpg', label: 'Prayer & Leadership Meetings', desc: 'Gatherings for intercession, spiritual formation, and leadership mentoring across the ministry.' },
 ]
 </script>
 

@@ -216,23 +216,23 @@
 
 <script setup>
 const camps = [
-  { image: '/images/gemini/Evangelism_Camps.png', title: 'Evangelism Camps', desc: 'Mobilizing young believers to share their faith, engage local communities, and serve as ambassadors for Christ.' },
-  { image: '/images/gemini/Youth_Discipleship_Camps.png', title: 'Youth Discipleship Camps', desc: 'Helping youth develop a personal relationship with Jesus, build strong spiritual disciplines, and grow in character.' },
-  { image: '/images/gemini/Leadership_Development_Camps.png', title: 'Leadership Development Camps', desc: 'Identifying, mentoring, and equipping emerging leaders who can serve in churches, ministries, and mission fields.' },
-  { image: '/images/gemini/Village_Focused_Ministry.png', title: 'Village-Focused Ministry', desc: 'Ensuring every village has access to the Gospel, disciple-making believers, and Biblical teaching resources.' },
+  { image: '/images/ministries/evangelism-camps.jpg', title: 'Evangelism Camps', desc: 'Mobilizing young believers to share their faith, engage local communities, and serve as ambassadors for Christ.' },
+  { image: '/images/ministries/youth-discipleship-camps.jpg', title: 'Youth Discipleship Camps', desc: 'Helping youth develop a personal relationship with Jesus, build strong spiritual disciplines, and grow in character.' },
+  { image: '/images/ministries/leadership-development.jpg', title: 'Leadership Development Camps', desc: 'Identifying, mentoring, and equipping emerging leaders who can serve in churches, ministries, and mission fields.' },
+  { image: '/images/ministries/village-ministry.jpg', title: 'Village-Focused Ministry', desc: 'Ensuring every village has access to the Gospel, disciple-making believers, and Biblical teaching resources.' },
 ]
 
 const sixtyAreas = ['Gospel Camps', 'Discipleship Camps', 'Bible Studies', 'Leadership Mentoring', 'Village Youth Ministry', 'Mobile Educational Outreach', 'Intense Discipleship Programs']
 
 const oculusAreas = [
-  { image: '/images/gemini/Artist_Fellowships.png', label: 'Artist Fellowships' },
-  { image: '/images/gemini/Creative_Workshops.png', label: 'Creative Workshops' },
-  { image: '/images/gemini/Art_Exhibitions.png', label: 'Art Exhibitions' },
+  { image: '/images/ministries/artist-fellowships.jpg', label: 'Artist Fellowships' },
+  { image: '/images/ministries/creative-workshops.jpg', label: 'Creative Workshops' },
+  { image: '/images/ministries/art-exhibitions.jpg', label: 'Art Exhibitions' },
   { image: '/images/gemini/Competitions.png', label: 'Competitions' },
   { image: '/images/gemini/Theology_Art.png', label: 'Theology & Art' },
   { image: '/images/gemini/Bible_Studies_Artists.png', label: 'Bible Studies for Artists' },
-  { image: '/images/gemini/Creative_Mentorship.png', label: 'Creative Mentorship' },
-  { image: '/images/gemini/Culture_Faith.png', label: 'Culture & Faith' },
+  { image: '/images/ministries/creative-mentorship.jpg', label: 'Creative Mentorship' },
+  { image: '/images/ministries/culture-faith.jpg', label: 'Culture & Faith' },
 ]
 
 const channels = ['Pustakam', 'Mainline Glorious', 'Pebbles', 'Forever Young', 'PRO31', 'Word of Life', 'Education', 'Health']
