@@ -10,6 +10,7 @@ unset($_SESSION['flash']);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VWM Admin — <?= ucfirst($currentPage) ?></title>
   <style>
+    :root { --text-light: #666; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f6fa; color: #2c2c2c; display: flex; min-height: 100vh; font-size: 15px; }
 

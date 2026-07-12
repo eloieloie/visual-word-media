@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name     = trim($_POST['user_name']    ?? '');
             $email    = trim($_POST['user_email']   ?? '');
             $password = $_POST['user_password']     ?? '';
-            $role     = in_array($_POST['role'] ?? '', ['user', 'admin']) ? $_POST['role'] : 'user';
+            $role     = in_array($_POST['role'] ?? '', ['member', 'admin']) ? $_POST['role'] : 'member';
             $sendMailFlag = !empty($_POST['email_credentials']);
 
             if (!$name || !$email || !$password) {
@@ -411,7 +411,7 @@ function jsonList($raw) {
             <div class="form-group">
               <label>Role</label>
               <select name="role" class="form-control">
-                <option value="user">User</option>
+                <option value="member">Member</option>
                 <option value="admin">Admin</option>
               </select>
             </div>

@@ -102,7 +102,9 @@ $banners = $db->query('SELECT * FROM banners ORDER BY sort_order ASC, created_at
 // Events with optional is_featured column
 try {
     $events = $db->query(
-        'SELECT id, title, event_date, is_featured FROM events ORDER BY event_date ASC'
+        'SELECT id, title, month, day, is_featured FROM events WHERE is_active = 1
+         ORDER BY FIELD(month,"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"),
+                  CAST(day AS UNSIGNED)'
     )->fetchAll();
 } catch (PDOException $e) {
     $events = [];
@@ -218,7 +220,7 @@ require_once '_header.php';
       <tr>
         <td style="color:#ccc;font-size:0.78rem"><?= $i+1 ?></td>
         <td style="font-weight:600"><?= htmlspecialchars($ev['title']) ?></td>
-        <td style="font-size:0.82rem;color:#666"><?= htmlspecialchars($ev['event_date'] ?? '—') ?></td>
+        <td style="font-size:0.82rem;color:#666"><?= htmlspecialchars(($ev['month'] ?? '') . ' ' . ($ev['day'] ?? '')) ?></td>
         <td><?= $ev['is_featured'] ? '<span style="color:#c9a227;font-weight:700">★ Featured</span>' : '<span style="color:#ccc">—</span>' ?></td>
         <td>
           <form method="POST" style="display:inline">

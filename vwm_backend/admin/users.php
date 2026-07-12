@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'set_role') {
         $id   = intval($_POST['id'] ?? 0);
         $role = $_POST['role'] ?? '';
-        if ($id && in_array($role, ['admin', 'user'])) {
+        if ($id && in_array($role, ['admin', 'member'])) {
             // Prevent removing own admin role
             if ($id === (int)$adminUser['id'] && $role !== 'admin') {
                 $_SESSION['flash'] = ['type' => 'error', 'msg' => 'You cannot remove your own admin role.'];
@@ -71,7 +71,7 @@ require_once '_header.php';
           <td style="color:#999;font-size:0.8rem"><?= date('d M Y', strtotime($u['created_at'])) ?></td>
           <td>
             <div class="actions">
-              <?php if ($u['role'] === 'user'): ?>
+              <?php if ($u['role'] !== 'admin'): ?>
                 <form method="POST" style="display:inline">
                   <input type="hidden" name="action" value="set_role">
                   <input type="hidden" name="id" value="<?= $u['id'] ?>">
@@ -82,7 +82,7 @@ require_once '_header.php';
                 <form method="POST" style="display:inline" onsubmit="return confirm('Remove admin role?')">
                   <input type="hidden" name="action" value="set_role">
                   <input type="hidden" name="id" value="<?= $u['id'] ?>">
-                  <input type="hidden" name="role" value="user">
+                  <input type="hidden" name="role" value="member">
                   <button type="submit" class="btn-edit-sm">Revoke Admin</button>
                 </form>
               <?php else: ?>
