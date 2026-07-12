@@ -158,17 +158,8 @@ unset($_SESSION['flash']);
       <span class="nav-icon">✨</span> Testimonials
     </a>
     <div style="padding:10px 22px 4px;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3)">System</div>
-    <a href="migrate.php" class="nav-link <?= $currentPage==='migrate'?'active':'' ?>">
-      <span class="nav-icon">🗄️</span> DB Migrate
-    </a>
-    <a href="migrate2.php" class="nav-link <?= $currentPage==='migrate2'?'active':'' ?>">
-      <span class="nav-icon">🗄️</span> DB Migrate 2
-    </a>
-    <a href="migrate3.php" class="nav-link <?= $currentPage==='migrate3'?'active':'' ?>">
-      <span class="nav-icon">🗄️</span> DB Migrate 3
-    </a>
-    <a href="migrate4.php" class="nav-link <?= $currentPage==='migrate4'?'active':'' ?>">
-      <span class="nav-icon">🗄️</span> DB Migrate 4
+    <a href="sql.php" class="nav-link <?= $currentPage==='sql'?'active':'' ?>">
+      <span class="nav-icon">🗄️</span> SQL Runner
     </a>
   </nav>
   <div class="sb-footer">
