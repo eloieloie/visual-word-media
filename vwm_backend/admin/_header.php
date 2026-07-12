@@ -101,8 +101,7 @@ function navSvg(string $name): string {
       padding: 22px 18px 18px;
       border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .sb-cross { font-size: 1.3rem; color: var(--gold); display: block; margin-bottom: 9px; line-height: 1; }
-    .sb-title { font-size: .88rem; font-weight: 700; color: #fff; letter-spacing: -.01em; }
+    .sb-logo  { display: block; height: 38px; width: auto; max-width: 168px; object-fit: contain; margin-bottom: 8px; filter: brightness(0) invert(1); }
     .sb-sub   { font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(201,162,39,.8); margin-top: 3px; }
 
     .sb-nav { padding: 8px 0; flex: 1; }
@@ -287,6 +286,16 @@ function navSvg(string $name): string {
     select.form-control { cursor: pointer; }
     .form-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .form-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 20px; }
+
+    input[type="file"].form-control { padding: 6px 10px; cursor: pointer; }
+    input[type="file"]::file-selector-button {
+      font-family: inherit; font-size: .78rem; font-weight: 600;
+      color: var(--brand); background: var(--surface-2);
+      border: 1.5px solid var(--border); border-radius: var(--r-xs);
+      padding: 5px 12px; cursor: pointer; margin-right: 10px; transition: all .14s;
+    }
+    input[type="file"]::file-selector-button:hover { background: #e8edf8; border-color: var(--brand); }
 
     /* ── Modal ──────────────────────────────────────────── */
     .modal-bg {
@@ -331,7 +340,7 @@ function navSvg(string $name): string {
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-244px); }
       .main { margin-left: 0; }
-      .form-row, .form-row3 { grid-template-columns: 1fr; }
+      .form-row, .form-row3, .form-grid { grid-template-columns: 1fr; }
       .content { padding: 16px; }
       .topbar { padding: 0 16px; }
     }
@@ -341,8 +350,7 @@ function navSvg(string $name): string {
 
 <div class="sidebar">
   <div class="sb-brand">
-    <span class="sb-cross">✝</span>
-    <div class="sb-title">Visual Word Media</div>
+    <img src="logo.png" alt="Visual Word Media" class="sb-logo" />
     <div class="sb-sub">Admin Panel</div>
   </div>
   <nav class="sb-nav">

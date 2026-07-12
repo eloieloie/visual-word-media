@@ -124,7 +124,7 @@ require_once '_header.php';
     <input type="hidden" name="action" value="upload" />
     <div class="form-group">
       <label>Category *</label>
-      <select name="category" required>
+      <select name="category" class="form-control" required>
         <option value="">Select category</option>
         <?php foreach (CATEGORY_LABELS as $key => $label): ?>
           <option value="<?= $key ?>"><?= htmlspecialchars($label) ?>
@@ -134,15 +134,15 @@ require_once '_header.php';
     </div>
     <div class="form-group">
       <label>Title *</label>
-      <input type="text" name="title" placeholder="Resource title" required />
+      <input type="text" name="title" class="form-control" placeholder="Resource title" required />
     </div>
     <div class="form-group" style="grid-column:1/-1">
       <label>Description</label>
-      <textarea name="description" rows="2" placeholder="Short description (optional)"></textarea>
+      <textarea name="description" rows="2" class="form-control" placeholder="Short description (optional)"></textarea>
     </div>
     <div class="form-group" style="grid-column:1/-1">
       <label>File * <span style="color:#999;font-weight:400">(Video: MP4/WebM | Audio: MP3/M4A | PDF — max <?= $MAX_MB ?> MB)</span></label>
-      <input type="file" name="resource_file" accept="video/*,audio/*,application/pdf" required />
+      <input type="file" name="resource_file" class="form-control" accept="video/*,audio/*,application/pdf" required />
     </div>
     <div style="grid-column:1/-1">
       <button type="submit" class="btn btn-gold">Upload Resource</button>
