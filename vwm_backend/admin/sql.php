@@ -7,15 +7,76 @@ $results  = [];
 $errors   = [];
 $executed = 0;
 
+/**
+ * Split SQL text into individual statements, respecting single-quoted,
+ * double-quoted, and backtick-quoted strings so semicolons inside
+ * string literals are not treated as statement terminators.
+ */
+function splitSql(string $raw): array {
+    $statements = [];
+    $current    = '';
+    $len        = strlen($raw);
+    $i          = 0;
+
+    while ($i < $len) {
+        $ch = $raw[$i];
+
+        // Enter a quoted region (' " `)
+        if ($ch === "'" || $ch === '"' || $ch === '`') {
+            $q = $ch;
+            $current .= $ch;
+            $i++;
+            while ($i < $len) {
+                $c = $raw[$i];
+                $current .= $c;
+                if ($c === '\\') {           // backslash escape
+                    $i++;
+                    if ($i < $len) { $current .= $raw[$i]; $i++; }
+                    continue;
+                }
+                if ($c === $q) {             // closing quote
+                    if (isset($raw[$i + 1]) && $raw[$i + 1] === $q) {
+                        // doubled quote — not end of string
+                        $current .= $raw[$i + 1];
+                        $i += 2;
+                        continue;
+                    }
+                    $i++;
+                    break;
+                }
+                $i++;
+            }
+            continue;
+        }
+
+        // Statement terminator
+        if ($ch === ';') {
+            $trimmed = trim($current);
+            if ($trimmed !== '') {
+                $statements[] = $trimmed;
+            }
+            $current = '';
+            $i++;
+            continue;
+        }
+
+        $current .= $ch;
+        $i++;
+    }
+
+    $trimmed = trim($current);
+    if ($trimmed !== '') {
+        $statements[] = $trimmed;
+    }
+
+    return $statements;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $raw = trim($_POST['sql'] ?? '');
 
     if ($raw !== '') {
-        // Split on semicolons but skip empty statements
-        $statements = array_filter(
-            array_map('trim', explode(';', $raw)),
-            fn($s) => $s !== ''
-        );
+        $statements = splitSql($raw);
 
         foreach ($statements as $sql) {
             try {
@@ -184,7 +245,7 @@ var snippets = {
   check_cols:  "SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT\nFROM information_schema.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users'\nORDER BY ORDINAL_POSITION",
 
   migrate2: [
-    "ALTER TABLE users ADD COLUMN IF NOT EXISTS username VARCHAR(80) DEFAULT '' AFTER name",
+    "ALTER TABLE users ADD COLUMN IF NOT EXISTS username VARCHAR(80) DEFAULT NULL AFTER name",
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS mobile VARCHAR(30) DEFAULT '' AFTER email",
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS gender ENUM('male','female','other') DEFAULT 'other' AFTER mobile",
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS church_name VARCHAR(255) DEFAULT '' AFTER gender",
@@ -195,6 +256,8 @@ var snippets = {
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS force_password_reset TINYINT(1) NOT NULL DEFAULT 0 AFTER role",
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS approved_at DATETIME DEFAULT NULL AFTER force_password_reset",
     "ALTER TABLE users ADD COLUMN IF NOT EXISTS approved_by INT(11) DEFAULT NULL AFTER approved_at",
+    "UPDATE users SET username = NULL WHERE username = '' OR username IS NULL",
+    "ALTER TABLE users MODIFY COLUMN username VARCHAR(80) DEFAULT NULL",
     "ALTER TABLE users ADD UNIQUE INDEX IF NOT EXISTS uniq_username (username)"
   ].join(';\n'),
 
