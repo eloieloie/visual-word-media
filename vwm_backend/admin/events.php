@@ -33,6 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Event created successfully.'];
             }
         }
+    } elseif ($action === 'feature') {
+        $id      = intval($_POST['id']      ?? 0);
+        $feature = intval($_POST['feature'] ?? 0);
+        if ($id) {
+            $db->prepare('UPDATE events SET is_featured = ? WHERE id = ?')->execute([$feature, $id]);
+            $_SESSION['flash'] = ['type' => 'success', 'msg' => $feature ? 'Event marked as featured.' : 'Event unfeatured.'];
+        }
     } elseif ($action === 'delete') {
         $id = intval($_POST['id'] ?? 0);
         if ($id) {
@@ -71,6 +78,7 @@ require_once '_header.php';
         <th>Category</th>
         <th>Location</th>
         <th>Time</th>
+        <th>Featured</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -87,8 +95,24 @@ require_once '_header.php';
           <td style="color:#666"><?= htmlspecialchars($e['location']) ?></td>
           <td style="color:#666;font-size:0.82rem"><?= htmlspecialchars($e['time']) ?></td>
           <td>
+            <?php $featured = !empty($e['is_featured']); ?>
+            <?php if ($featured): ?>
+              <span style="color:var(--gold);font-weight:700;font-size:0.82rem">★ Featured</span>
+            <?php else: ?>
+              <span style="color:var(--tx3);font-size:0.82rem">—</span>
+            <?php endif; ?>
+          </td>
+          <td>
             <div class="actions">
               <button class="btn-edit-sm" onclick='editEvent(<?= json_encode($e) ?>)'>Edit</button>
+              <form method="POST" style="display:inline">
+                <input type="hidden" name="action" value="feature">
+                <input type="hidden" name="id" value="<?= $e['id'] ?>">
+                <input type="hidden" name="feature" value="<?= $featured ? 0 : 1 ?>">
+                <button type="submit" class="btn-edit-sm" style="<?= $featured ? '' : 'border-color:var(--gold);color:var(--gold)' ?>">
+                  <?= $featured ? 'Unfeature' : '★ Feature' ?>
+                </button>
+              </form>
               <form method="POST" style="display:inline" onsubmit="return confirm('Remove this event?')">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="id" value="<?= $e['id'] ?>">
@@ -99,7 +123,7 @@ require_once '_header.php';
         </tr>
         <?php endforeach; ?>
       <?php else: ?>
-        <tr class="empty-row"><td colspan="6">No events yet. Add one above.</td></tr>
+        <tr class="empty-row"><td colspan="7">No events yet. Add one above.</td></tr>
       <?php endif; ?>
     </tbody>
   </table>
