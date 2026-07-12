@@ -28,7 +28,9 @@ jobs:
             echo "putenv('MAILGUN_API_KEY=${MAILGUN_API_KEY}');"
           } > vwm_backend/config/secrets.php
 
-      - name: Deploy via SSH (rsync over SFTP/port 65002)
+      - name: Deploy via SSH (attempt 1)
+        id: deploy1
+        continue-on-error: true
         uses: easingthemes/ssh-deploy@v6.0.3
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -38,5 +40,24 @@ jobs:
           SOURCE: "vwm_backend/"
           TARGET: "/home/u417273443/domains/lightsalmon-porpoise-885538.hostingersite.com/public_html"
           # No --delete: never wipe server-only files such as uploads/
+          ARGS: "-rltDvz"
+          EXCLUDE: "init_db.php, .git, .gitignore"
+
+      - name: Wait 30s before retry
+        if: steps.deploy1.outcome == 'failure'
+        run: |
+          echo "Attempt 1 failed — waiting 30s before retry..."
+          sleep 30
+
+      - name: Deploy via SSH (attempt 2 — retry)
+        if: steps.deploy1.outcome == 'failure'
+        uses: easingthemes/ssh-deploy@v6.0.3
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          SOURCE: "vwm_backend/"
+          TARGET: "/home/u417273443/domains/lightsalmon-porpoise-885538.hostingersite.com/public_html"
           ARGS: "-rltDvz"
           EXCLUDE: "init_db.php, .git, .gitignore"

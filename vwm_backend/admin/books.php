@@ -66,13 +66,13 @@ require_once '_header.php';
     <input type="hidden" name="action" value="add" />
     <div class="form-group">
       <label>Book Title *</label>
-      <input type="text" name="title" placeholder="Book title" required />
+      <input type="text" name="title" class="form-control" placeholder="Book title" required />
     </div>
     <div class="form-group">
       <label>Price</label>
       <div style="display:flex;gap:8px">
-        <input type="number" name="price" min="0" step="0.01" placeholder="0.00" style="flex:1" />
-        <select name="currency" style="width:90px">
+        <input type="number" name="price" min="0" step="0.01" placeholder="0.00" class="form-control" style="flex:1" />
+        <select name="currency" class="form-control" style="width:90px">
           <option value="INR">₹ INR</option>
           <option value="USD">$ USD</option>
         </select>
@@ -80,11 +80,11 @@ require_once '_header.php';
     </div>
     <div class="form-group" style="grid-column:1/-1">
       <label>Description</label>
-      <textarea name="description" rows="3" placeholder="Short description"></textarea>
+      <textarea name="description" rows="3" class="form-control" placeholder="Short description"></textarea>
     </div>
     <div class="form-group" style="grid-column:1/-1">
       <label>Cover Image <span style="color:#999;font-weight:400">(JPEG, PNG, WebP)</span></label>
-      <input type="file" name="cover_image" accept="image/jpeg,image/png,image/webp" />
+      <input type="file" name="cover_image" class="form-control" accept="image/jpeg,image/png,image/webp" />
     </div>
     <div style="grid-column:1/-1">
       <button type="submit" class="btn btn-gold">Add Book</button>
