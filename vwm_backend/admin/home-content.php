@@ -118,43 +118,43 @@ require_once '_header.php';
 <!-- ── Daily Verse ─────────────────────────────────────────── -->
 <div class="card">
   <div class="card-head"><h3>📖 Daily Verse</h3></div>
-  <form method="POST" style="padding:0 0 8px">
+  <form method="POST" style="padding:20px">
     <input type="hidden" name="action" value="save_verse" />
     <div class="form-row">
       <div class="form-group">
         <label>Verse Text</label>
-        <textarea name="verse_text" rows="3" placeholder="Type the Bible verse here…"><?= htmlspecialchars($settings['daily_verse_text'] ?? '') ?></textarea>
+        <textarea name="verse_text" rows="3" class="form-control" placeholder="Type the Bible verse here…"><?= htmlspecialchars($settings['daily_verse_text'] ?? '') ?></textarea>
       </div>
       <div class="form-group">
         <label>Reference (e.g. Psalm 19:1)</label>
-        <input type="text" name="verse_ref" placeholder="Book Chapter:Verse"
+        <input type="text" name="verse_ref" class="form-control" placeholder="Book Chapter:Verse"
                value="<?= htmlspecialchars($settings['daily_verse_ref'] ?? '') ?>" />
       </div>
     </div>
-    <button type="submit" class="btn btn-gold" style="margin-top:12px">Save Verse</button>
+    <button type="submit" class="btn btn-gold" style="margin-top:4px">Save Verse</button>
   </form>
 </div>
 
 <!-- ── Banner Management ──────────────────────────────────────── -->
 <div class="card" style="margin-top:24px">
   <div class="card-head"><h3>🖼️ Banner Management</h3></div>
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data" style="padding:20px 20px 4px">
     <input type="hidden" name="action" value="add_banner" />
     <div class="form-row">
       <div class="form-group">
         <label>Headline</label>
-        <input type="text" name="headline" placeholder="Banner headline (optional)" />
+        <input type="text" name="headline" class="form-control" placeholder="Banner headline (optional)" />
       </div>
       <div class="form-group">
         <label>Sub-heading</label>
-        <input type="text" name="subheading" placeholder="Banner sub-heading (optional)" />
+        <input type="text" name="subheading" class="form-control" placeholder="Banner sub-heading (optional)" />
       </div>
     </div>
-    <div class="form-group" style="margin-top:12px">
+    <div class="form-group">
       <label>Image or Video <span style="color:#999;font-weight:400">(JPEG/PNG/WebP/MP4/WebM — max <?= $MAX_MB ?> MB)</span></label>
-      <input type="file" name="banner_file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" />
+      <input type="file" name="banner_file" class="form-control" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" />
     </div>
-    <button type="submit" class="btn btn-gold" style="margin-top:12px">Add Banner</button>
+    <button type="submit" class="btn btn-gold" style="margin-top:4px;margin-bottom:16px">Add Banner</button>
   </form>
 
   <?php if ($banners): ?>
