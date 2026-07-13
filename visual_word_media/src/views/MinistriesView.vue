@@ -306,7 +306,7 @@ const newlifeAreas = [
 }
 .sc-photo {
   width: 100%;
-  height: 150px;
+  height: 250px;
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 14px;
