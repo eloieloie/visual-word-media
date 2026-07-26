@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Be Part of the Mission</p>
-      <h1>Join Us in Advancing<br>God's Kingdom</h1>
-      <p>Every believer has a God-given purpose and a unique role in His Kingdom. Find yours here.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Be Part of the Mission</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Join Us in Advancing<br>God's Kingdom</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Every believer has a God-given purpose and a unique role in His Kingdom. Find yours here.</motion.p>
     </div>
   </div>
 
@@ -29,14 +29,20 @@
         <div class="divider divider-center"></div>
       </div>
       <div class="grid-3">
-        <div class="serve-card" v-for="role in roles" :key="role.title">
+        <motion.div
+          v-for="(role, i) in roles" :key="role.title" class="serve-card"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 24 }"
+          :while-in-view="{ opacity: 1, y: 0 }"
+          :viewport="{ once: true, margin: '-80px' }"
+          :transition="{ duration: prefersReduced ? 0 : 0.5, delay: prefersReduced ? 0 : i * 0.08, ease: 'easeOut' }"
+        >
           <img class="serve-photo" :src="role.image" :alt="role.title" />
           <h3>{{ role.title }}</h3>
           <p>{{ role.desc }}</p>
           <ul v-if="role.skills" class="skill-tags">
             <li v-for="s in role.skills" :key="s">{{ s }}</li>
           </ul>
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>
@@ -56,7 +62,7 @@
           <span>{{ w }}</span>
         </div>
       </div>
-      <p style="text-align:center; color:var(--gold); font-family:'Playfair Display',serif; font-size:1.3rem; margin-top:40px; font-style:italic">Together, we can make an eternal impact.</p>
+      <p style="text-align:center; color:var(--gold); font-family:var(--font-display); font-size:1.3rem; margin-top:40px; font-style:italic">Together, we can make an eternal impact.</p>
     </div>
   </section>
 
@@ -71,13 +77,18 @@
       </div>
 
       <!-- Success state -->
-      <div v-if="submitted" class="success-panel">
+      <motion.div
+        v-if="submitted" class="success-panel"
+        :initial="{ opacity: 0, y: prefersReduced ? 0 : 16 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.5, ease: 'easeOut' }"
+      >
         <img class="success-photo" :src="img('/images/meaningful/volunteer/registration-success.svg')" alt="Registration received" />
         <h3>Registration Received!</h3>
         <p>Thank you, <strong>{{ form.name }}</strong>! We've sent a verification link to <strong>{{ form.email }}</strong>. Please check your inbox and click the link to confirm your email address.</p>
         <p style="font-size:0.92rem;color:var(--text-light);margin-top:12px">Once verified, our team will review your details. After approval, your login credentials will be emailed to you. (Don't forget to check your spam folder.)</p>
         <button class="btn btn-outline" style="margin-top:24px" @click="resetForm">Submit Another Registration</button>
-      </div>
+      </motion.div>
 
       <!-- Error state -->
       <div v-if="submitError" class="error-banner">⚠️ {{ submitError }}</div>
@@ -240,8 +251,10 @@
 <script setup>
 import { img } from '../composables/useBaseUrl.js'
 import { ref, reactive } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 
+const prefersReduced = useReducedMotion()
 const submitted   = ref(false)
 const submitting  = ref(false)
 const submitError = ref('')
@@ -412,7 +425,7 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   border-radius: 50%;
   margin: 0 auto 16px;
 }
-.success-panel h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.8rem; margin-bottom: 14px; }
+.success-panel h3 { font-family: var(--font-display); color: var(--navy); font-size: 1.8rem; margin-bottom: 14px; }
 .success-panel p { color: var(--text-light); font-size: 1.05rem; line-height: 1.75; }
 .error-banner {
   background: #fdecea;

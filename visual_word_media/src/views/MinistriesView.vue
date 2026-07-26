@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Kingdom Work</p>
-      <h1>Our Ministry Wings</h1>
-      <p>Six focused areas of ministry reaching youth, creatives, families, villages, and digital audiences for the glory of God.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Kingdom Work</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Our Ministry Wings</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Six focused areas of ministry reaching youth, creatives, families, villages, and digital audiences for the glory of God.</motion.p>
     </div>
   </div>
 
@@ -76,14 +76,20 @@
           <span class="scripture-ref">— Matthew 9:37</span>
         </div>
         <div class="sixty-grid">
-          <div class="sixty-card" v-for="camp in camps" :key="camp.title">
+          <motion.div
+            v-for="(camp, i) in camps" :key="camp.title" class="sixty-card"
+            :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :viewport="{ once: true, margin: '-60px' }"
+            :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : i * 0.08, ease: 'easeOut' }"
+          >
             <img class="sc-photo" :src="camp.image" :alt="camp.title" />
             <h4>{{ camp.title }}</h4>
             <p>{{ camp.desc }}</p>
-          </div>
+          </motion.div>
         </div>
         <div style="margin-top:40px">
-          <h4 style="color:var(--gold); margin-bottom:16px; font-family:'Playfair Display',serif">Ministry Areas</h4>
+          <h4 style="color:var(--gold); margin-bottom:16px; font-family:var(--font-display)">Ministry Areas</h4>
           <div class="tag-list">
             <span v-for="t in sixtyAreas" :key="t">{{ t }}</span>
           </div>
@@ -143,10 +149,16 @@
       <div class="divider"></div>
       <p style="color:var(--text-light); max-width:640px; margin-bottom:40px">Oculus exists to nurture a generation of creative artists who will influence culture through a Biblical worldview.</p>
       <div class="grid-4">
-        <div class="oculus-card" v-for="a in oculusAreas" :key="a.label">
+        <motion.div
+          v-for="(a, i) in oculusAreas" :key="a.label" class="oculus-card"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+          :while-in-view="{ opacity: 1, y: 0 }"
+          :viewport="{ once: true, margin: '-60px' }"
+          :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : i * 0.06, ease: 'easeOut' }"
+        >
           <img class="oc-photo" :src="a.image" :alt="a.label" />
           <span>{{ a.label }}</span>
-        </div>
+        </motion.div>
       </div>
       <div class="oculus-focus">
         <p>Encouraging Christian creativity that reflects <strong>truth</strong>, <strong>beauty</strong>, <strong>hope</strong>, and <strong>redemption</strong>.</p>
@@ -215,7 +227,9 @@
 </template>
 
 <script setup>
+import { motion, useReducedMotion } from 'motion-v'
 import { img } from '../composables/useBaseUrl.js'
+const prefersReduced = useReducedMotion()
 const camps = [
   { image: img('/images/ministries/evangelism-camps.jpg'), title: 'Evangelism Camps', desc: 'Mobilizing young believers to share their faith, engage local communities, and serve as ambassadors for Christ.' },
   { image: img('/images/ministries/youth-discipleship-camps.jpg'), title: 'Youth Discipleship Camps', desc: 'Helping youth develop a personal relationship with Jesus, build strong spiritual disciplines, and grow in character.' },
@@ -252,7 +266,7 @@ const newlifeAreas = [
   gap: 32px;
 }
 .min-number {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 5.5rem;
   color: var(--gold);
   opacity: 0.22;
@@ -295,7 +309,7 @@ const newlifeAreas = [
 .sixty-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; margin-bottom: 40px; }
 .sixty-stats { display: flex; gap: 24px; }
 .sixty-stat { text-align: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(201,162,39,0.3); border-radius: 8px; padding: 20px 24px; }
-.sixty-stat span { display: block; font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); font-weight: 700; }
+.sixty-stat span { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--gold); font-weight: 700; }
 .sixty-stat small { color: rgba(255,255,255,0.65); font-size: 0.85rem; margin-top: 6px; display: block; }
 .sixty-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 .sixty-card {
@@ -311,7 +325,7 @@ const newlifeAreas = [
   border-radius: 6px;
   margin-bottom: 14px;
 }
-.sixty-card h4 { color: var(--gold); font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 1.15rem; }
+.sixty-card h4 { color: var(--gold); font-family: var(--font-display); margin-bottom: 10px; font-size: 1.15rem; }
 .sixty-card p { color: rgba(255,255,255,0.78); font-size: 1rem; line-height: 1.8; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag-list span {
@@ -353,7 +367,7 @@ const newlifeAreas = [
   color: var(--white);
   padding: 28px 36px;
   border-radius: 8px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.25rem;
   text-align: center;
@@ -363,7 +377,7 @@ const newlifeAreas = [
 
 /* NETWORK105 */
 .network-channels { margin-top: 8px; }
-.network-channels h4 { margin-bottom: 20px; font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.1rem; }
+.network-channels h4 { margin-bottom: 20px; font-family: var(--font-display); color: var(--navy); font-size: 1.1rem; }
 .channel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .channel-card {
   background: var(--navy);
@@ -394,14 +408,14 @@ const newlifeAreas = [
   margin-top: 40px;
   border-left: 4px solid var(--gold);
   padding: 20px 24px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.15rem;
   color: rgba(255,255,255,0.85);
 }
 
 .min-badge {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 3rem;
   color: var(--gold);
   opacity: 0.4;

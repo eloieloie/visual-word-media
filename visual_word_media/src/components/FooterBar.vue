@@ -82,12 +82,12 @@ const year = new Date().getFullYear()
   object-fit: cover;
 }
 .logo-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   color: var(--white);
   font-weight: 700;
 }
-.logo-sub { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.logo-sub { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
 .footer-desc {
   font-size: 0.95rem;
   line-height: 1.85;
@@ -97,20 +97,21 @@ const year = new Date().getFullYear()
 .footer-verse {
   border-left: 3px solid var(--gold);
   padding-left: 16px;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.95rem;
   line-height: 1.75;
 }
 .verse-text { display: block; opacity: 0.85; }
-.verse-ref { display: block; color: var(--gold); margin-top: 6px; font-style: normal; font-size: 0.85rem; letter-spacing: 0.07em; }
+.verse-ref { display: block; color: var(--gold); margin-top: 6px; font-family: var(--font-mono); font-style: normal; font-size: 0.78rem; letter-spacing: 0.05em; }
 
 .footer-col h4 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   color: var(--white);
   font-size: 1.1rem;
   margin-bottom: 18px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(201,162,39,0.3);
+  border-bottom: 1px solid rgba(242,162,58,0.3);
 }
 .footer-col a {
   display: block;
@@ -129,7 +130,9 @@ const year = new Date().getFullYear()
 .footer-bottom-inner {
   display: flex;
   justify-content: space-between;
-  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
   opacity: 0.6;
 }
 

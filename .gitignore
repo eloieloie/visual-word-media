@@ -8,6 +8,12 @@ visual_word_media/.vscode/
 visual_word_media/.idea/
 visual_word_media/.claude/
 
+# ---- graphify (regenerable knowledge graph) ----
+graphify-out/
+
+# ---- Claude Code (machine-local settings) ----
+.claude/settings.local.json
+
 # ---- Backend ----
 vwm_backend/init_db.php
 vwm_backend/uploads/

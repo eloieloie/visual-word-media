@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">We'd Love to Hear From You</p>
-      <h1>Contact Us</h1>
-      <p>We desire to serve today's generation in the will of God through truth, creativity, discipleship, and compassionate media engagement.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">We'd Love to Hear From You</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Contact Us</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">We desire to serve today's generation in the will of God through truth, creativity, discipleship, and compassionate media engagement.</motion.p>
     </div>
   </div>
 
@@ -96,10 +96,10 @@
               Subscribe to ministry updates and prayer newsletter
             </label>
           </div>
-          <div v-if="error" class="form-error">{{ error }}</div>
-          <div v-if="submitted" class="form-success">
+          <motion.div v-if="error" class="form-error" :initial="{ opacity: 0, y: prefersReduced ? 0 : -8 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.35, ease: 'easeOut' }">{{ error }}</motion.div>
+          <motion.div v-if="submitted" class="form-success" :initial="{ opacity: 0, y: prefersReduced ? 0 : -8 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.35, ease: 'easeOut' }">
             Message sent — God bless you! Check your inbox for a confirmation email. We'll be in touch soon.
-          </div>
+          </motion.div>
           <button type="submit" class="btn btn-primary submit-btn" :disabled="loading">
             {{ loading ? 'Sending…' : 'Send Message' }}
           </button>
@@ -127,8 +127,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 
+const prefersReduced = useReducedMotion()
 const submitted = ref(false)
 const loading = ref(false)
 const error = ref('')
@@ -172,7 +174,7 @@ async function submitContact() {
   padding: 44px 36px;
   box-shadow: 0 4px 24px rgba(26,45,90,0.08);
 }
-.contact-form-box h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.6rem; margin-bottom: 8px; }
+.contact-form-box h3 { font-family: var(--font-display); color: var(--navy); font-size: 1.6rem; margin-bottom: 8px; }
 .contact-form-box > p { color: var(--text-light); font-size: 1rem; margin-bottom: 32px; }
 
 .form { display: flex; flex-direction: column; gap: 20px; }

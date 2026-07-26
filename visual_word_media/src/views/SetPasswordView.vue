@@ -1,6 +1,11 @@
 <template>
   <div class="auth-page">
-    <div class="auth-card">
+    <motion.div
+      class="auth-card"
+      :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+      :animate="{ opacity: 1, y: 0 }"
+      :transition="{ duration: prefersReduced ? 0 : 0.5, ease: 'easeOut' }"
+    >
       <div class="auth-brand">
         <img class="auth-logo" :src="img('/images/vwm-logo.jpg')" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
@@ -80,17 +85,19 @@
           </button>
         </form>
       </template>
-    </div>
+    </motion.div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { useRouter } from 'vue-router'
 import { api } from '../services/api.js'
 import { useAuth } from '../composables/useAuth.js'
 import { img } from '../composables/useBaseUrl.js'
 
+const prefersReduced = useReducedMotion()
 const router      = useRouter()
 const { clearForceReset } = useAuth()
 
@@ -151,8 +158,8 @@ async function handleSubmit() {
   margin-bottom: 32px;
 }
 .auth-logo { width: 32px; height: 32px; }
-.auth-site { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-.auth-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }
+.auth-site { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+.auth-title { font-family: var(--font-display); font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }
 .auth-sub   { color: var(--text-light); font-size: 0.97rem; margin-bottom: 28px; line-height: 1.6; }
 .auth-form  { display: flex; flex-direction: column; gap: 20px; }
 .field { display: flex; flex-direction: column; gap: 7px; }

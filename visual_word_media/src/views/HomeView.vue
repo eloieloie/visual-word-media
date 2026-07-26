@@ -17,25 +17,50 @@
       <div class="hero-overlay"></div>
     </div>
     <div class="container hero-content">
-      <p class="hero-label">Visual Word Media Mission · Est. 1997</p>
-      <h1>Serving Today's Generation<br><em>in the Will of God</em></h1>
-      <p class="hero-sub">
+      <motion.p
+        class="hero-label on-air"
+        :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }"
+      ><span class="on-air-dot"></span>On Air · Transmitting Truth Since 1997</motion.p>
+      <motion.h1
+        :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }"
+      >Serving Today's Generation<br><em>in the Will of God</em></motion.h1>
+      <motion.p
+        class="hero-sub"
+        :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }"
+      >
         A Christ-centered media ministry committed to equipping individuals, nurturing creative artists,
         discipling youth, and transforming society through Biblical truth and media engagement.
-      </p>
-      <div class="hero-btns">
+      </motion.p>
+      <motion.div
+        class="hero-btns"
+        :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.3, ease: 'easeOut' }"
+      >
         <RouterLink to="/ministries" class="btn btn-primary">Explore Our Ministries</RouterLink>
         <RouterLink to="/volunteer" class="btn btn-outline">Join the Mission</RouterLink>
         <RouterLink to="/contact" class="btn btn-outline">Contact Us</RouterLink>
-      </div>
-      <p class="hero-scripture-title">Scriptural Foundation of the Ministry</p>
-      <div class="hero-scriptures">
-        <span>Psalm 19:1</span>
-        <span>·</span>
-        <span>Proverbs 24:11</span>
-        <span>·</span>
-        <span>Acts 13:36</span>
-      </div>
+      </motion.div>
+      <motion.div
+        :initial="{ opacity: 0 }"
+        :animate="{ opacity: 1 }"
+        :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.4, ease: 'easeOut' }"
+      >
+        <p class="hero-scripture-title">Scriptural Foundation of the Ministry</p>
+        <div class="hero-scriptures">
+          <span>Psalm 19:1</span>
+          <span>·</span>
+          <span>Proverbs 24:11</span>
+          <span>·</span>
+          <span>Acts 13:36</span>
+        </div>
+      </motion.div>
     </div>
     <div class="hero-dots" role="group" aria-label="Video slides">
       <button
@@ -118,13 +143,21 @@
         <p class="section-subtitle" style="margin:0 auto">Six focused areas of ministry reaching youth, creatives, families, villages, and digital audiences for the Kingdom of God.</p>
       </div>
       <div class="grid-3">
-        <RouterLink to="/ministries" class="ministry-card" v-for="m in ministries" :key="m.name">
-          <img class="mc-photo" :src="m.image" :alt="m.name + ' ministry'" />
-          <h3>{{ m.name }}</h3>
-          <p class="mc-tag">{{ m.tag }}</p>
-          <p>{{ m.desc }}</p>
-          <span class="mc-link">Learn more</span>
-        </RouterLink>
+        <motion.div
+          v-for="(m, i) in ministries" :key="m.name"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 24 }"
+          :while-in-view="{ opacity: 1, y: 0 }"
+          :viewport="{ once: true, margin: '-80px' }"
+          :transition="{ duration: prefersReduced ? 0 : 0.5, delay: prefersReduced ? 0 : i * 0.08, ease: 'easeOut' }"
+        >
+          <RouterLink to="/ministries" class="ministry-card">
+            <img class="mc-photo" :src="m.image" :alt="m.name + ' ministry'" />
+            <h3>{{ m.name }}</h3>
+            <p class="mc-tag">{{ m.tag }}</p>
+            <p>{{ m.desc }}</p>
+            <span class="mc-link">Learn more</span>
+          </RouterLink>
+        </motion.div>
       </div>
     </div>
   </section>
@@ -226,9 +259,11 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 import { img } from '../composables/useBaseUrl.js'
 
+const prefersReduced = useReducedMotion()
 const homeData = ref({ verse: null, banners: [], featured_events: [] })
 
 const heroVideos = [
@@ -265,8 +300,8 @@ onMounted(async () => {
   } catch (e) {
     // Non-fatal — falls back to hardcoded content
   }
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (!prefersReduced && videoRefs.value[0]) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!reduceMotion && videoRefs.value[0]) {
     videoRefs.value[0].play().catch(() => {})
     resetTimer()
   }
@@ -370,11 +405,32 @@ const partners = [
   max-width: 860px;
 }
 .hero-label {
-  font-size: 0.83rem;
-  letter-spacing: 0.22em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.on-air-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(242,162,58,0.6);
+  animation: pulse-dot 2.2s ease-out infinite;
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .on-air-dot { animation: none; }
+}
+@keyframes pulse-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(242,162,58,0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(242,162,58,0); }
+  100% { box-shadow: 0 0 0 0 rgba(242,162,58,0); }
 }
 .hero-content h1 {
   font-size: clamp(2.4rem, 5.5vw, 4.4rem);
@@ -397,18 +453,20 @@ const partners = [
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.35);
   max-width: 460px;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: rgba(255,255,255,0.82);
-  letter-spacing: 0.13em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 .hero-scriptures {
   display: flex;
   gap: 14px;
   align-items: center;
-  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   color: rgba(255,255,255,0.5);
-  letter-spacing: 0.07em;
+  letter-spacing: 0.04em;
 }
 .hero-scroll {
   position: absolute;
@@ -434,8 +492,8 @@ const partners = [
   max-width: 340px;
 }
 .stat { text-align: center; }
-.stat-num { display: block; font-family: 'Playfair Display', serif; font-size: 1.85rem; color: var(--navy); font-weight: 700; }
-.stat-label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-top: 6px; font-weight: 700; }
+.stat-num { display: block; font-family: var(--font-display); font-size: 1.85rem; color: var(--navy); font-weight: 700; }
+.stat-label { display: block; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-top: 6px; font-weight: 500; }
 .about-visual { display: flex; flex-direction: column; gap: 20px; }
 .visual-card {
   padding: 32px 28px;
@@ -474,7 +532,7 @@ const partners = [
   margin-bottom: 16px;
 }
 .ministry-card h3 { font-size: 1.25rem; color: var(--navy); margin-bottom: 6px; }
-.mc-tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
+.mc-tag { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--frequency); font-weight: 500; margin-bottom: 14px; }
 .ministry-card p { font-size: 1rem; color: var(--text-light); line-height: 1.85; }
 .mc-link { display: inline-block; margin-top: 18px; font-size: 0.95rem; font-weight: 700; color: var(--navy); }
 .ministry-card:hover .mc-link { color: var(--gold); }
@@ -548,8 +606,8 @@ const partners = [
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .featured-event-card:hover { border-color: var(--gold); box-shadow: 0 4px 18px rgba(26,45,90,0.09); }
-.fec-date  { font-size: 0.78rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
-.fec-title { color: var(--navy); font-size: 1.02rem; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+.fec-date  { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold); font-weight: 500; margin-bottom: 8px; letter-spacing: 0.03em; }
+.fec-title { color: var(--navy); font-size: 1.02rem; margin-bottom: 8px; font-family: var(--font-display); }
 .fec-desc  { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; }
 
 /* CTA */

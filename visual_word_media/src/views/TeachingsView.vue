@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Learn &amp; Grow</p>
-      <h1>Media</h1>
-      <p>Video messages from our youtube channels.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Learn &amp; Grow</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Media</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Video messages from our youtube channels.</motion.p>
     </div>
   </div>
 
@@ -23,11 +23,15 @@
           <p>No videos found. Check back soon.</p>
         </div>
         <div v-else class="video-grid">
-          <div
+          <motion.div
             class="video-card"
-            v-for="v in videos"
+            v-for="(v, i) in videos"
             :key="v.id"
             @click="playVideo(v)"
+            :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :viewport="{ once: true, margin: '-60px' }"
+            :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : Math.min(i, 8) * 0.06, ease: 'easeOut' }"
           >
             <div class="video-thumb">
               <img :src="v.thumbnail" :alt="v.title" loading="lazy" />
@@ -40,7 +44,7 @@
               <p class="video-date">{{ v.date }}</p>
               <p class="video-desc" v-if="v.description">{{ truncate(v.description, 100) }}</p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -48,27 +52,31 @@
 
   <!-- ─── Video Modal ──────────────────────────────────────── -->
   <Teleport to="body">
-    <div class="modal-backdrop" v-if="activeVideo" @click.self="activeVideo = null">
-      <div class="modal-inner">
-        <button class="modal-close" @click="activeVideo = null">×</button>
-        <div class="iframe-wrap">
-          <iframe
-            :src="`${activeVideo.embed}?autoplay=1&rel=0`"
-            frameborder="0"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+    <Transition :name="prefersReduced ? '' : 'modal'">
+      <div class="modal-backdrop" v-if="activeVideo" @click.self="activeVideo = null">
+        <div class="modal-inner">
+          <button class="modal-close" @click="activeVideo = null">×</button>
+          <div class="iframe-wrap">
+            <iframe
+              :src="`${activeVideo.embed}?autoplay=1&rel=0`"
+              frameborder="0"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="modal-title">{{ activeVideo.title }}</div>
         </div>
-        <div class="modal-title">{{ activeVideo.title }}</div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 
+const prefersReduced = useReducedMotion()
 const videos       = ref([])
 const videoLoading = ref(true)
 const videoError   = ref('')
@@ -139,7 +147,12 @@ onMounted(() => {
 .modal-close { position: absolute; top: -18px; right: -18px; width: 38px; height: 38px; border-radius: 50%; background: var(--white); border: none; font-size: 1.4rem; cursor: pointer; line-height: 1; z-index: 10; }
 .iframe-wrap { position: relative; aspect-ratio: 16/9; }
 .iframe-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 10px 10px 0 0; }
-.modal-title { padding: 14px 18px; color: rgba(255,255,255,0.85); font-size: 0.95rem; font-family: 'Playfair Display', serif; border-radius: 0 0 10px 10px; }
+.modal-title { padding: 14px 18px; color: rgba(255,255,255,0.85); font-size: 0.95rem; font-family: var(--font-display); border-radius: 0 0 10px 10px; }
+
+.modal-enter-active, .modal-leave-active { transition: opacity 0.2s ease; }
+.modal-enter-active .modal-inner, .modal-leave-active .modal-inner { transition: transform 0.2s ease, opacity 0.2s ease; }
+.modal-enter-from, .modal-leave-to { opacity: 0; }
+.modal-enter-from .modal-inner, .modal-leave-to .modal-inner { transform: translateY(12px) scale(0.98); opacity: 0; }
 
 /* ─── States ─────────────────────────────────────────────── */
 .loading-state, .error-state, .empty-state { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 80px 0; color: var(--text-light); }

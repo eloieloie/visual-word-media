@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">To His Glory</p>
-      <h1>Stories of Transformation</h1>
-      <p>Lives touched, hearts changed, and communities transformed by the grace of God through this ministry.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">To His Glory</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Stories of Transformation</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Lives touched, hearts changed, and communities transformed by the grace of God through this ministry.</motion.p>
     </div>
   </div>
 
@@ -41,7 +41,13 @@
 
         <!-- Grid -->
         <div v-if="filteredTestimonials.length" class="grid-3" style="margin-top:40px">
-          <div class="testimony-card" v-for="t in filteredTestimonials" :key="t.id">
+          <motion.div
+            v-for="(t, i) in filteredTestimonials" :key="t.id" class="testimony-card"
+            :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :viewport="{ once: true, margin: '-60px' }"
+            :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : Math.min(i, 8) * 0.06, ease: 'easeOut' }"
+          >
             <div class="tc-quote">❝</div>
             <p class="tc-text">{{ t.testimony }}</p>
             <div class="tc-author">
@@ -54,7 +60,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <div v-else class="empty-state">
@@ -76,8 +82,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 
+const prefersReduced = useReducedMotion()
 const allTestimonials = ref([])
 const loading         = ref(true)
 const error           = ref('')

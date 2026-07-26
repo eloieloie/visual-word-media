@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Grow in Truth</p>
-      <h1>Biblical &amp; Media Resources</h1>
-      <p>Articles, teachings, Bible studies, and media content to equip you in your faith and calling.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Grow in Truth</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Biblical &amp; Media Resources</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Articles, teachings, Bible studies, and media content to equip you in your faith and calling.</motion.p>
     </div>
   </div>
 
@@ -37,7 +37,13 @@
           <p>No books available yet.</p>
         </div>
         <div v-else class="books-grid">
-          <div v-for="book in books" :key="book.id" class="book-card">
+          <motion.div
+            v-for="(book, i) in books" :key="book.id" class="book-card"
+            :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :viewport="{ once: true, margin: '-60px' }"
+            :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : Math.min(i, 6) * 0.06, ease: 'easeOut' }"
+          >
             <img v-if="book.cover_image" :src="'/' + book.cover_image" :alt="book.title" class="book-cover" />
             <div v-else class="book-cover-placeholder">📖</div>
             <div class="book-body">
@@ -51,7 +57,7 @@
                 <button class="btn btn-gold btn-sm" @click="openEnquiry(book)">Get this Book</button>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </template>
 
@@ -96,49 +102,54 @@
 
   <!-- Book Enquiry Modal -->
   <teleport to="body">
-    <div v-if="enquiryBook" class="modal-backdrop" @click.self="closeEnquiry">
-      <div class="modal-inner">
-        <button class="modal-close" @click="closeEnquiry">×</button>
-        <h3>Get this Book</h3>
-        <p class="modal-book-title">{{ enquiryBook.title }}</p>
+    <Transition :name="prefersReduced ? '' : 'modal'">
+      <div v-if="enquiryBook" class="modal-backdrop" @click.self="closeEnquiry">
+        <div class="modal-inner">
+          <button class="modal-close" @click="closeEnquiry">×</button>
+          <h3>Get this Book</h3>
+          <p class="modal-book-title">{{ enquiryBook.title }}</p>
 
-        <div v-if="enquirySuccess" class="enquiry-success">
-          <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
-          <p>{{ enquirySuccess }}</p>
-          <button class="btn btn-outline btn-sm" style="margin-top:16px" @click="closeEnquiry">Close</button>
+          <div v-if="enquirySuccess" class="enquiry-success">
+            <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
+            <p>{{ enquirySuccess }}</p>
+            <button class="btn btn-outline btn-sm" style="margin-top:16px" @click="closeEnquiry">Close</button>
+          </div>
+
+          <form v-else @submit.prevent="submitEnquiry" class="enquiry-form">
+            <p v-if="enquiryError" class="error-banner">{{ enquiryError }}</p>
+
+            <div class="field">
+              <label>Full Name *</label>
+              <input v-model="enquiryForm.name" type="text" required placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label>Email Address *</label>
+              <input v-model="enquiryForm.email" type="email" required placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label>Phone Number</label>
+              <input v-model="enquiryForm.phone" type="tel" placeholder="+91 00000 00000" />
+            </div>
+            <div class="field">
+              <label>Book</label>
+              <input :value="enquiryBook.title" type="text" disabled />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;" :disabled="enquiryLoading">
+              {{ enquiryLoading ? 'Sending…' : 'Send Enquiry' }}
+            </button>
+          </form>
         </div>
-
-        <form v-else @submit.prevent="submitEnquiry" class="enquiry-form">
-          <p v-if="enquiryError" class="error-banner">{{ enquiryError }}</p>
-
-          <div class="field">
-            <label>Full Name *</label>
-            <input v-model="enquiryForm.name" type="text" required placeholder="Your name" />
-          </div>
-          <div class="field">
-            <label>Email Address *</label>
-            <input v-model="enquiryForm.email" type="email" required placeholder="you@example.com" />
-          </div>
-          <div class="field">
-            <label>Phone Number</label>
-            <input v-model="enquiryForm.phone" type="tel" placeholder="+91 00000 00000" />
-          </div>
-          <div class="field">
-            <label>Book</label>
-            <input :value="enquiryBook.title" type="text" disabled />
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;" :disabled="enquiryLoading">
-            {{ enquiryLoading ? 'Sending…' : 'Send Enquiry' }}
-          </button>
-        </form>
       </div>
-    </div>
+    </Transition>
   </teleport>
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
+
+const prefersReduced = useReducedMotion()
 
 const allCategories = [
   { key: 'articles',           label: 'Articles' },
@@ -273,7 +284,7 @@ async function submitEnquiry() {
 .book-cover { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; max-height: 260px; }
 .book-cover-placeholder { width: 100%; aspect-ratio: 2/3; background: var(--section-bg); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; max-height: 260px; }
 .book-body { padding: 18px 20px; display: flex; flex-direction: column; flex: 1; }
-.book-title { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.05rem; margin-bottom: 8px; }
+.book-title { font-family: var(--font-display); color: var(--navy); font-size: 1.05rem; margin-bottom: 8px; }
 .book-desc  { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; flex: 1; margin-bottom: 14px; }
 .book-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .book-price { font-size: 1rem; font-weight: 700; color: var(--navy); }
@@ -302,7 +313,7 @@ async function submitEnquiry() {
   position: absolute; top: 16px; right: 18px; background: none; border: none;
   font-size: 1.6rem; cursor: pointer; color: var(--text-light); line-height: 1;
 }
-.modal-inner h3 { font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 6px; }
+.modal-inner h3 { font-family: var(--font-display); color: var(--navy); margin-bottom: 6px; }
 .modal-book-title { color: var(--gold); font-weight: 600; font-size: 0.95rem; margin-bottom: 20px; }
 .enquiry-form { display: flex; flex-direction: column; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
@@ -315,6 +326,11 @@ async function submitEnquiry() {
 .field input:disabled { background: var(--section-bg); color: var(--text-light); }
 .error-banner { background: #fdecea; border: 1px solid #f5c6c4; border-radius: 6px; padding: 10px 14px; color: #c0392b; font-size: 0.88rem; }
 .enquiry-success { text-align: center; padding: 16px 0; color: var(--text); font-size: 0.97rem; }
+
+.modal-enter-active, .modal-leave-active { transition: opacity 0.2s ease; }
+.modal-enter-active .modal-inner, .modal-leave-active .modal-inner { transition: transform 0.2s ease, opacity 0.2s ease; }
+.modal-enter-from, .modal-leave-to { opacity: 0; }
+.modal-enter-from .modal-inner, .modal-leave-to .modal-inner { transform: translateY(12px) scale(0.98); opacity: 0; }
 
 @media (max-width: 860px) { .books-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px) { .books-grid { grid-template-columns: 1fr; } .modal-inner { padding: 28px 20px; } }

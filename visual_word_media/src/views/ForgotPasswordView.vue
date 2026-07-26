@@ -1,6 +1,11 @@
 <template>
   <div class="auth-page">
-    <div class="auth-card">
+    <motion.div
+      class="auth-card"
+      :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+      :animate="{ opacity: 1, y: 0 }"
+      :transition="{ duration: prefersReduced ? 0 : 0.5, ease: 'easeOut' }"
+    >
       <div class="auth-brand">
         <img class="auth-logo" :src="img('/images/logo.png')" alt="Visual Word Media logo" />
         <span class="auth-site">Visual Word Media</span>
@@ -45,15 +50,17 @@
         Remembered your password?
         <RouterLink to="/login">Back to Sign in</RouterLink>
       </p>
-    </div>
+    </motion.div>
   </div>
 </template>
 
 <script setup>
 import { img } from '../composables/useBaseUrl.js'
 import { ref } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { useAuth } from '../composables/useAuth.js'
 
+const prefersReduced = useReducedMotion()
 const { requestPasswordReset } = useAuth()
 
 const email = ref('')
@@ -105,9 +112,9 @@ async function handleRequest() {
   margin-bottom: 32px;
 }
 .auth-logo { width: 32px; height: 32px; }
-.auth-site  { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+.auth-site  { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--navy); }
 
-.auth-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }
+.auth-title { font-family: var(--font-display); font-size: 1.7rem; color: var(--navy); margin-bottom: 8px; }
 .auth-sub   { color: var(--text-light); font-size: 0.97rem; margin-bottom: 32px; }
 
 .auth-form  { display: flex; flex-direction: column; gap: 20px; }
