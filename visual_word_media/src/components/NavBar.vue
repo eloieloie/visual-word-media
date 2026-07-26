@@ -34,29 +34,35 @@
       </button>
     </div>
 
-    <div class="mobile-menu" v-if="menuOpen">
-      <RouterLink to="/about" @click="menuOpen=false">About</RouterLink>
-      <RouterLink to="/ministries" @click="menuOpen=false">Ministries</RouterLink>
-      <RouterLink to="/events" @click="menuOpen=false">Events</RouterLink>
-      <RouterLink to="/teachings" @click="menuOpen=false">Media</RouterLink>
-      <RouterLink to="/resources" @click="menuOpen=false">Resources</RouterLink>
-      <RouterLink to="/testimonies" @click="menuOpen=false">Testimonies</RouterLink>
-      <RouterLink to="/prayer" @click="menuOpen=false">Prayer</RouterLink>
-      <RouterLink to="/contact" @click="menuOpen=false">Contact</RouterLink>
-      <template v-if="isLoggedIn">
-        <button class="btn btn-outline mobile-logout" @click="handleLogout; menuOpen=false">Logout</button>
-      </template>
-      <template v-else>
-        <RouterLink to="/login" class="btn btn-outline" @click="menuOpen=false">Login</RouterLink>
-        <RouterLink to="/volunteer" class="btn btn-primary" @click="menuOpen=false">Join the Mission</RouterLink>
-      </template>
-    </div>
+    <Transition :name="prefersReduced ? '' : 'mobile-menu'">
+      <div
+        v-if="menuOpen"
+        class="mobile-menu"
+      >
+        <RouterLink to="/about" @click="menuOpen=false">About</RouterLink>
+        <RouterLink to="/ministries" @click="menuOpen=false">Ministries</RouterLink>
+        <RouterLink to="/events" @click="menuOpen=false">Events</RouterLink>
+        <RouterLink to="/teachings" @click="menuOpen=false">Media</RouterLink>
+        <RouterLink to="/resources" @click="menuOpen=false">Resources</RouterLink>
+        <RouterLink to="/testimonies" @click="menuOpen=false">Testimonies</RouterLink>
+        <RouterLink to="/prayer" @click="menuOpen=false">Prayer</RouterLink>
+        <RouterLink to="/contact" @click="menuOpen=false">Contact</RouterLink>
+        <template v-if="isLoggedIn">
+          <button class="btn btn-outline mobile-logout" @click="handleLogout; menuOpen=false">Logout</button>
+        </template>
+        <template v-else>
+          <RouterLink to="/login" class="btn btn-outline" @click="menuOpen=false">Login</RouterLink>
+          <RouterLink to="/volunteer" class="btn btn-primary" @click="menuOpen=false">Join the Mission</RouterLink>
+        </template>
+      </div>
+    </Transition>
   </header>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useReducedMotion } from 'motion-v'
 import { useAuth } from '../composables/useAuth.js'
 import { img } from '../composables/useBaseUrl.js'
 
@@ -66,6 +72,7 @@ const router      = useRouter()
 const route       = useRoute()
 const solidRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
 const { user, isLoggedIn, logout } = useAuth()
+const prefersReduced = useReducedMotion()
 
 const firstName = computed(() => user.value?.name?.split(' ')[0] ?? '')
 
@@ -112,14 +119,15 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 }
 .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
 .logo-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 1.03rem;
   font-weight: 700;
   color: var(--white);
 }
 .logo-sub {
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
 }
@@ -177,6 +185,14 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   font-size: 1.05rem;
 }
 .mobile-menu a.btn { margin-top: 16px; text-align: center; border-bottom: none; }
+
+.mobile-menu-enter-active, .mobile-menu-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.mobile-menu-enter-from, .mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 
 @media (max-width: 960px) {
   .nav-links { display: none; }

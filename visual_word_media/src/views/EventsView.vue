@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Mark Your Calendar</p>
-      <h1>Ministry Events</h1>
-      <p>Camps, seminars, workshops, and gatherings that equip, inspire, and connect the body of Christ.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Mark Your Calendar</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Ministry Events</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Camps, seminars, workshops, and gatherings that equip, inspire, and connect the body of Christ.</motion.p>
     </div>
   </div>
 
@@ -33,7 +33,13 @@
         </div>
 
         <div class="events-grid" v-if="filteredEvents.length">
-          <div class="event-card" v-for="e in filteredEvents" :key="e.id">
+          <motion.div
+            v-for="(e, i) in filteredEvents" :key="e.id" class="event-card"
+            :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }"
+            :while-in-view="{ opacity: 1, y: 0 }"
+            :viewport="{ once: true, margin: '-60px' }"
+            :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : Math.min(i, 6) * 0.06, ease: 'easeOut' }"
+          >
             <div class="ec-date">
               <span class="ec-month">{{ e.month }}</span>
               <span class="ec-day">{{ e.day }}</span>
@@ -50,7 +56,7 @@
             <div class="ec-action">
               <RouterLink to="/contact" class="btn btn-navy">Register</RouterLink>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <p v-else class="no-events">No events found in this category.</p>
@@ -92,7 +98,9 @@
 <script setup>
 import { img } from '../composables/useBaseUrl.js'
 import { ref, computed, onMounted } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
+const prefersReduced = useReducedMotion()
 
 const categories    = ['All', 'Youth Camps', 'Media Seminars', 'Creative Arts', 'Bible Studies', 'Training Workshops', 'Prayer Meetings', 'Leadership Sessions']
 const activeCategory = ref('All')
@@ -171,7 +179,7 @@ const eventTypes = [
   flex-shrink: 0;
 }
 .ec-month { font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-.ec-day   { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.ec-day   { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; line-height: 1; }
 .ec-body  { flex: 1; }
 .ec-tag   { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 .ec-body h3 { color: var(--navy); margin: 6px 0 10px; font-size: 1.15rem; }

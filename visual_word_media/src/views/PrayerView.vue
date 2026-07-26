@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">We're Here For You</p>
-      <h1>Prayer Request</h1>
-      <p>Share your prayer request with us — our prayer team will intercede on your behalf.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">We're Here For You</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Prayer Request</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">Share your prayer request with us — our prayer team will intercede on your behalf.</motion.p>
     </div>
   </div>
 
@@ -48,12 +48,17 @@
       <div class="prayer-form-box">
 
         <!-- Success state -->
-        <div v-if="submitted" class="success-panel">
+        <motion.div
+          v-if="submitted" class="success-panel"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 16 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: prefersReduced ? 0 : 0.5, ease: 'easeOut' }"
+        >
           <div class="success-icon">🙏</div>
           <h3>Prayer Request Received</h3>
           <p>Thank you, <strong>{{ form.name }}</strong>. Our prayer team has received your request and will be interceding for you. A confirmation has been sent to <strong>{{ form.email }}</strong>.</p>
           <button class="btn btn-outline" style="margin-top:24px" @click="resetForm">Submit Another Request</button>
-        </div>
+        </motion.div>
 
         <template v-else>
           <h3>Submit a Prayer Request</h3>
@@ -111,8 +116,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { motion, useReducedMotion } from 'motion-v'
 import { api } from '../services/api.js'
 
+const prefersReduced = useReducedMotion()
 const submitted   = ref(false)
 const submitting  = ref(false)
 const submitError = ref('')
@@ -215,7 +222,7 @@ const promises = [
   box-shadow: 0 4px 24px rgba(26,45,90,0.08);
 }
 .prayer-form-box > h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   color: var(--navy);
   font-size: 1.6rem;
   margin-bottom: 10px;
@@ -269,7 +276,7 @@ const promises = [
   padding: 20px 0;
 }
 .success-icon { font-size: 3.5rem; margin-bottom: 20px; }
-.success-panel h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.6rem; margin-bottom: 14px; }
+.success-panel h3 { font-family: var(--font-display); color: var(--navy); font-size: 1.6rem; margin-bottom: 14px; }
 .success-panel p { color: var(--text-light); line-height: 1.8; max-width: 380px; }
 
 @media (max-width: 760px) {

@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Est. 1997</p>
-      <h1>About Visual Word</h1>
-      <p>A ministry born in the presence of God, committed to declaring His glory through creativity, media, and Kingdom service.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Est. 1997</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">About Visual Word</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">A ministry born in the presence of God, committed to declaring His glory through creativity, media, and Kingdom service.</motion.p>
     </div>
   </div>
 
@@ -90,11 +90,17 @@
         <div class="divider divider-center"></div>
       </div>
       <div class="grid-3">
-        <div class="card" v-for="area in impactAreas" :key="area.title">
+        <motion.div
+          v-for="(area, i) in impactAreas" :key="area.title" class="card"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 24 }"
+          :while-in-view="{ opacity: 1, y: 0 }"
+          :viewport="{ once: true, margin: '-80px' }"
+          :transition="{ duration: prefersReduced ? 0 : 0.5, delay: prefersReduced ? 0 : i * 0.08, ease: 'easeOut' }"
+        >
           <img class="impact-photo" :src="area.image" :alt="area.title" />
           <h3 style="color:var(--navy); margin-bottom:10px">{{ area.title }}</h3>
           <p style="color:var(--text-light); font-size:0.92rem; line-height:1.7">{{ area.desc }}</p>
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>
@@ -130,7 +136,9 @@
 </template>
 
 <script setup>
+import { motion, useReducedMotion } from 'motion-v'
 import { img } from '../composables/useBaseUrl.js'
+const prefersReduced = useReducedMotion()
 const convictions = [
   'Every camera can become a pulpit.',
   'Every screen can become a platform for truth.',
@@ -201,7 +209,7 @@ const missions = [
   gap: 16px;
 }
 .story-quote blockquote {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.3rem;
   color: var(--navy);
@@ -252,7 +260,7 @@ const missions = [
   margin-top: 8px;
   flex-shrink: 0;
 }
-.outro-tagline { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); }
+.outro-tagline { font-family: var(--font-display); font-size: 1.15rem; color: var(--navy); }
 
 @media (max-width: 760px) {
   .two-col, .conviction-grid, .mission-list { grid-template-columns: 1fr; }

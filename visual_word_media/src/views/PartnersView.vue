@@ -1,9 +1,9 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <p class="hero-label">Kingdom Collaboration</p>
-      <h1>Our Partners</h1>
-      <p>United in purpose, bound by the Great Commission — we are grateful for the ministries and organisations walking alongside Visual Word Media in Kingdom work.</p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Kingdom Collaboration</motion.p>
+      <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">Our Partners</motion.h1>
+      <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">United in purpose, bound by the Great Commission — we are grateful for the ministries and organisations walking alongside Visual Word Media in Kingdom work.</motion.p>
     </div>
   </div>
 
@@ -23,7 +23,13 @@
   <section class="section">
     <div class="container">
       <div class="partners-list">
-        <div class="partner-card" v-for="partner in partners" :key="partner.name">
+        <motion.div
+          v-for="(partner, i) in partners" :key="partner.name" class="partner-card"
+          :initial="{ opacity: 0, y: prefersReduced ? 0 : 20 }"
+          :while-in-view="{ opacity: 1, y: 0 }"
+          :viewport="{ once: true, margin: '-60px' }"
+          :transition="{ duration: prefersReduced ? 0 : 0.45, delay: prefersReduced ? 0 : Math.min(i, 5) * 0.06, ease: 'easeOut' }"
+        >
           <div class="partner-icon">
             <span class="partner-initials">{{ partner.initials }}</span>
           </div>
@@ -35,7 +41,7 @@
               <span class="focus-tag" v-for="tag in partner.focus" :key="tag">{{ tag }}</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>
@@ -54,6 +60,8 @@
 </template>
 
 <script setup>
+import { motion, useReducedMotion } from 'motion-v'
+const prefersReduced = useReducedMotion()
 const partners = [
   {
     name: 'Youth for Christ India',
@@ -160,7 +168,7 @@ const partners = [
 
 .partner-initials {
   color: var(--gold);
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.05em;
