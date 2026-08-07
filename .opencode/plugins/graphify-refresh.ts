@@ -1,21 +1,26 @@
-import type { Plugin } from "@opencode-ai/plugin"
+// opencode plugin: auto-refresh graphify-out/graph.json after file edits.
+// Plain-function form (no @opencode-ai/plugin import) — that import triggers
+// opencode's npm dependency installer to fail (no published version "local").
 
-// Debounce timer shared across all qualifying edits. Module-scope, so it
-// survives between tool calls within a single opencode process.
 let pending: ReturnType<typeof setTimeout> | null = null
 
 const DEBOUNCE_MS = 3000
-// Only these tools mutate files on disk; reads/grep/glob/todos do not.
 const MUTATING_TOOLS = new Set(["edit", "write"])
 
-export const GraphifyRefreshPlugin: Plugin = async ({ $, directory, client }) => {
+export const GraphifyRefreshPlugin = async ({ $, directory, client }) => {
   return {
     "tool.execute.after": async (input, output) => {
       const tool = input?.tool
       if (!tool || !MUTATING_TOOLS.has(tool)) return
 
       // Skip silently if no graph exists yet — don't auto-bootstrap one.
-      const hasGraph = await isFile(`${directory}/graphify-out/graph.json`)
+      let hasGraph = false
+      try {
+        const fs = await import("node:fs")
+        hasGraph = fs.existsSync(`${directory}/graphify-out/graph.json`)
+      } catch {
+        hasGraph = false
+      }
       if (!hasGraph) return
 
       if (pending) clearTimeout(pending)
@@ -41,17 +46,5 @@ export const GraphifyRefreshPlugin: Plugin = async ({ $, directory, client }) =>
         }
       }, DEBOUNCE_MS)
     },
-  }
-}
-
-// Minimal portable file-exists check. Uses node fs when available; falls back to
-// a Bun `$` test to avoid depending on a specific runtime's import graph.
-async function isFile(path: string): Promise<boolean> {
-  try {
-    // @ts-ignore — node:fs is available under both node and bun
-    const fs = await import("node:fs")
-    return fs.existsSync(path)
-  } catch {
-    return false
   }
 }
