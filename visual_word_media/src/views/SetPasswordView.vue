@@ -206,6 +206,7 @@ async function handleSubmit() {
 .auth-btn { width: 100%; padding: 14px; font-size: 1rem; margin-top: 4px; }
 .auth-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 .success-screen { text-align: center; padding: 16px 0; }
+.success-screen p { text-align: center; }
 .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
 @media (max-width: 480px) {
   .auth-card { padding: 36px 20px; }

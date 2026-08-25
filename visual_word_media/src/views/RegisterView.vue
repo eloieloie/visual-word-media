@@ -313,6 +313,7 @@ async function handleRegister() {
 
 /* Success */
 .success-screen { text-align: center; padding: 16px 0; }
+.success-screen p { text-align: center; }
 .success-icon { font-size: 3.5rem; margin-bottom: 16px; }
 
 .auth-switch {
