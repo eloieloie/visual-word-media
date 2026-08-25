@@ -22,7 +22,7 @@
         :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }"
-      ><span class="on-air-dot"></span>On Air · Transmitting Truth Since 1997</motion.p>
+      ><span class="on-air-dot"></span>On Air · Transmitting Truth Since 2000</motion.p>
       <motion.h1
         :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }"
         :animate="{ opacity: 1, y: 0 }"
@@ -78,7 +78,7 @@
 
   <!-- INTRO STRIP -->
   <div class="highlight-strip">
-    Reaching Media Users & Media Makers with the Message of Truth and Reality since 1997
+    Reaching Media Users & Media Makers with the Message of Truth and Reality since 2000
   </div>
 
   <!-- ABOUT INTRO -->
@@ -93,11 +93,11 @@
           message of Truth and Reality, nurturing them in their relationship with their Creator.
         </p>
         <p style="margin-top:16px">
-          Since 1997, the ministry has been serving churches, youth, children, families, artists, and media
+          Since 2000, the ministry has been serving churches, youth, children, families, artists, and media
           professionals through discipleship, awareness, counseling, creative arts, and media-based ministry initiatives.
         </p>
         <div class="about-stats">
-          <div class="stat"><span class="stat-num">1997</span><span class="stat-label">Founded</span></div>
+          <div class="stat"><span class="stat-num">2000</span><span class="stat-label">Founded</span></div>
           <div class="stat"><span class="stat-num">6+</span><span class="stat-label">Ministry Wings</span></div>
         </div>
         <RouterLink to="/about" class="btn btn-navy" style="margin-top:28px">Our Full Story</RouterLink>

@@ -1,7 +1,7 @@
 <template>
   <div class="page-hero">
     <div class="container">
-      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Est. 1997</motion.p>
+      <motion.p class="hero-label" :initial="{ opacity: 0, y: prefersReduced ? 0 : 14 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, ease: 'easeOut' }">Est. 2000</motion.p>
       <motion.h1 :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.1, ease: 'easeOut' }">About Visual Word</motion.h1>
       <motion.p :initial="{ opacity: 0, y: prefersReduced ? 0 : 18 }" :animate="{ opacity: 1, y: 0 }" :transition="{ duration: prefersReduced ? 0 : 0.6, delay: prefersReduced ? 0 : 0.2, ease: 'easeOut' }">A ministry born in the presence of God, committed to declaring His glory through creativity, media, and Kingdom service.</motion.p>
     </div>
@@ -15,7 +15,7 @@
         <h2 class="section-title">A Christ-Centered Media Ministry</h2>
         <div class="divider"></div>
         <p>Visual Word Media is a Christian media ministry founded with a burden to serve today's generation amidst the growing influence of media and culture. We seek to equip individuals to face contemporary media challenges while helping them live fruitful lives in the image of God.</p>
-        <p style="margin-top:16px">Since 1997, the ministry has been involved in media awareness, youth discipleship, creative arts, producing digital Christian tools, counseling, and Biblical engagement initiatives.</p>
+        <p style="margin-top:16px">Since 2000, the ministry has been involved in media awareness, youth discipleship, creative arts, producing digital Christian tools, counseling, and Biblical engagement initiatives.</p>
       </div>
       <div class="vwm-cards">
         <div class="vwm-card">

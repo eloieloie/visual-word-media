@@ -11,7 +11,7 @@
             </div>
           </div>
           <p class="footer-desc">
-            Visual Word Media is a Christ-centered media ministry serving today's generation through discipleship, creative engagement, Biblical worldview training, and compassionate outreach since 1997.
+            Visual Word Media is a Christ-centered media ministry serving today's generation through discipleship, creative engagement, Biblical worldview training, and compassionate outreach since 2000.
           </p>
           <div class="footer-verse">
             <span class="verse-text">"Those who know their God shall be strong and carry out great exploits."</span>
@@ -49,7 +49,7 @@
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
         <span>© {{ year }} Visual Word Media Mission. All rights reserved.</span>
-        <span>Serving since 1997 · Hyderabad, India</span>
+        <span>Serving since 2000 · Hyderabad, India</span>
       </div>
     </div>
   </footer>
