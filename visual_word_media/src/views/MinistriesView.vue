@@ -53,18 +53,22 @@
   <!-- 60x360 -->
   <section class="section navy-bg" id="sixty">
     <div class="container">
-      <div class="min-badge">02</div>
-      <div class="sixty-header">
-        <div>
-          <p class="section-label" style="color:var(--gold)">Ministry Wing</p>
-          <h2 style="color:var(--white); font-size:clamp(2rem,4vw,3rem)">60x360</h2>
-          <p class="min-subtitle" style="color:var(--gold-light)">Youth Discipleship Movement</p>
-          <p style="color:rgba(255,255,255,0.75); margin-top:12px; font-size:1.05rem; font-style:italic">Transforming Villages. Discipling Youth. Advancing God's Kingdom.</p>
+      <div class="ministry-section">
+        <div class="ministry-header">
+          <span class="min-number" style="color:var(--gold); opacity:0.22">02</span>
+          <div>
+            <p class="section-label" style="color:var(--gold)">Ministry Wing</p>
+            <h2 class="section-title" style="color:var(--white)">60x360</h2>
+            <p class="min-subtitle" style="color:var(--gold-light)">Youth Discipleship Movement</p>
+            <div class="divider"></div>
+            <p class="min-overview" style="color:rgba(255,255,255,0.75)">Transforming Villages. Discipling Youth. Advancing God's Kingdom.</p>
+          </div>
         </div>
-        <div class="sixty-stats">
-          <div class="sixty-stat"><span>60 km</span><small>Mission radius around Hyderabad</small></div>
-          <div class="sixty-stat"><span>360°</span><small>Every direction, every community</small></div>
-        </div>
+      </div>
+
+      <div class="sixty-stats" style="justify-content:center; display:flex; gap:24px; margin-bottom:40px">
+        <div class="sixty-stat"><span>60 km</span><small>Mission radius around Hyderabad</small></div>
+        <div class="sixty-stat"><span>360°</span><small>Every direction, every community</small></div>
       </div>
 
       <div class="sixty-body">
@@ -142,12 +146,18 @@
   <!-- OCULUS -->
   <section class="section gold-bg" id="oculus">
     <div class="container">
-      <div class="min-badge dark">04</div>
-      <p class="section-label">Ministry Wing</p>
-      <h2 class="section-title">OCULUS</h2>
-      <p class="min-subtitle" style="color:var(--navy)">Creative Arts Ministry</p>
-      <div class="divider"></div>
-      <p style="color:var(--text-light); max-width:640px; margin-bottom:40px">Oculus exists to nurture a generation of creative artists who will influence culture through a Biblical worldview.</p>
+      <div class="ministry-section">
+        <div class="ministry-header">
+          <span class="min-number">04</span>
+          <div>
+            <p class="section-label">Ministry Wing</p>
+            <h2 class="section-title">OCULUS</h2>
+            <p class="min-subtitle" style="color:var(--navy)">Creative Arts Ministry</p>
+            <div class="divider"></div>
+            <p class="min-overview">Oculus exists to nurture a generation of creative artists who will influence culture through a Biblical worldview.</p>
+          </div>
+        </div>
+      </div>
       <div class="grid-4">
         <motion.div
           v-for="(a, i) in oculusAreas" :key="a.label" class="oculus-card"
@@ -194,12 +204,18 @@
   <!-- NEW LIFE -->
   <section class="section" style="background:var(--navy)" id="newlife">
     <div class="container">
-      <div class="min-badge">06</div>
-      <p class="section-label" style="color:var(--gold)">Ministry Wing</p>
-      <h2 style="color:var(--white); font-size:clamp(1.8rem,3vw,2.5rem)">NEW LIFE</h2>
-      <p class="min-subtitle" style="color:var(--gold-light)">Suicide Prevention & Counseling Ministry</p>
-      <div class="divider"></div>
-      <p style="color:rgba(255,255,255,0.75); max-width:640px; margin-bottom:40px">New Life exists to bring hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.</p>
+      <div class="ministry-section">
+        <div class="ministry-header">
+          <span class="min-number" style="color:var(--gold); opacity:0.22">06</span>
+          <div>
+            <p class="section-label" style="color:var(--gold)">Ministry Wing</p>
+            <h2 class="section-title" style="color:var(--white)">NEW LIFE</h2>
+            <p class="min-subtitle" style="color:var(--gold-light)">Suicide Prevention & Counseling Ministry</p>
+            <div class="divider"></div>
+            <p class="min-overview" style="color:rgba(255,255,255,0.75)">New Life exists to bring hope, healing, and support to individuals struggling emotionally, mentally, and spiritually.</p>
+          </div>
+        </div>
+      </div>
       <div class="grid-3">
         <div class="newlife-card" v-for="a in newlifeAreas" :key="a">
           <span>{{ a }}</span>
@@ -306,7 +322,7 @@ const newlifeAreas = [
 
 /* 60x360 */
 .navy-bg { background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid)); }
-.sixty-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; margin-bottom: 40px; }
+
 .sixty-stats { display: flex; gap: 24px; }
 .sixty-stat { text-align: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(201,162,39,0.3); border-radius: 8px; padding: 20px 24px; }
 .sixty-stat span { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--gold); font-weight: 700; }
@@ -414,19 +430,9 @@ const newlifeAreas = [
   color: rgba(255,255,255,0.85);
 }
 
-.min-badge {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  color: var(--gold);
-  opacity: 0.4;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.min-badge.dark { color: var(--navy); }
 
 @media (max-width: 760px) {
-  .ministry-body, .sixty-header, .sixty-grid { grid-template-columns: 1fr; }
-  .sixty-header { flex-direction: column; }
+  .ministry-body, .sixty-grid { grid-template-columns: 1fr; }
   .sixty-stats { flex-wrap: wrap; }
   .channel-grid { grid-template-columns: repeat(2, 1fr); }
 }

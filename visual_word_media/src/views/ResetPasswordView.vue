@@ -172,7 +172,7 @@ async function handleReset() {
   text-align: center;
 }
 .auth-success h3 { color: var(--navy); margin-bottom: 10px; }
-.auth-success p  { color: var(--text-light); margin-bottom: 20px; }
+.auth-success p  { color: var(--text-light); margin-bottom: 20px; text-align: center; }
 
 @media (max-width: 480px) {
   .auth-card { padding: 36px 24px; }

@@ -154,7 +154,7 @@ async function handleRequest() {
   margin-bottom: 20px;
 }
 .auth-success h3 { color: var(--navy); margin-bottom: 10px; }
-.auth-success p  { color: var(--text-light); }
+.auth-success p  { color: var(--text-light); text-align: center; }
 .debug-link {
   margin-top: 10px;
   display: inline-block;

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Faith-based media ministry platform (Visual Word Media, operating since 1997).  
+Faith-based media ministry platform (Visual Word Media, operating since 2000).  
 Two-part architecture: a Vue 3 SPA frontend and a PHP/MySQL backend API, deployed to shared hosting.
 
 ---

@@ -426,7 +426,7 @@ const availability = ['Weekdays', 'Weekends', 'Flexible']
   margin: 0 auto 16px;
 }
 .success-panel h3 { font-family: var(--font-display); color: var(--navy); font-size: 1.8rem; margin-bottom: 14px; }
-.success-panel p { color: var(--text-light); font-size: 1.05rem; line-height: 1.75; }
+.success-panel p { color: var(--text-light); font-size: 1.05rem; line-height: 1.75; text-align: center; }
 .error-banner {
   background: #fdecea;
   border: 1px solid #f5c6c4;

@@ -119,7 +119,7 @@ onMounted(async () => {
 .verify-icon.err { background: #fdecea; color: #c62828; }
 
 .auth-success h3 { color: var(--navy); margin-bottom: 12px; }
-.auth-success p { color: var(--text-light); line-height: 1.7; }
+.auth-success p { color: var(--text-light); line-height: 1.7; text-align: center; }
 
 .auth-error {
   color: #c0392b;

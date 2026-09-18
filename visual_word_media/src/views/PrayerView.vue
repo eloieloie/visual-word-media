@@ -277,7 +277,7 @@ const promises = [
 }
 .success-icon { font-size: 3.5rem; margin-bottom: 20px; }
 .success-panel h3 { font-family: var(--font-display); color: var(--navy); font-size: 1.6rem; margin-bottom: 14px; }
-.success-panel p { color: var(--text-light); line-height: 1.8; max-width: 380px; }
+.success-panel p { color: var(--text-light); line-height: 1.8; max-width: 380px; text-align: center; }
 
 @media (max-width: 760px) {
   .prayer-grid { grid-template-columns: 1fr; }

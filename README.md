@@ -1,6 +1,6 @@
 # Visual Word Media (VWM)
 
-A faith-based media ministry platform (operating since 1997) with a two-part architecture: a **Vue 3 SPA frontend** and a **PHP/MySQL REST API + admin panel backend**, deployed to shared hosting (Hostinger).
+A faith-based media ministry platform (operating since 2000) with a two-part architecture: a **Vue 3 SPA frontend** and a **PHP/MySQL REST API + admin panel backend**, deployed to shared hosting (Hostinger).
 
 ---
 

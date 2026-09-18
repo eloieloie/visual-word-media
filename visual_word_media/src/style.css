@@ -46,7 +46,7 @@ h1, h2, h3, h4 {
 h3 { font-size: 1.25rem; }
 h4 { font-size: 1.05rem; }
 
-p { font-size: 1rem; line-height: 1.85; }
+p { font-size: 1rem; line-height: 1.85; text-align: justify; }
 
 a { text-decoration: none; color: inherit; }
 
@@ -222,7 +222,7 @@ img { max-width: 100%; display: block; }
   background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 .page-hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); margin-bottom: 20px; position: relative; }
-.page-hero p { font-size: 1.2rem; opacity: 0.85; max-width: 600px; margin: 0 auto; position: relative; line-height: 1.8; }
+.page-hero p { font-size: 1.2rem; opacity: 0.85; max-width: 600px; margin: 0 auto; position: relative; line-height: 1.8; text-align: center; }
 .hero-label {
   font-family: var(--font-mono);
   font-size: 0.78rem;
